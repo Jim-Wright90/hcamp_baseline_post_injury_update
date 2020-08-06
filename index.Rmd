@@ -406,6 +406,14 @@ mean_2(baseline_final$impulse_control_diff)
 baseline_all_positive <- baseline_final %>% 
   na.omit()
 
+all_join1 <- full_join(mem_verbal_all, mem_visual_all)
+
+all_join2 <- full_join(all_join1, impulse_control_all)
+
+all_join3 <- full_join(all_join2, reaction_time_all)
+
+all_double_baseline <- full_join(all_join3, visual_motor_all)
+
 
 mem_verbal %>% 
   summarize(Mean = mean(memory_verbal_diff),
@@ -520,7 +528,7 @@ sport <- sport %>%
          user_current_sport_2)
 ```
 
-```{r, join baseline variables, include=FALSE}
+```{r join baseline variables, include=FALSE}
 blj_1 <- full_join(age, school)
 blj_2 <- full_join(blj_1, sport)
 
@@ -528,4 +536,1202 @@ baseline_final <- left_join(baseline_final, blj_2)
 
 baseline_all_positive <- left_join(baseline_all_positive, blj_2)
 
+all_double_baseline <- left_join(all_double_baseline, blj_2)
+
 ```
+
+```{r baseline numbers, include=FALSE}
+total_two_baselines <- all_double_baseline %>% 
+  summarize(length(passport_id))
+
+total_one_positive <- baseline_final %>% 
+  summarize(length(passport_id))
+
+total_all_positive <- baseline_all_positive %>% 
+  summarize(length(passport_id))
+
+t_sum <- data.frame("Level" = c("Two Baseline Assessments", "Gain on at least one Baseline 2 Composite Score", "Gain on all Baseline 2 Composite Scores"), "Total" = c(18739, 18395, 1653))
+
+
+score_hist <- function(df, x) {
+  ggplot(df, aes({{x}})) +
+  geom_histogram(fill = "#56B4E9",
+                color = "white", 
+                alpha = 0.9,
+                bins = 25) +
+    labs(x = "Test Score",
+         y = "Number of Individuals")
+}
+```
+
+# Background Information {.tabset .tabset-fade .tabset-pills}
+
+## Sample Size 
+
+```{r baseline numbers table, include=TRUE}
+t_sum %>% 
+  reactable(columns = list(
+    Level = colDef(name = "Level"),
+    Total = colDef(name = "Total", 
+                   format = colFormat(separators = TRUE, suffix = " individuals"))),
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE)
+```
+
+## Age Range Baseline 1
+
+```{r, include=TRUE}
+create_react(all_double_baseline, user_age_1)
+```
+
+## Age Totals Baseline 1
+
+```{r, include=FALSE}
+age_tbl_1 <- all_double_baseline %>% 
+  group_by(user_age_1) %>% 
+  summarize(total = n()) %>% 
+  na.omit() %>% 
+  reactable(
+    columns = list(
+      user_age_1 = colDef(name = "Age"),
+      total = colDef(name = "Total",
+                     format = colFormat(separators = TRUE))),
+    pagination = TRUE,
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    searchable = TRUE
+  )
+
+age_tbl_1
+```
+
+```{r, include=TRUE}
+age_tbl_1
+```
+
+## Age Range Baseline 2
+
+```{r, include=TRUE}
+create_react(all_double_baseline, user_age_2)
+```
+
+## Age Totals Baseline 2
+
+```{r, include=FALSE}
+age_tbl_2 <- all_double_baseline %>% 
+  group_by(user_age_2) %>% 
+  summarize(total = n()) %>% 
+  na.omit() %>% 
+  reactable(
+    columns = list(
+      user_age_2 = colDef(name = "Age"),
+      total = colDef(name = "Total",
+                     format = colFormat(separators = TRUE))),
+    pagination = TRUE,
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    searchable = TRUE
+  )
+
+age_tbl_2
+```
+
+```{r, include=TRUE}
+age_tbl_2
+```
+
+## School Baseline 1
+
+```{r, include=FALSE}
+
+school_tbl_1 <- all_double_baseline %>% 
+  group_by(org_name_1) %>% 
+  summarize(total = n()) %>% 
+  na.omit() %>% 
+  reactable(
+    columns = list(
+      org_name_1 = colDef(name = "School"),
+      total = colDef(name = "Total",
+                     format = colFormat(separators = TRUE))),
+    pagination = TRUE,
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    searchable = TRUE
+  )
+
+school_tbl_1
+```
+
+```{r, include=TRUE}
+school_tbl_1
+```
+
+## School Baseline 2
+
+```{r, include=FALSE}
+
+school_tbl_2 <- all_double_baseline %>% 
+  group_by(org_name_2) %>% 
+  summarize(total = n()) %>% 
+  na.omit() %>% 
+  reactable(
+    columns = list(
+      org_name_2 = colDef(name = "School"),
+      total = colDef(name = "Total",
+                     format = colFormat(separators = TRUE))),
+    pagination = TRUE,
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    searchable = TRUE
+  )
+
+school_tbl_2
+```
+
+```{r, include=TRUE}
+school_tbl_2
+```
+
+
+## Sport Baseline 1
+
+```{r, include=FALSE}
+
+sport_tbl_1 <- all_double_baseline %>% 
+  group_by(user_current_sport_1) %>% 
+  summarize(total = n()) %>% 
+  na.omit() %>% 
+  reactable(
+    columns = list(
+      user_current_sport_1 = colDef(name = "Sport"),
+      total = colDef(name = "Total",
+                     format = colFormat(separators = TRUE))),
+    pagination = TRUE,
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    searchable = TRUE
+  )
+
+sport_tbl_1
+```
+
+```{r, include=TRUE}
+sport_tbl_1
+```
+
+## Sport Baseline 2
+
+```{r, include=FALSE}
+
+sport_tbl_2 <- all_double_baseline %>% 
+  group_by(user_current_sport_2) %>% 
+  summarize(total = n()) %>% 
+  na.omit() %>% 
+  reactable(
+    columns = list(
+      user_current_sport_2 = colDef(name = "Sport"),
+      total = colDef(name = "Total",
+                     format = colFormat(separators = TRUE))),
+    pagination = TRUE,
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    searchable = TRUE
+  )
+
+sport_tbl_2
+```
+
+```{r, include=TRUE}
+sport_tbl_2
+```
+
+# Baseline Percent Increase from Test 1 to Test 2
+
+## Verbal Memory Composite Score - Baseline 2 Composite Score Increase Only {.tabset .tabset-fade .tabset-pills}
+
+10,441 individuals (55.72%) increased their verbal memory composite score on the second baseline test administration. 
+
+### Baseline 1 Summary 
+
+The average Baseline 1 score was observed to be 79 points with a standard deviation of 9.32. The minimum score was observed to be 42, and the maximum score was observed to be 99.
+
+```{r, include=TRUE}
+create_react(mem_verbal, user_memory_composite_score_verbal_1)
+```
+
+### Baseline 1 Histogram
+
+```{r, include=TRUE}
+score_hist(mem_verbal, user_memory_composite_score_verbal_1)
+```
+
+### Baseline 2 Summary 
+
+The average Baseline 2 score was observed to be 88.76 points with a standard deviation of 8.12. The minimum score was observed to be 54, and the maximum score was observed to be 100.
+
+```{r, include=TRUE}
+create_react(mem_verbal, user_memory_composite_score_verbal_2)
+```
+
+### Baseline 2 Histogram
+
+```{r, include=TRUE}
+score_hist(mem_verbal, user_memory_composite_score_verbal_2)
+```
+
+
+### Score Increase Summary
+
+The average point increase from baseline 1 to baseline 2 was observed to be 9.76 points with a standard deviation of 6.94 points. The mininum point increase was observed to be 1, while the maximum point increase was observed to be 44. 
+
+```{r verbal memory table 1, include=TRUE}
+create_react(mem_verbal, memory_verbal_diff)
+```
+
+### Score Increase Histogram 
+
+```{r histogram gain development, include=FALSE}
+
+ggplot(mem_verbal, aes(memory_verbal_diff)) +
+  geom_histogram(fill = "#56B4E9",
+                color = "white", 
+                alpha = 0.9,
+                bins = 25) +
+  labs(x = "Point Increase on Baseline 2",
+       y = "Number of Individuals")
+
+score_diff_hist <- function(df, x) {
+  ggplot(df, aes({{x}})) +
+  geom_histogram(fill = "#56B4E9",
+                color = "white", 
+                alpha = 0.9,
+                bins = 25) +
+    labs(x = "Point Increase on Baseline 2",
+         y = "Number of Individuals")
+}
+
+
+score_diff_hist(mem_verbal, memory_verbal_diff)
+
+percent_inc_hist <- function(df, x) {
+  ggplot(df, aes({{x}})) +
+  geom_histogram(fill = "#56B4E9",
+                color = "white", 
+                alpha = 0.9,
+                bins = 100) +
+  scale_x_continuous("Percent Increase on Baseline 2", labels = function(x) paste0(x, "%")) +
+    labs(x = "Percent Increase on Baseline 2",
+         y = "Number of Individuals")
+}
+
+percent_inc_hist(mem_verbal, memory_verbal_percent_inc) #not too helpful - maybe density plot
+
+percent_inc_density <- function(df, x) {
+  ggplot(df, aes({{x}})) +
+  geom_density(fill = "#56B4E9",
+               bw = 15) +
+  scale_x_continuous("Percent Increase on Baseline 2", labels = function(x) paste0(x, "%")) +
+    labs(x = "Percent Increase on Baseline 2",
+         y = "Density")
+}
+
+percent_inc_density(mem_verbal, memory_verbal_percent_inc)
+```
+
+```{r}
+score_diff_hist(mem_verbal, memory_verbal_diff)
+```
+
+### Percent Increase Summary
+
+The average percent increase from baseline 1 to baseline 2 was observed to be a 13.14% increase with a standard deviation of a 10.71% increase.  
+
+```{r verbal memory table 2, include=TRUE}
+react_percent(mem_verbal, memory_verbal_percent_inc)
+```
+
+### Percent Increase Density Plot
+```{r, include=TRUE}
+percent_inc_density(mem_verbal, memory_verbal_percent_inc)
+```
+
+## Verbal Memory Composite Score - Increase on all Five Composite Scores {.tabset .tabset-fade .tabset-pills}
+
+This section summarizes the verbal memory composite score for the 1,653 individuals who achieved a higher score on all five composite scores of the second baseline test administration.  
+
+### Baseline 1 Summary 
+
+The average Baseline 1 score was observed to be 78.19 points with a standard deviation of 9.59. The minimum score was observed to be 43, and the maximum score was observed to be 99.
+
+```{r, include=TRUE}
+create_react(baseline_all_positive, user_memory_composite_score_verbal_1)
+```
+
+### Baseline 1 Histogram
+
+```{r, include=TRUE}
+score_hist(baseline_all_positive, user_memory_composite_score_verbal_1)
+```
+
+### Baseline 2 Summary 
+
+The average Baseline 2 score was observed to be 88.6 points with a standard deviation of 7.97. The minimum score was observed to be 56, and the maximum score was observed to be 100.
+
+```{r, include=TRUE}
+create_react(baseline_all_positive, user_memory_composite_score_verbal_2)
+```
+
+### Baseline 2 Histogram
+
+```{r, include=TRUE}
+score_hist(baseline_all_positive, user_memory_composite_score_verbal_2)
+```
+
+### Score Increase Summary
+
+The average point increase from baseline 1 to baseline 2 was observed to be 9.37 points with a standard deviation of 6.76 points. The mininum point increase was observed to be 1, while the maximum point increase was observed to be 44. 
+
+```{r, include=TRUE}
+create_react(baseline_all_positive, memory_verbal_diff)
+```
+
+### Score Increase Histogram 
+```{r, include=TRUE}
+score_diff_hist(baseline_all_positive, memory_verbal_diff)
+```
+
+### Percent Increase Summary
+
+The average percent increase from baseline 1 to baseline 2 was observed to be a 14.27% increase with a standard deviation of a 11.69% increase.  
+
+```{r, include=TRUE}
+react_percent(baseline_all_positive, memory_verbal_percent_inc)
+```
+
+### Percent Increase Density Plot
+```{r, include=TRUE}
+percent_inc_density(baseline_all_positive, memory_verbal_percent_inc)
+```
+
+
+## Verbal Memory Paired *T*-Test Results {.tabset .tabset-fade .tabset-pills}
+
+A paired *T*-test was used to compare the mean verbal memory composite scores of all 18,739 individuals who completed two baseline assessments. On average, individuals scored significantly higher on the second baseline test administration (*M* = 84.74) than the first baseline test administration (*M* = 82.63), *t*(18737) = -26.327, *p* < .01. 
+```{r, include=FALSE}
+
+head(mem_verbal_all)
+
+mem_verbal_all_long <- mem_verbal_all %>% 
+  pivot_longer(
+    cols = c(4:5),
+    names_to = "baseline_time",
+    names_prefix = "user_memory_composite_score_",
+    values_to = "score"
+  )
+
+ggplot(mem_verbal_all_long, aes(baseline_time, score)) +
+  geom_boxplot() +
+    labs(x = "",
+         y = "Score")
+
+box_p <- function(df, x, y) {
+  ggplot(df, aes({{x}}, {{y}})) +
+  geom_boxplot() +
+    labs(x = "",
+         y = "Score")
+}
+
+box_p(mem_verbal_all_long, baseline_time, score)
+
+
+
+mem_verbal_1 <- mem_verbal_all$user_memory_composite_score_verbal_1
+mem_verbal_2 <- mem_verbal_all$user_memory_composite_score_verbal_2
+
+mem_verbal_res <- t.test(mem_verbal_1, mem_verbal_2, paired = TRUE)
+
+mem_verbal_res
+
+mem_verbal_res$p.value
+mem_verbal_res$estimate
+mem_verbal_res$statistic
+
+mean_2(mem_verbal_all$user_memory_composite_score_verbal_1)
+mean_2(mem_verbal_all$user_memory_composite_score_verbal_2)
+```
+
+### Boxplot
+```{r, include=TRUE}
+box_p(mem_verbal_all_long, baseline_time, score) +
+  stat_compare_means(method = "t.test", paired = TRUE, hjust = -0.5)
+```
+
+### *T*-Test Results
+```{r, include=TRUE}
+mem_verbal_res
+```
+
+### Baseline 1 Total Descriptive Statistics
+```{r, include=TRUE}
+create_react(mem_verbal_all, user_memory_composite_score_verbal_1)
+```
+
+### Baseline 1 Total Score Histogram
+```{r, include=TRUE}
+score_hist(mem_verbal_all, user_memory_composite_score_verbal_1)
+```
+
+### Baseline 2 Total Descriptive Statistics
+```{r, include=TRUE}
+create_react(mem_verbal_all, user_memory_composite_score_verbal_2)
+```
+
+### Baseline 2 Total Score Histogram
+```{r, include=TRUE}
+score_hist(mem_verbal_all, user_memory_composite_score_verbal_2)
+```
+
+
+## Visual Memory Composite Score - Baseline 2 Composite Score Increase Only {.tabset .tabset-fade .tabset-pills}
+
+11,137 individuals (59.43%) increased their visual memory composite score on the second baseline test administration. 
+
+
+### Baseline 1 Summary 
+
+The average Baseline 1 score was observed to be 68.33 points with a standard deviation of 12.13. The minimum score was observed to be 22, and the maximum score was observed to be 99.
+
+```{r, include=TRUE}
+create_react(mem_visual, user_memory_composite_score_visual_1)
+```
+
+### Baseline 1 Histogram
+
+```{r, include=TRUE}
+score_hist(mem_visual, user_memory_composite_score_visual_1)
+```
+
+### Baseline 2 Summary 
+
+The average Baseline 2 score was observed to be 80.44 points with a standard deviation of 10.71. The minimum score was observed to be 38, and the maximum score was observed to be 100.
+
+```{r, include=TRUE}
+create_react(mem_visual, user_memory_composite_score_visual_2)
+```
+
+### Baseline 2 Histogram
+
+```{r, include=TRUE}
+score_hist(mem_visual, user_memory_composite_score_visual_2)
+```
+
+
+### Score Increase Summary
+
+The average point increase from baseline 1 to baseline 2 was observed to be 12.1 points with a standard deviation of 8.58 points. The mininum point increase was observed to be 1, while the maximum point increase was observed to be 53. 
+
+```{r visual memory table 1, include=TRUE}
+create_react(mem_visual, memory_visual_diff)
+```
+
+### Score Increase Histogram 
+
+```{r}
+score_diff_hist(mem_visual, memory_visual_diff)
+```
+
+### Percent Increase Summary
+
+The average percent increase from baseline 1 to baseline 2 was observed to be a 19.74% increase with a standard deviation of a 17.64% increase.  
+
+```{r visual memory table 2, include=TRUE}
+react_percent(mem_visual, memory_visual_percent_inc)
+```
+
+### Percent Increase Density Plot
+```{r, include=TRUE}
+percent_inc_density(mem_visual, memory_visual_percent_inc)
+```
+
+## Visual Memory Composite Score - Increase on all Five Composite Scores {.tabset .tabset-fade .tabset-pills}
+
+This section summarizes the visual memory composite score for the 1,653 individuals who achieved a higher score on all five composite scores of the second baseline test administration.  
+
+### Baseline 1 Summary 
+
+The average Baseline 1 score was observed to be 67.55 points with a standard deviation of 12.2. The minimum score was observed to be 26, and the maximum score was observed to be 95.
+
+```{r, include=TRUE}
+create_react(baseline_all_positive, user_memory_composite_score_visual_1)
+```
+
+### Baseline 1 Histogram
+
+```{r, include=TRUE}
+score_hist(baseline_all_positive, user_memory_composite_score_visual_1)
+```
+
+### Baseline 2 Summary 
+
+The average Baseline 2 score was observed to be 80.78 points with a standard deviation of 10.32. The minimum score was observed to be 46, and the maximum score was observed to be 100.
+
+```{r, include=TRUE}
+create_react(baseline_all_positive, user_memory_composite_score_visual_2)
+```
+
+### Baseline 2 Histogram
+
+```{r, include=TRUE}
+score_hist(baseline_all_positive, user_memory_composite_score_visual_2)
+```
+
+### Score Increase Summary
+
+The average point increase from baseline 1 to baseline 2 was observed to be 13.23 points with a standard deviation of 9.04 points. The mininum point increase was observed to be 1, while the maximum point increase was observed to be 49. 
+
+```{r, include=TRUE}
+create_react(baseline_all_positive, memory_visual_diff)
+```
+
+### Score Increase Histogram 
+```{r, include=TRUE}
+score_diff_hist(baseline_all_positive, memory_visual_diff)
+```
+
+### Percent Increase Summary
+
+The average percent increase from baseline 1 to baseline 2 was observed to be a 21.96% increase with a standard deviation of a 19.17% increase.  
+
+```{r, include=TRUE}
+react_percent(baseline_all_positive, memory_visual_percent_inc)
+```
+
+### Percent Increase Density Plot
+```{r, include=TRUE}
+percent_inc_density(baseline_all_positive, memory_visual_percent_inc)
+```
+
+
+## Visual Memory Paired *T*-Test Results {.tabset .tabset-fade .tabset-pills}
+A paired *T*-test was used to compare the mean visual memory composite scores of all 18,739 individuals who completed two baseline assessments. On average, individuals scored significantly higher on the second baseline test administration (*M* = 76.14) than the first baseline test administration (*M* = 72.5), *t*(18738) = -38.047, *p* < .01. 
+```{r, include=FALSE}
+mem_visual_all_long <- mem_visual_all %>% 
+  pivot_longer(
+    cols = c(4:5),
+    names_to = "baseline_time",
+    names_prefix = "user_memory_composite_score_",
+    values_to = "score"
+  )
+
+
+mem_visual_1 <- mem_visual_all$user_memory_composite_score_visual_1
+mem_visual_2 <- mem_visual_all$user_memory_composite_score_visual_2
+
+mem_visual_res <- t.test(mem_visual_1, mem_visual_2, paired = TRUE)
+
+mem_visual_res
+
+mean_2(mem_visual_all$user_memory_composite_score_visual_1)
+mean_2(mem_visual_all$user_memory_composite_score_visual_2)
+```
+
+### Boxplot
+```{r, include=TRUE}
+box_p(mem_visual_all_long, baseline_time, score) +
+  stat_compare_means(method = "t.test", paired = TRUE, hjust = -0.5)
+```
+
+### *T*-Test Results
+```{r, include=TRUE}
+mem_visual_res
+```
+
+### Baseline 1 Total Descriptive Statistics
+```{r, include=TRUE}
+create_react(mem_visual_all, user_memory_composite_score_visual_1)
+```
+
+### Baseline 1 Total Score Histogram
+```{r, include=TRUE}
+score_hist(mem_visual_all, user_memory_composite_score_visual_1)
+```
+
+### Baseline 2 Total Descriptive Statistics
+```{r, include=TRUE}
+create_react(mem_visual_all, user_memory_composite_score_visual_2)
+```
+
+### Baseline 2 Total Score Histogram
+```{r, include=TRUE}
+score_hist(mem_visual_all, user_memory_composite_score_visual_2)
+```
+
+## Visual Motor Composite Score - Baseline 2 Composite Score Increase Only {.tabset .tabset-fade .tabset-pills}
+
+14,355 individuals (76.60%) increased their visual motor composite score on the second baseline test administration. 
+
+### Baseline 1 Summary 
+
+The average Baseline 1 score was observed to be 33.26 points with a standard deviation of 6.46. The minimum score was observed to be 1.13, and the maximum score was observed to be 52.88.
+
+```{r, include=TRUE}
+create_react(visual_motor, user_visual_motor_composite_score_1)
+```
+
+### Baseline 1 Histogram
+
+```{r, include=TRUE}
+score_hist(visual_motor, user_visual_motor_composite_score_1)
+```
+
+### Baseline 2 Summary 
+
+The average Baseline 2 score was observed to be 38.81 points with a standard deviation of 6.3. The minimum score was observed to be 12.05, and the maximum score was observed to be 54.25.
+
+```{r, include=TRUE}
+create_react(visual_motor, user_visual_motor_composite_score_2)
+```
+
+### Baseline 2 Histogram
+
+```{r, include=TRUE}
+score_hist(visual_motor, user_visual_motor_composite_score_2)
+```
+
+
+### Score Increase Summary
+
+The average point increase from baseline 1 to baseline 2 was observed to be 5.55 points with a standard deviation of 3.97 points. The mininum point increase was observed to be 0.02, while the maximum point increase was observed to be 37.35. 
+
+```{r visual motor table 1, include=TRUE}
+create_react(visual_motor, visual_motor_diff)
+```
+
+### Score Increase Histogram 
+
+```{r}
+score_diff_hist(visual_motor, visual_motor_diff)
+```
+
+### Percent Increase Summary
+
+The average percent increase from baseline 1 to baseline 2 was observed to be a 18.8% increase with a standard deviation of a 22.17% increase.  
+
+```{r visual motor table 2, include=TRUE}
+react_percent(visual_motor, visual_motor_percent_inc)
+```
+
+### Percent Increase Density Plot
+```{r, include=TRUE}
+percent_inc_density(visual_motor, visual_motor_percent_inc)
+```
+
+## Visual Motor Composite Score - Increase on all Five Composite Scores {.tabset .tabset-fade .tabset-pills}
+
+This section summarizes the reaction time composite score for the 1,653 individuals who achieved a higher score on all five composite scores of the second baseline test administration.  
+
+### Baseline 1 Summary 
+
+The average Baseline 1 score was observed to be 32.15 points with a standard deviation of 6.26. The minimum score was observed to be 11.75, and the maximum score was observed to be 50.13.
+
+```{r, include=TRUE}
+create_react(baseline_all_positive, user_visual_motor_composite_score_1)
+```
+
+### Baseline 1 Histogram
+
+```{r, include=TRUE}
+score_hist(baseline_all_positive, user_visual_motor_composite_score_1)
+```
+
+### Baseline 2 Summary 
+
+The average Baseline 2 score was observed to be 38.7 points with a standard deviation of 6.12. The minimum score was observed to be 13.3, and the maximum score was observed to be 53.25.
+
+```{r, include=TRUE}
+create_react(baseline_all_positive, user_visual_motor_composite_score_2)
+```
+
+### Baseline 2 Histogram
+
+```{r, include=TRUE}
+score_hist(baseline_all_positive, user_visual_motor_composite_score_2)
+```
+
+
+### Score Increase Summary
+
+The average point increase from baseline 1 to baseline 2 was observed to be 6.56 points with a standard deviation of 4.21 points. The mininum point increase was observed to be 0.02, while the maximum point increase was observed to be 32.55. 
+
+```{r, include=TRUE}
+create_react(baseline_all_positive, visual_motor_diff)
+```
+
+### Score Increase Histogram 
+```{r, include=TRUE}
+score_diff_hist(baseline_all_positive, visual_motor_diff)
+```
+
+### Percent Increase Summary
+
+The average percent increase from baseline 1 to baseline 2 was observed to be a 22.82% increase with a standard deviation of a 21.77% increase.  
+
+```{r, include=TRUE}
+react_percent(baseline_all_positive, visual_motor_percent_inc)
+```
+
+### Percent Increase Density Plot
+```{r, include=TRUE}
+percent_inc_density(baseline_all_positive, visual_motor_percent_inc)
+```
+
+
+## Visual Motor Paired *T*-Test Results {.tabset .tabset-fade .tabset-pills}
+A paired *T*-test was used to compare the reaction time composite scores of all 18,739 individuals who completed two baseline assessments. On average, individuals scored significantly higher on the second baseline test administration (*M* = 37.64) than the first baseline test administration (*M* = 34.15), *t*(18738) = -89.275, *p* < .01. 
+```{r, include=FALSE}
+visual_motor_all_long <- visual_motor_all %>% 
+  pivot_longer(
+    cols = c(4:5),
+    names_to = "baseline_time",
+    names_prefix = "user_visual_motor_composite_",
+    values_to = "score"
+  )
+
+
+visual_motor_1 <- visual_motor_all$user_visual_motor_composite_score_1
+visual_motor_2 <- visual_motor_all$user_visual_motor_composite_score_2
+
+visual_motor_res <- t.test(visual_motor_1, visual_motor_2, paired = TRUE)
+
+visual_motor_res
+
+mean_2(visual_motor_all$user_visual_motor_composite_score_1)
+mean_2(visual_motor_all$user_visual_motor_composite_score_2)
+```
+
+### Boxplot
+```{r, include=TRUE}
+box_p(visual_motor_all_long, baseline_time, score) +
+  stat_compare_means(method = "t.test", paired = TRUE, hjust = -0.5)
+```
+
+### *T*-Test Results
+```{r, include=TRUE}
+visual_motor_res
+```
+
+### Baseline 1 Total Descriptive Statistics
+```{r, include=TRUE}
+create_react(visual_motor_all, user_visual_motor_composite_score_1)
+```
+
+### Baseline 1 Total Score Histogram
+```{r, include=TRUE}
+score_hist(visual_motor_all, user_visual_motor_composite_score_1)
+```
+
+### Baseline 2 Total Descriptive Statistics
+```{r, include=TRUE}
+create_react(visual_motor_all, user_visual_motor_composite_score_2)
+```
+
+### Baseline 2 Total Score Histogram
+```{r, include=TRUE}
+score_hist(visual_motor_all, user_visual_motor_composite_score_2)
+```
+
+
+## Impulse Control Composite Score - Baseline 2 Composite Score Increase Only {.tabset .tabset-fade .tabset-pills}
+
+9,023 individuals (48.15%) increased their impulse control composite score on the second baseline test administration. 
+
+### Baseline 1 Summary 
+
+The average Baseline 1 score was observed to be 9.64 points with a standard deviation of 5.36. The minimum score was observed to be 1, and the maximum score was observed to be 30.
+
+```{r, include=TRUE}
+create_react(impulse_control, user_impulse_control_composite_score_1)
+```
+
+### Baseline 1 Histogram
+
+```{r, include=TRUE}
+score_hist(impulse_control, user_impulse_control_composite_score_1)
+```
+
+### Baseline 2 Summary 
+
+The average Baseline 2 score was observed to be 5.14 points with a standard deviation of 3.6. The minimum score was observed to be 0, and the maximum score was observed to be 27.
+
+```{r, include=TRUE}
+create_react(impulse_control, user_impulse_control_composite_score_2)
+```
+
+### Baseline 2 Histogram
+
+```{r, include=TRUE}
+score_hist(impulse_control, user_impulse_control_composite_score_2)
+```
+
+
+### Score Increase Summary
+
+The average point increase from baseline 1 to baseline 2 was observed to be 4.5 points with a standard deviation of 3.76 points. The mininum point increase was observed to be 1, while the maximum point increase was observed to be 27. 
+
+```{r impulse control table 1, include=TRUE}
+create_react(impulse_control, impulse_control_diff)
+```
+
+### Score Increase Histogram 
+
+```{r}
+score_diff_hist(impulse_control, impulse_control_diff)
+```
+
+### Percent Increase Summary
+
+The average percent increase from baseline 1 to baseline 2 was observed to be a 46.68% increase with a standard deviation of 23.37% increase.
+
+```{r impulse control table 2, include=TRUE}
+react_percent(impulse_control, impulse_control_percent_dec)
+```
+
+### Percent Increase Density Plot
+```{r, include=TRUE}
+percent_inc_density(impulse_control, impulse_control_percent_dec)
+```
+
+## Impulse Control Composite Score - Increase on all Five Composite Scores {.tabset .tabset-fade .tabset-pills}
+
+This section summarizes the impulse control composite score for the 1,653 individuals who achieved a higher score on all five composite scores of the second baseline test administration. 
+
+### Baseline 1 Summary 
+
+The average Baseline 1 score was observed to be 9.98 points with a standard deviation of 5.58. The minimum score was observed to be 1, and the maximum score was observed to be 30.
+
+```{r, include=TRUE}
+create_react(baseline_all_positive, user_impulse_control_composite_score_1)
+```
+
+### Baseline 1 Histogram
+
+```{r, include=TRUE}
+score_hist(baseline_all_positive, user_impulse_control_composite_score_1)
+```
+
+### Baseline 2 Summary 
+
+The average Baseline 2 score was observed to be 5.18 points with a standard deviation of 3.55. The minimum score was observed to be 0, and the maximum score was observed to be 26.
+
+```{r, include=TRUE}
+create_react(baseline_all_positive, user_impulse_control_composite_score_2)
+```
+
+### Baseline 2 Histogram
+
+```{r, include=TRUE}
+score_hist(baseline_all_positive, user_impulse_control_composite_score_2)
+```
+
+
+### Score Increase Summary
+
+The average point increase from baseline 1 to baseline 2 was observed to be 4.79 points with a standard deviation of 4.08 points. The mininum point increase was observed to be 1, while the maximum point increase was observed to be 25. 
+
+```{r, include=TRUE}
+create_react(baseline_all_positive, impulse_control_diff)
+```
+
+### Score Increase Histogram 
+```{r, include=TRUE}
+score_diff_hist(baseline_all_positive, impulse_control_diff)
+```
+
+### Percent Increase Summary
+
+The average percent increase from baseline 1 to baseline 2 was observed to be a 47.13% increase with a standard deviation of a 23.26% increase.
+
+```{r, include=TRUE}
+react_percent(baseline_all_positive, impulse_control_percent_dec)
+```
+
+### Percent Increase Density Plot
+```{r, include=TRUE}
+percent_inc_density(baseline_all_positive, impulse_control_percent_dec)
+```
+
+
+## Impulse Control Paired *T*-Test Results {.tabset .tabset-fade .tabset-pills}
+A paired *T*-test was used to compare the impulse control composite scores of all 18,739 individuals who completed two baseline assessments. On average, individuals scored significantly higher on the first baseline test administration (*M* = 7.41) than the second baseline test administration (*M* = 6.99), *t*(18738) = 10.641, *p* < .001.
+
+```{r, include=FALSE}
+impulse_control_all_long <- impulse_control_all %>% 
+  pivot_longer(
+    cols = c(4:5),
+    names_to = "baseline_time",
+    names_prefix = "user_impulse_control_composite_",
+    values_to = "score"
+  )
+
+
+impulse_control_1 <- impulse_control_all$user_impulse_control_composite_score_1
+impulse_control_2 <- impulse_control_all$user_impulse_control_composite_score_2
+
+impulse_control_res <- t.test(impulse_control_1, impulse_control_2, paired = TRUE)
+
+impulse_control_res
+
+mean_2(impulse_control_all$user_impulse_control_composite_score_1)
+mean_2(impulse_control_all$user_impulse_control_composite_score_2)
+```
+
+### Boxplot
+```{r, include=TRUE}
+box_p(impulse_control_all_long, baseline_time, score) +
+  stat_compare_means(method = "t.test", paired = TRUE, hjust = -0.5)
+```
+
+### *T*-Test Results
+```{r, include=TRUE}
+impulse_control_res
+```
+
+### Baseline 1 Total Descriptive Statistics
+```{r, include=TRUE}
+create_react(impulse_control_all, user_impulse_control_composite_score_1)
+```
+
+### Baseline 1 Total Score Histogram
+```{r, include=TRUE}
+score_hist(impulse_control_all, user_impulse_control_composite_score_1)
+```
+
+### Baseline 2 Total Descriptive Statistics
+```{r, include=TRUE}
+create_react(impulse_control_all, user_impulse_control_composite_score_2)
+```
+
+### Baseline 2 Total Score Histogram
+```{r, include=TRUE}
+score_hist(impulse_control_all, user_impulse_control_composite_score_2)
+```
+
+
+## Reaction Time Composite Score - Baseline 2 Composite Score Increase Only {.tabset .tabset-fade .tabset-pills}
+
+11,084 individuals (59.15%) improved their reaction time composite score on the second baseline test administration. 
+
+### Baseline 1 Summary 
+
+The average Baseline 1 score was observed to be 0.67 points with a standard deviation of 0.11. The minimum score (indicating faster reaction time) was observed to be 0.44, and the maximum score (indicating slower reaction time) was observed to be 2.85.
+
+```{r, include=TRUE}
+create_react(reaction_time, user_reaction_time_composite_score_1)
+```
+
+### Baseline 1 Histogram
+
+```{r, include=TRUE}
+score_hist(reaction_time, user_reaction_time_composite_score_1)
+```
+
+### Baseline 2 Summary 
+
+The average Baseline 2 score was observed to be 0.59 points with a standard deviation of 0.07. The minimum score was observed to be -0.18, and the maximum score was observed to be 1.03.
+
+```{r, include=TRUE}
+create_react(reaction_time, user_reaction_time_composite_score_2)
+```
+
+### Baseline 2 Histogram
+
+```{r, include=TRUE}
+score_hist(reaction_time, user_reaction_time_composite_score_2)
+```
+
+
+### Score Increase Summary
+
+The average point decrease (indicating better performance for the reaction time composite test) from baseline 1 to baseline 2 was observed to be 0.08 points with a standard deviation of 0.08 points. The mininum point decrease (indicative of better performance) was observed to be 0.01, while the maximum point decrease was observed to be 2.36. 
+
+```{r reaction time table 1, include=TRUE}
+create_react(reaction_time, reaction_time_diff)
+```
+
+### Score Increase Histogram 
+
+```{r}
+ggplot(reaction_time, aes(reaction_time_diff)) +
+  geom_histogram(fill = "#56B4E9",
+                color = "white", 
+                alpha = 0.9,
+                bins = 25) +
+  labs(x = "Point Decrease on Baseline 2",
+       y = "Number of Individuals")
+```
+
+### Percent Increase Summary
+
+The average percent decrease from baseline 1 to baseline 2 was observed to be a 11.36% increase with a standard deviation of a 8.36% decrease.  
+
+```{r reaction time table 2, include=TRUE}
+react_percent(reaction_time, reaction_time_percent_dec)
+```
+
+### Percent Increase Density Plot
+```{r, include=TRUE}
+ggplot(reaction_time, aes(reaction_time_percent_dec)) +
+  geom_density(fill = "#56B4E9",
+               bw = 15) +
+  scale_x_continuous("Percent Decrease on Baseline 2", labels = function(x) paste0(x, "%")) +
+    labs(x = "Percent Decrease on Baseline 2",
+         y = "Density")
+```
+
+## Reaction Time Composite Score - Increase on all Five Composite Scores {.tabset .tabset-fade .tabset-pills}
+
+This section summarizes the reaction time composite score for the 1,653 individuals who achieved a higher score on all five composite scores of the second baseline test administration.  
+
+### Baseline 1 Summary 
+
+The average Baseline 1 score was observed to be 0.67 points with a standard deviation of 0.11. The minimum score was observed to be 0.46 (indicative of faster reaction time), and the maximum score was observed to be 1.89.
+
+```{r, include=TRUE}
+create_react(baseline_all_positive, user_reaction_time_composite_score_1)
+```
+
+### Baseline 1 Histogram
+
+```{r, include=TRUE}
+score_hist(baseline_all_positive, user_reaction_time_composite_score_1)
+```
+
+### Baseline 2 Summary 
+
+The average Baseline 2 score was observed to be 0.59 points with a standard deviation of 0.07. The minimum score was observed to be 0.41, and the maximum score was observed to be 0.9.
+
+```{r, include=TRUE}
+create_react(baseline_all_positive, user_reaction_time_composite_score_2)
+```
+
+### Baseline 2 Histogram
+
+```{r, include=TRUE}
+score_hist(baseline_all_positive, user_reaction_time_composite_score_2)
+```
+
+
+### Score Increase Summary
+
+The average point decrease from baseline 1 to baseline 2 was observed to be 0.08 points with a standard deviation of 0.08 points. The mininum point decrease was observed to be 0.01, while the maximum point decrease was observed to be 1.08. 
+
+```{r, include=TRUE}
+create_react(baseline_all_positive, reaction_time_diff)
+```
+
+### Score Increase Histogram 
+```{r, include=TRUE}
+ggplot(baseline_all_positive, aes(reaction_time_diff)) +
+  geom_histogram(fill = "#56B4E9",
+                color = "white", 
+                alpha = 0.9,
+                bins = 25) +
+  labs(x = "Point Decrease on Baseline 2",
+       y = "Number of Individuals")
+```
+
+### Percent Increase Summary
+
+The average percent decrease from baseline 1 to baseline 2 was observed to be a 11.33% decrease with a standard deviation of a 8.33% decrease.  
+
+```{r, include=TRUE}
+react_percent(baseline_all_positive, reaction_time_percent_dec)
+```
+
+### Percent Increase Density Plot
+```{r, include=TRUE}
+ggplot(baseline_all_positive, aes(reaction_time_percent_dec)) +
+  geom_density(fill = "#56B4E9",
+               bw = 15) +
+  scale_x_continuous("Percent Decrease on Baseline 2", labels = function(x) paste0(x, "%")) +
+    labs(x = "Percent Decrease on Baseline 2",
+         y = "Density")
+```
+
+
+## Reaction Time Paired *T*-Test Results {.tabset .tabset-fade .tabset-pills}
+A paired *T*-test was used to compare the reaction time composite scores of all 18,739 individuals who completed two baseline assessments. On average, individuals demonstrated a faster reaction time on the second baseline test administration (*M* = 0.62) than the first baseline test administration (*M* = 0.64), *t*(18737) = 27.658, *p* < .01. 
+```{r, include=FALSE}
+reaction_time_all_long <- reaction_time_all %>% 
+  pivot_longer(
+    cols = c(4:5),
+    names_to = "baseline_time",
+    names_prefix = "user_reaction_time_composite_",
+    values_to = "score"
+  )
+
+
+reaction_time_1 <- reaction_time_all$user_reaction_time_composite_score_1
+reaction_time_2 <- reaction_time_all$user_reaction_time_composite_score_2
+
+reaction_time_res <- t.test(reaction_time_1, reaction_time_2, paired = TRUE)
+
+reaction_time_res
+
+mean_2(reaction_time_all$user_reaction_time_composite_score_1)
+mean_2(reaction_time_all$user_reaction_time_composite_score_2)
+```
+
+### Boxplot
+```{r, include=TRUE}
+box_p(reaction_time_all_long, baseline_time, score) +
+  stat_compare_means(method = "t.test", paired = TRUE, hjust = -0.5)
+```
+
+### *T*-Test Results
+```{r, include=TRUE}
+reaction_time_res
+```
+
+### Baseline 1 Total Descriptive Statistics
+```{r, include=TRUE}
+create_react(reaction_time_all, user_reaction_time_composite_score_1)
+```
+
+### Baseline 1 Total Score Histogram
+```{r, include=TRUE}
+score_hist(reaction_time_all, user_reaction_time_composite_score_1)
+```
+
+### Baseline 2 Total Descriptive Statistics
+```{r, include=TRUE}
+create_react(reaction_time_all, user_reaction_time_composite_score_2)
+```
+
+### Baseline 2 Total Score Histogram
+```{r, include=TRUE}
+score_hist(reaction_time_all, user_reaction_time_composite_score_2)
+```
+
+
