@@ -31,6 +31,7 @@ library(fs)
 library(rstatix)
 library(ggpubr)
 
+
 theme_set(theme_minimal(15) +
             theme(legend.position = "bottom",
                   panel.grid.major.x = element_line(color = "gray60"),
@@ -152,7 +153,7 @@ impact$user_current_sport
 ```{r code needed for rest of document, include=FALSE}
 
 test_time_baseline <- impact %>% 
-  select(year,
+  dplyr::select(year,
          passport_id, 
          user_gender, 
          user_age, 
@@ -225,7 +226,7 @@ mem_verbal <- baseline3 %>%
   ) 
 
 mem_verbal <- mem_verbal %>% 
-  select(passport_id, 
+  dplyr::select(passport_id, 
          test_date_1, 
          test_date_2, 
          user_memory_composite_score_verbal_1, 
@@ -255,7 +256,7 @@ mem_visual <- baseline3 %>%
   ) 
 
 mem_visual <- mem_visual %>% 
-  select(passport_id, 
+  dplyr::select(passport_id, 
          test_date_1, 
          test_date_2, 
          user_memory_composite_score_visual_1, 
@@ -284,7 +285,7 @@ visual_motor <- baseline3 %>%
   ) 
 
 visual_motor <- visual_motor %>% 
-  select(passport_id, 
+  dplyr::select(passport_id, 
          test_date_1, 
          test_date_2, 
          user_visual_motor_composite_score_1, 
@@ -312,7 +313,7 @@ impulse_control <- baseline3 %>%
   ) 
 
 impulse_control <- impulse_control %>% 
-  select(passport_id, 
+  dplyr::select(passport_id, 
          test_date_1, 
          test_date_2, 
          user_impulse_control_composite_score_1, 
@@ -339,7 +340,7 @@ reaction_time <- baseline3 %>%
   ) 
 
 reaction_time <- reaction_time %>% 
-  select(passport_id, 
+  dplyr::select(passport_id, 
          test_date_1, 
          test_date_2, 
          user_reaction_time_composite_score_1, 
@@ -415,14 +416,6 @@ all_join3 <- full_join(all_join2, reaction_time_all)
 all_double_baseline <- full_join(all_join3, visual_motor_all)
 
 
-mem_verbal %>% 
-  summarize(Mean = mean(memory_verbal_diff),
-            SD = sd(memory_verbal_diff),
-            Min = min(memory_verbal_diff),
-            Max = max(memory_verbal_diff),
-            Total = length(memory_verbal_diff)) %>% 
-  mutate_if(is.numeric, round, 2) %>% 
-  reactable()
 
 create_react <- function(df, var) {
     df %>% 
@@ -479,7 +472,7 @@ age <- baseline3 %>%
   ) 
 
 age <- age %>% 
-  select(passport_id,
+  dplyr::select(passport_id,
          test_date_1,
          test_date_2,
          user_age_1,
@@ -501,7 +494,7 @@ school <- baseline3 %>%
   ) 
 
 school <- school %>% 
-  select(passport_id,
+  dplyr::select(passport_id,
          test_date_1,
          test_date_2,
          org_name_1,
@@ -521,7 +514,7 @@ sport <- baseline3 %>%
   ) 
 
 sport <- sport %>% 
-  select(passport_id,
+  dplyr::select(passport_id,
          test_date_1,
          test_date_2,
          user_current_sport_1,
@@ -598,7 +591,7 @@ age_tbl_1 <- all_double_baseline %>%
     columns = list(
       user_age_1 = colDef(name = "Age"),
       total = colDef(name = "Total",
-                     format = colFormat(separators = TRUE))),
+                     format = colFormat(separators = TRUE, suffix = " individuals"))),
     pagination = TRUE,
     striped = TRUE,
     outlined = TRUE,
@@ -632,7 +625,7 @@ age_tbl_2 <- all_double_baseline %>%
     columns = list(
       user_age_2 = colDef(name = "Age"),
       total = colDef(name = "Total",
-                     format = colFormat(separators = TRUE))),
+                     format = colFormat(separators = TRUE, suffix = " individuals"))),
     pagination = TRUE,
     striped = TRUE,
     outlined = TRUE,
@@ -661,7 +654,7 @@ school_tbl_1 <- all_double_baseline %>%
     columns = list(
       org_name_1 = colDef(name = "School"),
       total = colDef(name = "Total",
-                     format = colFormat(separators = TRUE))),
+                     format = colFormat(separators = TRUE, suffix = " individuals"))),
     pagination = TRUE,
     striped = TRUE,
     outlined = TRUE,
@@ -690,7 +683,7 @@ school_tbl_2 <- all_double_baseline %>%
     columns = list(
       org_name_2 = colDef(name = "School"),
       total = colDef(name = "Total",
-                     format = colFormat(separators = TRUE))),
+                     format = colFormat(separators = TRUE, suffix = " individuals"))),
     pagination = TRUE,
     striped = TRUE,
     outlined = TRUE,
@@ -720,7 +713,7 @@ sport_tbl_1 <- all_double_baseline %>%
     columns = list(
       user_current_sport_1 = colDef(name = "Sport"),
       total = colDef(name = "Total",
-                     format = colFormat(separators = TRUE))),
+                     format = colFormat(separators = TRUE, suffix = " individuals"))),
     pagination = TRUE,
     striped = TRUE,
     outlined = TRUE,
@@ -749,7 +742,7 @@ sport_tbl_2 <- all_double_baseline %>%
     columns = list(
       user_current_sport_2 = colDef(name = "Sport"),
       total = colDef(name = "Total",
-                     format = colFormat(separators = TRUE))),
+                     format = colFormat(separators = TRUE, suffix = " individuals"))),
     pagination = TRUE,
     striped = TRUE,
     outlined = TRUE,
@@ -766,9 +759,9 @@ sport_tbl_2
 sport_tbl_2
 ```
 
-# Baseline Percent Increase from Test 1 to Test 2
+# Baseline Percent Increase from Test 1 to Test 2 
 
-## Verbal Memory Composite Score - Baseline 2 Composite Score Increase Only {.tabset .tabset-fade .tabset-pills}
+## Verbal Memory - Baseline 2 Increase Only {.tabset .tabset-fade .tabset-pills}
 
 10,441 individuals (55.72%) increased their verbal memory composite score on the second baseline test administration. 
 
@@ -876,7 +869,7 @@ react_percent(mem_verbal, memory_verbal_percent_inc)
 percent_inc_density(mem_verbal, memory_verbal_percent_inc)
 ```
 
-## Verbal Memory Composite Score - Increase on all Five Composite Scores {.tabset .tabset-fade .tabset-pills}
+## Verbal Memory - Increase on all Five Scores {.tabset .tabset-fade .tabset-pills}
 
 This section summarizes the verbal memory composite score for the 1,653 individuals who achieved a higher score on all five composite scores of the second baseline test administration.  
 
@@ -1013,7 +1006,7 @@ score_hist(mem_verbal_all, user_memory_composite_score_verbal_2)
 ```
 
 
-## Visual Memory Composite Score - Baseline 2 Composite Score Increase Only {.tabset .tabset-fade .tabset-pills}
+## Visual Memory - Baseline 2 Increase Only {.tabset .tabset-fade .tabset-pills}
 
 11,137 individuals (59.43%) increased their visual memory composite score on the second baseline test administration. 
 
@@ -1074,7 +1067,7 @@ react_percent(mem_visual, memory_visual_percent_inc)
 percent_inc_density(mem_visual, memory_visual_percent_inc)
 ```
 
-## Visual Memory Composite Score - Increase on all Five Composite Scores {.tabset .tabset-fade .tabset-pills}
+## Visual Memory - Increase on all Five Scores {.tabset .tabset-fade .tabset-pills}
 
 This section summarizes the visual memory composite score for the 1,653 individuals who achieved a higher score on all five composite scores of the second baseline test administration.  
 
@@ -1187,7 +1180,7 @@ create_react(mem_visual_all, user_memory_composite_score_visual_2)
 score_hist(mem_visual_all, user_memory_composite_score_visual_2)
 ```
 
-## Visual Motor Composite Score - Baseline 2 Composite Score Increase Only {.tabset .tabset-fade .tabset-pills}
+## Visual Motor - Baseline 2 Score Increase Only {.tabset .tabset-fade .tabset-pills}
 
 14,355 individuals (76.60%) increased their visual motor composite score on the second baseline test administration. 
 
@@ -1247,7 +1240,7 @@ react_percent(visual_motor, visual_motor_percent_inc)
 percent_inc_density(visual_motor, visual_motor_percent_inc)
 ```
 
-## Visual Motor Composite Score - Increase on all Five Composite Scores {.tabset .tabset-fade .tabset-pills}
+## Visual Motor - Increase on all Five Scores {.tabset .tabset-fade .tabset-pills}
 
 This section summarizes the reaction time composite score for the 1,653 individuals who achieved a higher score on all five composite scores of the second baseline test administration.  
 
@@ -1362,7 +1355,7 @@ score_hist(visual_motor_all, user_visual_motor_composite_score_2)
 ```
 
 
-## Impulse Control Composite Score - Baseline 2 Composite Score Increase Only {.tabset .tabset-fade .tabset-pills}
+## Impulse Control - Baseline 2 Score Increase Only {.tabset .tabset-fade .tabset-pills}
 
 9,023 individuals (48.15%) increased their impulse control composite score on the second baseline test administration. 
 
@@ -1422,7 +1415,7 @@ react_percent(impulse_control, impulse_control_percent_dec)
 percent_inc_density(impulse_control, impulse_control_percent_dec)
 ```
 
-## Impulse Control Composite Score - Increase on all Five Composite Scores {.tabset .tabset-fade .tabset-pills}
+## Impulse Control - Increase on all Five Scores {.tabset .tabset-fade .tabset-pills}
 
 This section summarizes the impulse control composite score for the 1,653 individuals who achieved a higher score on all five composite scores of the second baseline test administration. 
 
@@ -1538,7 +1531,7 @@ score_hist(impulse_control_all, user_impulse_control_composite_score_2)
 ```
 
 
-## Reaction Time Composite Score - Baseline 2 Composite Score Increase Only {.tabset .tabset-fade .tabset-pills}
+## Reaction Time - Baseline 2 Score Increase Only {.tabset .tabset-fade .tabset-pills}
 
 11,084 individuals (59.15%) improved their reaction time composite score on the second baseline test administration. 
 
@@ -1609,7 +1602,7 @@ ggplot(reaction_time, aes(reaction_time_percent_dec)) +
          y = "Density")
 ```
 
-## Reaction Time Composite Score - Increase on all Five Composite Scores {.tabset .tabset-fade .tabset-pills}
+## Reaction Time - Increase on all Five Scores {.tabset .tabset-fade .tabset-pills}
 
 This section summarizes the reaction time composite score for the 1,653 individuals who achieved a higher score on all five composite scores of the second baseline test administration.  
 
@@ -1735,3 +1728,828 @@ score_hist(reaction_time_all, user_reaction_time_composite_score_2)
 ```
 
 
+# What is the relationship between age and point increase on baseline testing? {.tabset .tabset-fade .tabset-pills}
+
+To explore the relationship between age and point increase on baseline testing, indivuals ages 10-18 on both baseline tests were included from the sample of individuals who achieved positive gain on at least one baseline test domain. This new sample consists of 18,371 individuals. 
+
+```{r, include=FALSE}
+head(baseline_final)
+
+baseline_age <- baseline_final %>% 
+  filter(user_age_1 %in% (10:18),
+         user_age_2 %in% (10:18))
+
+baseline_age_factor <- baseline_age %>% 
+  mutate(user_age_1 = as.factor(user_age_1),
+         user_age_2 = as.factor(user_age_2))
+```
+
+## Verbal Memory {.tabset .tabset-fade .tabset-pills}
+
+### Baseline 1 Score Plot
+
+```{r, include=FALSE}
+ggplot(baseline_age, aes(user_memory_composite_score_verbal_1, user_age_1)) +
+  geom_point(alpha = 0.7) +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "Score",
+       y = "Age")
+
+score_scatter <- function(df, x, y) {
+  ggplot(df, aes({{x}}, {{y}})) +
+  geom_point(alpha = 0.7) +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "Score",
+       y = "Age")
+}
+
+point_increase_scatter <- function(df, x, y) {
+  ggplot(df, aes({{x}}, {{y}})) +
+  geom_point(alpha = 0.7) +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "Point Increase on Baseline 2",
+       y = "Age")
+}
+```
+
+```{r, include=TRUE}
+score_scatter(baseline_age, user_memory_composite_score_verbal_1, user_age_1)
+```
+
+### Baseline 2 Score Plot
+
+```{r, include=TRUE}
+score_scatter(baseline_age, user_memory_composite_score_verbal_2, user_age_2)
+```
+
+### Baseline Point Increase
+
+```{r, include=TRUE}
+point_increase_scatter(baseline_age, memory_verbal_diff, user_age_2)
+```
+
+### Baseline 1 Model 
+
+On average, 10 year olds obtained a score of 78.03. On average:
+
+  * Age 11 scored 1.08 points higher
+  * Age 12 scored .50 points higher
+  * Age 13 scored 0.99 points higher
+  * Age 14 scored 1.22 points higher
+  * Age 15 scored 1.49 points higher
+  * Age 16 scored 1.49 points higher
+  * Age 17 scored 9.70 points lower
+  
+None of these differences in performance are significantly different. 
+
+```{r, include=TRUE}
+mem_verbal_mod_1 <- lm(user_memory_composite_score_verbal_1 ~ user_age_1, data = baseline_age_factor)
+
+summary(mem_verbal_mod_1)
+```
+
+### Baseline 2 Model 
+
+On average, scores increase with age, but none of the differences between ages are significantly different.
+
+```{r, include=TRUE}
+mem_verbal_mod_2 <- lm(user_memory_composite_score_verbal_2 ~ user_age_2, data = baseline_age_factor)
+
+summary(mem_verbal_mod_2)
+```
+
+### Score Increase Model 
+
+On average, individuals age 10 at the time of the second baseline test increased their score by 8.75 points. The only significant difference in this model is that, on average, individuals age 18 at the time of the second baseline test experienced a point gain 9.92 points higher than the gain of 10 year olds. 
+
+```{r, include=TRUE}
+mem_verbal_diff_baseline_mod <- lm(memory_verbal_diff ~ user_age_2, data = baseline_age_factor)
+
+summary(mem_verbal_diff_baseline_mod)
+```
+
+## Visual Memory {.tabset .tabset-fade .tabset-pills}
+
+### Baseline 1 Score Plot
+
+```{r, include=TRUE}
+score_scatter(baseline_age, user_memory_composite_score_visual_1, user_age_1)
+```
+
+### Baseline 2 Score Plot
+
+```{r, include=TRUE}
+score_scatter(baseline_age, user_memory_composite_score_visual_2, user_age_2)
+```
+
+### Baseline Point Increase
+
+```{r, include=TRUE}
+point_increase_scatter(baseline_age, memory_visual_diff, user_age_2)
+```
+
+### Baseline 1 Model 
+
+On average, 10 year olds obtained a score of 66.97. Significant differences include:
+
+  * On average, individuals age 11 scored 1.77 points higher (*p* = .04)
+  * On average, individuals age 14 scored 1.74 points higher (*p* = .03)
+
+```{r, include=TRUE}
+mem_visual_mod_1 <- lm(user_memory_composite_score_visual_1 ~ user_age_1, data = baseline_age_factor)
+
+summary(mem_visual_mod_1)
+```
+
+### Baseline 2 Model 
+
+No significant differences in model. 
+
+```{r, include=TRUE}
+mem_visual_mod_2 <- lm(user_memory_composite_score_visual_2 ~ user_age_2, data = baseline_age_factor)
+
+summary(mem_visual_mod_2)
+```
+
+### Score Increase Model 
+
+No significant differences in model. 
+
+```{r, include=TRUE}
+mem_visual_diff_baseline_mod <- lm(memory_visual_diff ~ user_age_2, data = baseline_age_factor)
+
+summary(mem_visual_diff_baseline_mod)
+```
+
+## Visual Motor {.tabset .tabset-fade .tabset-pills}
+
+### Baseline 1 Score Plot
+
+```{r, include=TRUE}
+score_scatter(baseline_age, user_visual_motor_composite_score_1, user_age_1)
+```
+
+### Baseline 2 Score Plot
+
+```{r, include=TRUE}
+score_scatter(baseline_age, user_visual_motor_composite_score_2, user_age_2)
+```
+
+### Baseline Point Increase
+
+```{r, include=TRUE}
+point_increase_scatter(baseline_age, visual_motor_diff, user_age_2)
+```
+
+### Baseline 1 Model 
+
+This model is sigificant. The age coefficient accounts for 2.1% of the variability in scores. On average, individuals age 10 obtained a score of 29.89. The following differences are significant. On average:
+
+  * Age 11 scored 1.48 points higher (*p* = .0001)
+  * Age 12 scored 2.85 points higher (*p* < .0001)
+  * Age 13 scored 3.67 points higher (*p* < .0001)
+  * Age 14 scored 4.32 points higher (*p* < .0001)
+  * Age 15 scored 4.27 points higher (*p* < .0001)
+  * Age 16 scored 4.43 points higher (*p* < .0001)
+  * Age 17 scored 11.91 points higher (*p* = .008)
+
+```{r, include=TRUE}
+visual_motor_mod_1 <- lm(user_visual_motor_composite_score_1 ~ user_age_1, data = baseline_age_factor)
+
+summary(visual_motor_mod_1)
+```
+
+### Baseline 2 Model 
+
+Some significant differences in the model. Individuals age 10, on average, obtained a score of 34.07. Significant differences include, on aveage:
+
+  * Individuals age 15 scored 5.13 points higher (*p* = .03)
+  * Individuals age 16 scored 5.18 points higher (*p* = .03)
+
+```{r, include=TRUE}
+visual_motor_mod_2 <- lm(user_visual_motor_composite_score_2 ~ user_age_2, data = baseline_age_factor)
+
+summary(visual_motor_mod_2)
+```
+
+### Score Increase Model 
+
+No significant differences in model. 
+
+```{r, include=TRUE}
+visual_motor_diff_baseline_mod <- lm(visual_motor_diff ~ user_age_2, data = baseline_age_factor)
+
+summary(visual_motor_diff_baseline_mod)
+```
+
+
+## Impulse Control {.tabset .tabset-fade .tabset-pills}
+
+### Baseline 1 Score Plot
+
+```{r, include=TRUE}
+score_scatter(baseline_age, user_impulse_control_composite_score_1, user_age_1)
+```
+
+### Baseline 2 Score Plot
+
+```{r, include=TRUE}
+score_scatter(baseline_age, user_impulse_control_composite_score_2, user_age_2)
+```
+
+### Baseline Point Increase
+
+```{r, include=TRUE}
+point_increase_scatter(baseline_age, impulse_control_diff, user_age_2)
+```
+
+### Baseline 1 Model 
+
+On average, individuals age 10 obtained a score of 10.86. The following differences are significant. On average:
+
+  * Age 12 scored 0.89 points lower (better performance) (*p* = .04)
+  * Age 13 scored 1.25 points lower (*p* = .002)
+  * Age 14 scored 1.58 points lower (*p* = .0001)
+  * Age 15 scored 1.88 points lower (*p* = .0001)
+  * Age 16 scored 3.17 points lower (*p* = .0001)
+  
+
+```{r, include=TRUE}
+impulse_control_mod_1 <- lm(user_impulse_control_composite_score_1 ~ user_age_1, data = baseline_age_factor)
+
+summary(impulse_control_mod_1)
+```
+
+### Baseline 2 Model 
+
+No significant differences in model. 
+
+```{r, include=TRUE}
+impulse_control_mod_2 <- lm(user_impulse_control_composite_score_2 ~ user_age_2, data = baseline_age_factor)
+
+summary(impulse_control_mod_2)
+```
+
+### Score Increase Model 
+
+No significant differences in model. 
+
+```{r, include=TRUE}
+impulse_control_diff_baseline_mod <- lm(impulse_control_diff ~ user_age_2, data = baseline_age_factor)
+
+summary(impulse_control_diff_baseline_mod)
+```
+
+## Reaction Time {.tabset .tabset-fade .tabset-pills}
+
+### Baseline 1 Score Plot
+
+```{r, include=TRUE}
+score_scatter(baseline_age, user_reaction_time_composite_score_1, user_age_1)
+```
+
+### Baseline 2 Score Plot
+
+```{r, include=TRUE}
+score_scatter(baseline_age, user_reaction_time_composite_score_2, user_age_2)
+```
+
+### Baseline Point Increase
+
+```{r, include=TRUE}
+point_increase_scatter(baseline_age, reaction_time_diff, user_age_2)
+```
+
+### Baseline 1 Model 
+
+On average, individuals age 10 obtained a score of 0.72. The following differences are significant. On average:
+
+  * Age 11 scored 0.02 points lower (better performance) (*p* = .01)
+  * Age 12 scored 0.05 points lower (*p* < .0001)
+  * Age 13 scored 0.06 points lower (*p* < .0001)
+  * Age 14 scored 0.07 points lower (*p* < .0001)
+  * Age 15 scored 0.07 points lower (*p* < .0001)
+  * Age 16 scored 0.05 points lower (*p* = .002)
+  
+
+```{r, include=TRUE}
+reaction_time_mod_1 <- lm(user_reaction_time_composite_score_1 ~ user_age_1, data = baseline_age_factor)
+
+summary(reaction_time_mod_1)
+```
+
+### Baseline 2 Model 
+
+On average, individuals age 10 obtained a score of 0.69. The following differences are significant. On average:
+
+  * Age 12 scored 0.07 points lower (better performance) (*p* = .0003)
+  * Age 13 scored 0.09 points lower (*p* < .0001)
+  * Age 14 scored 0.10 points lower (*p* < .0001)
+  * Age 15 scored 0.11 points lower (*p* < .0001)
+  * Age 16 scored 0.11 points lower (*p* < .0001)
+  * Age 17 scored 0.10 points lower (*p* < .0001)
+
+```{r, include=TRUE}
+reaction_time_mod_2 <- lm(user_reaction_time_composite_score_2 ~ user_age_2, data = baseline_age_factor)
+
+summary(reaction_time_mod_2)
+```
+
+### Score Increase Model 
+
+No significant differences in model. 
+
+```{r, include=TRUE}
+reaction_time_diff_baseline_mod <- lm(reaction_time_diff ~ user_age_2, data = baseline_age_factor)
+
+summary(reaction_time_diff_baseline_mod)
+```
+
+# What is the relationship between school attended and point increase on baseline testing? {.tabset .tabset-fade .tabset-pills}
+
+To explore the relationship between school attended and point increase on baseline testing, schools with 100 or more individuals who completed two baseline tests were included from the sample of individuals who achieved positive gain on at least one baseline test domain. This new sample consists of 17,641 individuals. 
+
+```{r, include=FALSE}
+head(baseline_final)
+
+baseline_final %>% 
+  count(org_name_1) 
+
+baseline_final %>% 
+  count(org_name_2) 
+
+baseline_school_1 <- baseline_final
+
+baseline_school_1_count <- baseline_final %>% 
+  count(org_name_1) %>% 
+  filter(n >= 100)
+
+baseline_school_1 <- baseline_school_1 %>% 
+  filter(org_name_1 %in% baseline_school_1_count$org_name_1)
+
+b_check <- baseline_school_1 %>% 
+  group_by(org_name_1) %>% 
+  summarize(total = n())
+
+baseline_school_2 <- baseline_final
+
+baseline_school_2_count <- baseline_final %>% 
+  count(org_name_2) %>% 
+  filter(n >= 100)
+
+baseline_school_2 <- baseline_school_2 %>% 
+  filter(org_name_2 %in% baseline_school_2_count$org_name_2)
+
+baseline_school <- full_join(baseline_school_1, baseline_school_2)
+```
+
+## Verbal Memory {.tabset .tabset-fade .tabset-pills}
+
+### Baseline 1 Model 
+
+```{r, include=TRUE}
+mem_verbal_mod_1_school <- lm(user_memory_composite_score_verbal_1 ~ org_name_1, data = baseline_school)
+
+summary(mem_verbal_mod_1_school)
+```
+
+### Baseline 2 Model 
+
+```{r, include=TRUE}
+mem_verbal_mod_2_school <- lm(user_memory_composite_score_verbal_2 ~ org_name_2, data = baseline_school)
+
+summary(mem_verbal_mod_2_school)
+```
+
+### Score Increase Model 
+
+```{r, include=TRUE}
+mem_verbal_diff_baseline_mod_school <- lm(memory_verbal_diff ~ org_name_2, data = baseline_school)
+
+summary(mem_verbal_diff_baseline_mod_school)
+```
+
+## Visual Memory {.tabset .tabset-fade .tabset-pills}
+
+### Baseline 1 Model 
+
+```{r, include=TRUE}
+mem_visual_mod_1_school <- lm(user_memory_composite_score_visual_1 ~ org_name_1, data = baseline_school)
+
+summary(mem_visual_mod_1_school)
+```
+
+### Baseline 2 Model 
+
+```{r, include=TRUE}
+mem_visual_mod_2_school <- lm(user_memory_composite_score_visual_2 ~ org_name_2, data = baseline_school)
+
+summary(mem_visual_mod_2_school)
+```
+
+### Score Increase Model 
+
+No significant differences in model. 
+
+```{r, include=TRUE}
+mem_visual_diff_baseline_mod_school <- lm(memory_visual_diff ~ org_name_2, data = baseline_school)
+
+summary(mem_visual_diff_baseline_mod_school)
+```
+
+## Visual Motor {.tabset .tabset-fade .tabset-pills}
+
+### Baseline 1 Model 
+
+This model has multiple significant differences between schools. 
+
+```{r, include=TRUE}
+visual_motor_mod_1_school <- lm(user_visual_motor_composite_score_1 ~ org_name_1, data = baseline_school)
+
+summary(visual_motor_mod_1_school)
+```
+
+### Baseline 2 Model 
+
+This model has multiple significant differences between schools. 
+
+```{r, include=TRUE}
+visual_motor_mod_2_school <- lm(user_visual_motor_composite_score_2 ~ org_name_2, data = baseline_school)
+
+summary(visual_motor_mod_2_school)
+```
+
+### Score Increase Model 
+
+No significant differences in model. 
+
+```{r, include=TRUE}
+visual_motor_diff_baseline_mod_school <- lm(visual_motor_diff ~ org_name_2, data = baseline_school)
+
+summary(visual_motor_diff_baseline_mod_school)
+```
+
+
+## Impulse Control {.tabset .tabset-fade .tabset-pills}
+
+### Baseline 1 Model 
+
+```{r, include=TRUE}
+impulse_control_mod_1_school <- lm(user_impulse_control_composite_score_1 ~ org_name_1, data = baseline_school)
+
+summary(impulse_control_mod_1_school)
+```
+
+### Baseline 2 Model 
+
+```{r, include=TRUE}
+impulse_control_mod_2_school <- lm(user_impulse_control_composite_score_2 ~ org_name_2, data = baseline_school)
+
+summary(impulse_control_mod_2_school)
+```
+
+### Score Increase Model 
+
+```{r, include=TRUE}
+impulse_control_diff_baseline_mod_school <- lm(impulse_control_diff ~ org_name_2, data = baseline_school)
+
+summary(impulse_control_diff_baseline_mod_school)
+```
+
+## Reaction Time {.tabset .tabset-fade .tabset-pills}
+
+### Baseline 1 Model 
+
+```{r, include=TRUE}
+reaction_time_mod_1_school <- lm(user_reaction_time_composite_score_1 ~ org_name_1, data = baseline_school)
+
+summary(reaction_time_mod_1_school)
+```
+
+### Baseline 2 Model 
+
+```{r, include=TRUE}
+reaction_time_mod_2_school <- lm(user_reaction_time_composite_score_2 ~ org_name_2, data = baseline_school)
+
+summary(reaction_time_mod_2_school)
+```
+
+### Score Increase Model 
+
+```{r, include=TRUE}
+reaction_time_diff_baseline_mod_school <- lm(reaction_time_diff ~ org_name_2, data = baseline_school)
+
+summary(reaction_time_diff_baseline_mod_school)
+```
+
+# What is the relationship between sport played and point increase on baseline testing? {.tabset .tabset-fade .tabset-pills}
+
+To explore the relationship between sport played and point increase on baseline testing, sports with 400 or more individuals who completed two baseline tests were included from the sample of individuals who achieved positive gain on at least one baseline test domain. This new sample consists of 15,520 individuals. 
+
+```{r, include=FALSE}
+head(baseline_final)
+
+baseline_final %>% 
+  count(user_current_sport_1) 
+
+baseline_final %>% 
+  count(user_current_sport_2) 
+
+baseline_sport_1 <- baseline_final
+
+baseline_sport_1_count <- baseline_final %>% 
+  count(user_current_sport_1) %>% 
+  filter(n >= 400)
+
+baseline_sport_1 <- baseline_sport_1 %>% 
+  filter(user_current_sport_1 %in% baseline_sport_1_count$user_current_sport_1)
+
+b_check_2 <- baseline_sport_1 %>% 
+  group_by(user_current_sport_1) %>% 
+  summarize(total = n())
+
+baseline_sport_2 <- baseline_final
+
+baseline_sport_2_count <- baseline_final %>% 
+  count(user_current_sport_2) %>% 
+  filter(n >= 400)
+
+baseline_sport_2 <- baseline_sport_2 %>% 
+  filter(user_current_sport_2 %in% baseline_sport_2_count$user_current_sport_2)
+
+b_check_3 <- baseline_sport_2 %>% 
+  group_by(user_current_sport_2) %>% 
+  summarize(total = n())
+
+baseline_sport <- full_join(baseline_school_1, baseline_school_2)
+
+baseline_sport <- baseline_sport %>% 
+  filter(user_current_sport_1 != "Skipped",
+         user_current_sport_2 != "Skipped")
+```
+
+## Verbal Memory {.tabset .tabset-fade .tabset-pills}
+
+### Baseline 1 Model 
+
+```{r, include=TRUE}
+mem_verbal_mod_1_sport <- lm(user_memory_composite_score_verbal_1 ~ user_current_sport_1, data = baseline_sport)
+
+summary(mem_verbal_mod_1_sport)
+```
+
+### Baseline 2 Model 
+
+```{r, include=TRUE}
+mem_verbal_mod_2_sport <- lm(user_memory_composite_score_verbal_2 ~ user_current_sport_2, data = baseline_sport)
+
+summary(mem_verbal_mod_2_sport)
+```
+
+### Score Increase Model 
+
+```{r, include=TRUE}
+mem_verbal_diff_baseline_mod_sport <- lm(memory_verbal_diff ~ user_current_sport_2, data = baseline_sport)
+
+summary(mem_verbal_diff_baseline_mod_sport)
+```
+
+## Visual Memory {.tabset .tabset-fade .tabset-pills}
+
+### Baseline 1 Model 
+
+```{r, include=TRUE}
+mem_visual_mod_1_sport <- lm(user_memory_composite_score_visual_1 ~ user_current_sport_1, data = baseline_sport)
+
+summary(mem_visual_mod_1_sport)
+```
+
+### Baseline 2 Model 
+
+```{r, include=TRUE}
+mem_visual_mod_2_sport <- lm(user_memory_composite_score_visual_2 ~ user_current_sport_2, data = baseline_sport)
+
+summary(mem_visual_mod_2_sport)
+```
+
+### Score Increase Model 
+
+```{r, include=TRUE}
+mem_visual_diff_baseline_mod_sport <- lm(memory_visual_diff ~ user_current_sport_2, data = baseline_sport)
+
+summary(mem_visual_diff_baseline_mod_sport)
+```
+
+## Visual Motor {.tabset .tabset-fade .tabset-pills}
+
+### Baseline 1 Model 
+
+```{r, include=TRUE}
+visual_motor_mod_1_sport <- lm(user_visual_motor_composite_score_1 ~ user_current_sport_1, data = baseline_sport)
+
+summary(visual_motor_mod_1_sport)
+```
+
+### Baseline 2 Model 
+
+```{r, include=TRUE}
+visual_motor_mod_2_sport <- lm(user_visual_motor_composite_score_2 ~ user_current_sport_2, data = baseline_sport)
+
+summary(visual_motor_mod_2_sport)
+```
+
+### Score Increase Model 
+
+```{r, include=TRUE}
+visual_motor_diff_baseline_mod_sport <- lm(visual_motor_diff ~ user_current_sport_2, data = baseline_sport)
+
+summary(visual_motor_diff_baseline_mod_sport)
+```
+
+
+## Impulse Control {.tabset .tabset-fade .tabset-pills}
+
+### Baseline 1 Model 
+
+```{r, include=TRUE}
+impulse_control_mod_1_sport <- lm(user_impulse_control_composite_score_1 ~ user_current_sport_1, data = baseline_sport)
+
+summary(impulse_control_mod_1_sport)
+```
+
+### Baseline 2 Model 
+
+```{r, include=TRUE}
+impulse_control_mod_2_sport <- lm(user_impulse_control_composite_score_2 ~ user_current_sport_2, data = baseline_sport)
+
+summary(impulse_control_mod_2_sport)
+```
+
+### Score Increase Model 
+
+```{r, include=TRUE}
+impulse_control_diff_baseline_mod_sport <- lm(impulse_control_diff ~ user_current_sport_2, data = baseline_sport)
+
+summary(impulse_control_diff_baseline_mod_sport)
+```
+
+## Reaction Time {.tabset .tabset-fade .tabset-pills}
+
+### Baseline 1 Model 
+
+```{r, include=TRUE}
+reaction_time_mod_1_sport <- lm(user_reaction_time_composite_score_1 ~ user_current_sport_1, data = baseline_sport)
+
+summary(reaction_time_mod_1_sport)
+```
+
+### Baseline 2 Model 
+
+```{r, include=TRUE}
+reaction_time_mod_2_sport <- lm(user_reaction_time_composite_score_2 ~ user_current_sport_2, data = baseline_sport)
+
+summary(reaction_time_mod_2_sport)
+```
+
+### Score Increase Model 
+
+```{r, include=TRUE}
+reaction_time_diff_baseline_mod_sport <- lm(reaction_time_diff ~ user_current_sport_2, data = baseline_sport)
+
+summary(reaction_time_diff_baseline_mod_sport)
+```
+
+# What is the relationship between age, sport played, and school attended and point increase on baseline testing? {.tabset .tabset-fade .tabset-pills}
+
+The entire sample of 18,395 individuals who obtained positive gain on at least one baseline 2 domain was utilzed to conduct a multiple regression analysis.
+
+## Verbal Memory {.tabset .tabset-fade .tabset-pills}
+
+### Baseline 1 Model 
+
+```{r, include=TRUE}
+mem_verbal_mod_1_all <- lm(user_memory_composite_score_verbal_1 ~ user_age_1 + org_name_1 + user_current_sport_1, data = baseline_final)
+
+summary(mem_verbal_mod_1_all)
+```
+
+### Baseline 2 Model 
+
+```{r, include=TRUE}
+mem_verbal_mod_2_all <- lm(user_memory_composite_score_verbal_2 ~ user_age_2 + org_name_2 + user_current_sport_2, data = baseline_final)
+
+summary(mem_verbal_mod_2_all)
+```
+
+### Score Increase Model 
+
+```{r, include=TRUE}
+mem_verbal_diff_baseline_mod_all <- lm(memory_verbal_diff ~ user_age_2 + org_name_2 + user_current_sport_2, data = baseline_final)
+
+summary(mem_verbal_diff_baseline_mod_all)
+```
+
+## Visual Memory {.tabset .tabset-fade .tabset-pills}
+
+### Baseline 1 Model 
+
+```{r, include=TRUE}
+mem_visual_mod_1_all <- lm(user_memory_composite_score_visual_1 ~ user_age_1 + org_name_1 + user_current_sport_1, data = baseline_final)
+
+summary(mem_visual_mod_1_all)
+```
+
+### Baseline 2 Model 
+
+```{r, include=TRUE}
+mem_visual_mod_2_all <- lm(user_memory_composite_score_visual_2 ~ user_age_2 + org_name_2 + user_current_sport_2, data = baseline_final)
+
+summary(mem_visual_mod_2_all)
+```
+
+### Score Increase Model 
+
+```{r, include=TRUE}
+mem_visual_diff_baseline_mod_all <- lm(memory_visual_diff ~ user_age_2 + org_name_2 + user_current_sport_2, data = baseline_final)
+
+summary(mem_visual_diff_baseline_mod_all)
+```
+
+## Visual Motor {.tabset .tabset-fade .tabset-pills}
+
+### Baseline 1 Model 
+
+```{r, include=TRUE}
+visual_motor_mod_1_all <- lm(user_visual_motor_composite_score_1 ~ user_age_1 + org_name_1 + user_current_sport_1, data = baseline_final)
+
+summary(visual_motor_mod_1_all)
+```
+
+### Baseline 2 Model 
+
+```{r, include=TRUE}
+visual_motor_mod_2_all <- lm(user_visual_motor_composite_score_2 ~ user_age_2 + org_name_2 + user_current_sport_2, data = baseline_final)
+
+summary(visual_motor_mod_2_all)
+```
+
+### Score Increase Model 
+
+```{r, include=TRUE}
+visual_motor_diff_baseline_mod_all <- lm(visual_motor_diff ~ user_age_2 + org_name_2 + user_current_sport_2, data = baseline_final)
+
+summary(visual_motor_diff_baseline_mod_all)
+```
+
+
+## Impulse Control {.tabset .tabset-fade .tabset-pills}
+
+### Baseline 1 Model 
+
+```{r, include=TRUE}
+impulse_control_mod_1_all <- lm(user_impulse_control_composite_score_1 ~ user_age_1 + org_name_1 + user_current_sport_1, data = baseline_final)
+
+summary(impulse_control_mod_1_all)
+```
+
+### Baseline 2 Model 
+
+```{r, include=TRUE}
+impulse_control_mod_2_all <- lm(user_impulse_control_composite_score_2 ~ user_age_2 + org_name_2 + user_current_sport_2, data = baseline_final)
+
+summary(impulse_control_mod_2_all)
+```
+
+### Score Increase Model 
+
+```{r, include=TRUE}
+impulse_control_diff_baseline_mod_all <- lm(impulse_control_diff ~ user_age_2 + org_name_2 + user_current_sport_2, data = baseline_final)
+
+summary(impulse_control_diff_baseline_mod_all)
+```
+
+## Reaction Time {.tabset .tabset-fade .tabset-pills}
+
+### Baseline 1 Model 
+
+```{r, include=TRUE}
+reaction_time_mod_1_all <- lm(user_reaction_time_composite_score_1 ~ user_age_1 + org_name_1 + user_current_sport_1, data = baseline_final)
+
+summary(reaction_time_mod_1_all)
+```
+
+### Baseline 2 Model 
+
+```{r, include=TRUE}
+reaction_time_mod_2_all <- lm(user_reaction_time_composite_score_2 ~ user_age_2 + org_name_2 + user_current_sport_2, data = baseline_final)
+
+summary(reaction_time_mod_2_all)
+```
+
+### Score Increase Model 
+
+```{r, include=TRUE}
+reaction_time_diff_baseline_mod_all <- lm(reaction_time_diff ~ user_age_2 + org_name_2 + user_current_sport_2, data = baseline_final)
+
+summary(reaction_time_diff_baseline_mod_all)
+```
