@@ -759,7 +759,7 @@ sport_tbl_2
 sport_tbl_2
 ```
 
-# Baseline Percent Increase from Test 1 to Test 2 
+# Baseline Test Comparison 
 
 ## Verbal Memory - Baseline 2 Increase Only {.tabset .tabset-fade .tabset-pills}
 
@@ -2553,3 +2553,2062 @@ reaction_time_diff_baseline_mod_all <- lm(reaction_time_diff ~ user_age_2 + org_
 
 summary(reaction_time_diff_baseline_mod_all)
 ```
+
+# Baseline Score Descriptive Statistics by Age {.tabset .tabset-fade .tabset-pills}
+
+Values obtained from sample of individuals who increased their score on at least one composite test on Baseline 2
+
+## Age 10 {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+age_10_b1 <- baseline_age %>% 
+  filter(user_age_1 == 10) 
+
+age_10_b2 <- baseline_age %>% 
+  filter(user_age_2 == 10) 
+```
+
+### Verbal Memory {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+mem_verbal_bl_1_10 <- age_10_b1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_1) %>% 
+  na.omit()
+
+mem_verbal_bl_2_10 <- age_10_b2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_2, memory_verbal_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(mem_verbal_bl_1_10, user_memory_composite_score_verbal_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(mem_verbal_bl_2_10, user_memory_composite_score_verbal_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(mem_verbal_bl_2_10, memory_verbal_diff)
+```
+
+### Visual Memory {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+mem_visual_bl_1_10 <- age_10_b1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_1) %>% 
+  na.omit()
+
+mem_visual_bl_2_10 <- age_10_b2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_2, memory_visual_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(mem_visual_bl_1_10, user_memory_composite_score_visual_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(mem_visual_bl_2_10, user_memory_composite_score_visual_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(mem_visual_bl_2_10, memory_visual_diff)
+```
+
+### Visual Motor {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+visual_motor_bl_1_10 <- age_10_b1 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_1) %>% 
+  na.omit()
+
+visual_motor_bl_2_10 <- age_10_b2 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_2, visual_motor_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(visual_motor_bl_1_10, user_visual_motor_composite_score_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(visual_motor_bl_2_10, user_visual_motor_composite_score_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(visual_motor_bl_2_10, visual_motor_diff)
+```
+
+### Impulse Control {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+impulse_control_bl_1_10 <- age_10_b1 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_1) %>% 
+  na.omit()
+
+impulse_control_bl_2_10 <- age_10_b2 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_2, impulse_control_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(impulse_control_bl_1_10, user_impulse_control_composite_score_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(impulse_control_bl_2_10, user_impulse_control_composite_score_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(impulse_control_bl_2_10, impulse_control_diff)
+```
+
+### Reaction Time {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+reaction_time_bl_1_10 <- age_10_b1 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_1) %>% 
+  na.omit()
+
+reaction_time_bl_2_10 <- age_10_b2 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_2, reaction_time_diff) %>% 
+  na.omit()
+```
+
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(reaction_time_bl_1_10, user_reaction_time_composite_score_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(reaction_time_bl_2_10, user_reaction_time_composite_score_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(reaction_time_bl_2_10, reaction_time_diff)
+```
+
+## Age 11 {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+age_11_b1 <- baseline_age %>% 
+  filter(user_age_1 == 11) 
+
+age_11_b2 <- baseline_age %>% 
+  filter(user_age_2 == 11) 
+```
+
+### Verbal Memory {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+mem_verbal_bl_1_11 <- age_11_b1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_1) %>% 
+  na.omit()
+
+mem_verbal_bl_2_11 <- age_11_b2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_2, memory_verbal_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(mem_verbal_bl_1_11, user_memory_composite_score_verbal_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(mem_verbal_bl_2_11, user_memory_composite_score_verbal_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(mem_verbal_bl_2_11, memory_verbal_diff)
+```
+
+### Visual Memory {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+mem_visual_bl_1_11 <- age_11_b1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_1) %>% 
+  na.omit()
+
+mem_visual_bl_2_11 <- age_11_b2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_2, memory_visual_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(mem_visual_bl_1_11, user_memory_composite_score_visual_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(mem_visual_bl_2_11, user_memory_composite_score_visual_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(mem_visual_bl_2_11, memory_visual_diff)
+```
+
+### Visual Motor {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+visual_motor_bl_1_11 <- age_11_b1 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_1) %>% 
+  na.omit()
+
+visual_motor_bl_2_11 <- age_11_b2 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_2, visual_motor_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(visual_motor_bl_1_11, user_visual_motor_composite_score_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(visual_motor_bl_2_11, user_visual_motor_composite_score_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(visual_motor_bl_2_11, visual_motor_diff)
+```
+
+### Impulse Control {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+impulse_control_bl_1_11 <- age_11_b1 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_1) %>% 
+  na.omit()
+
+impulse_control_bl_2_11 <- age_11_b2 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_2, impulse_control_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(impulse_control_bl_1_11, user_impulse_control_composite_score_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(impulse_control_bl_2_11, user_impulse_control_composite_score_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(impulse_control_bl_2_11, impulse_control_diff)
+```
+
+### Reaction Time {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+reaction_time_bl_1_11 <- age_11_b1 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_1) %>% 
+  na.omit()
+
+reaction_time_bl_2_11 <- age_11_b2 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_2, reaction_time_diff) %>% 
+  na.omit()
+```
+
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(reaction_time_bl_1_11, user_reaction_time_composite_score_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(reaction_time_bl_2_11, user_reaction_time_composite_score_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(reaction_time_bl_2_11, reaction_time_diff)
+```
+
+## Age 12 {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+age_12_b1 <- baseline_age %>% 
+  filter(user_age_1 == 12) 
+
+age_12_b2 <- baseline_age %>% 
+  filter(user_age_2 == 12) 
+```
+
+### Verbal Memory {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+mem_verbal_bl_1_12 <- age_12_b1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_1) %>% 
+  na.omit()
+
+mem_verbal_bl_2_12 <- age_12_b2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_2, memory_verbal_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(mem_verbal_bl_1_12, user_memory_composite_score_verbal_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(mem_verbal_bl_2_12, user_memory_composite_score_verbal_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(mem_verbal_bl_2_12, memory_verbal_diff)
+```
+
+### Visual Memory {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+mem_visual_bl_1_12 <- age_12_b1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_1) %>% 
+  na.omit()
+
+mem_visual_bl_2_12 <- age_12_b2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_2, memory_visual_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(mem_visual_bl_1_12, user_memory_composite_score_visual_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(mem_visual_bl_2_12, user_memory_composite_score_visual_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(mem_visual_bl_2_12, memory_visual_diff)
+```
+
+### Visual Motor {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+visual_motor_bl_1_12 <- age_12_b1 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_1) %>% 
+  na.omit()
+
+visual_motor_bl_2_12 <- age_12_b2 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_2, visual_motor_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(visual_motor_bl_1_12, user_visual_motor_composite_score_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(visual_motor_bl_2_12, user_visual_motor_composite_score_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(visual_motor_bl_2_12, visual_motor_diff)
+```
+
+### Impulse Control {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+impulse_control_bl_1_12 <- age_12_b1 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_1) %>% 
+  na.omit()
+
+impulse_control_bl_2_12 <- age_12_b2 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_2, impulse_control_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(impulse_control_bl_1_12, user_impulse_control_composite_score_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(impulse_control_bl_2_12, user_impulse_control_composite_score_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(impulse_control_bl_2_12, impulse_control_diff)
+```
+
+### Reaction Time {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+reaction_time_bl_1_12 <- age_12_b1 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_1) %>% 
+  na.omit()
+
+reaction_time_bl_2_12 <- age_12_b2 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_2, reaction_time_diff) %>% 
+  na.omit()
+```
+
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(reaction_time_bl_1_12, user_reaction_time_composite_score_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(reaction_time_bl_2_12, user_reaction_time_composite_score_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(reaction_time_bl_2_12, reaction_time_diff)
+```
+
+## Age 13 {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+age_13_b1 <- baseline_age %>% 
+  filter(user_age_1 == 13) 
+
+age_13_b2 <- baseline_age %>% 
+  filter(user_age_2 == 13) 
+```
+
+### Verbal Memory {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+mem_verbal_bl_1_13 <- age_13_b1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_1) %>% 
+  na.omit()
+
+mem_verbal_bl_2_13 <- age_13_b2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_2, memory_verbal_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(mem_verbal_bl_1_13, user_memory_composite_score_verbal_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(mem_verbal_bl_2_13, user_memory_composite_score_verbal_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(mem_verbal_bl_2_13, memory_verbal_diff)
+```
+
+### Visual Memory {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+mem_visual_bl_1_13 <- age_13_b1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_1) %>% 
+  na.omit()
+
+mem_visual_bl_2_13 <- age_13_b2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_2, memory_visual_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(mem_visual_bl_1_13, user_memory_composite_score_visual_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(mem_visual_bl_2_13, user_memory_composite_score_visual_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(mem_visual_bl_2_13, memory_visual_diff)
+```
+
+### Visual Motor {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+visual_motor_bl_1_13 <- age_13_b1 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_1) %>% 
+  na.omit()
+
+visual_motor_bl_2_13 <- age_13_b2 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_2, visual_motor_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(visual_motor_bl_1_13, user_visual_motor_composite_score_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(visual_motor_bl_2_13, user_visual_motor_composite_score_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(visual_motor_bl_2_13, visual_motor_diff)
+```
+
+### Impulse Control {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+impulse_control_bl_1_13 <- age_13_b1 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_1) %>% 
+  na.omit()
+
+impulse_control_bl_2_13 <- age_13_b2 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_2, impulse_control_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(impulse_control_bl_1_13, user_impulse_control_composite_score_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(impulse_control_bl_2_13, user_impulse_control_composite_score_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(impulse_control_bl_2_13, impulse_control_diff)
+```
+
+### Reaction Time {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+reaction_time_bl_1_13 <- age_13_b1 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_1) %>% 
+  na.omit()
+
+reaction_time_bl_2_13 <- age_13_b2 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_2, reaction_time_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(reaction_time_bl_1_13, user_reaction_time_composite_score_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(reaction_time_bl_2_13, user_reaction_time_composite_score_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(reaction_time_bl_2_13, reaction_time_diff)
+```
+
+## Age 14 {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+age_14_b1 <- baseline_age %>% 
+  filter(user_age_1 == 14) 
+
+age_14_b2 <- baseline_age %>% 
+  filter(user_age_2 == 14) 
+```
+
+### Verbal Memory {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+mem_verbal_bl_1_14 <- age_14_b1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_1) %>% 
+  na.omit()
+
+mem_verbal_bl_2_14 <- age_14_b2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_2, memory_verbal_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(mem_verbal_bl_1_14, user_memory_composite_score_verbal_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(mem_verbal_bl_2_14, user_memory_composite_score_verbal_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(mem_verbal_bl_2_14, memory_verbal_diff)
+```
+
+### Visual Memory {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+mem_visual_bl_1_14 <- age_14_b1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_1) %>% 
+  na.omit()
+
+mem_visual_bl_2_14 <- age_14_b2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_2, memory_visual_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(mem_visual_bl_1_14, user_memory_composite_score_visual_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(mem_visual_bl_2_14, user_memory_composite_score_visual_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(mem_visual_bl_2_14, memory_visual_diff)
+```
+
+### Visual Motor {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+visual_motor_bl_1_14 <- age_14_b1 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_1) %>% 
+  na.omit()
+
+visual_motor_bl_2_14 <- age_14_b2 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_2, visual_motor_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(visual_motor_bl_1_14, user_visual_motor_composite_score_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(visual_motor_bl_2_14, user_visual_motor_composite_score_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(visual_motor_bl_2_14, visual_motor_diff)
+```
+
+### Impulse Control {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+impulse_control_bl_1_14 <- age_14_b1 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_1) %>% 
+  na.omit()
+
+impulse_control_bl_2_14 <- age_14_b2 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_2, impulse_control_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(impulse_control_bl_1_14, user_impulse_control_composite_score_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(impulse_control_bl_2_14, user_impulse_control_composite_score_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(impulse_control_bl_2_14, impulse_control_diff)
+```
+
+### Reaction Time {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+reaction_time_bl_1_14 <- age_14_b1 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_1) %>% 
+  na.omit()
+
+reaction_time_bl_2_14 <- age_14_b2 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_2, reaction_time_diff) %>% 
+  na.omit()
+```
+
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(reaction_time_bl_1_14, user_reaction_time_composite_score_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(reaction_time_bl_2_14, user_reaction_time_composite_score_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(reaction_time_bl_2_14, reaction_time_diff)
+```
+
+## Age 15 {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+age_15_b1 <- baseline_age %>% 
+  filter(user_age_1 == 15) 
+
+age_15_b2 <- baseline_age %>% 
+  filter(user_age_2 == 15) 
+```
+
+### Verbal Memory {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+mem_verbal_bl_1_15 <- age_15_b1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_1) %>% 
+  na.omit()
+
+mem_verbal_bl_2_15 <- age_15_b2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_2, memory_verbal_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(mem_verbal_bl_1_15, user_memory_composite_score_verbal_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(mem_verbal_bl_2_15, user_memory_composite_score_verbal_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(mem_verbal_bl_2_15, memory_verbal_diff)
+```
+
+### Visual Memory {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+mem_visual_bl_1_15 <- age_15_b1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_1) %>% 
+  na.omit()
+
+mem_visual_bl_2_15 <- age_15_b2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_2, memory_visual_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(mem_visual_bl_1_15, user_memory_composite_score_visual_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(mem_visual_bl_2_15, user_memory_composite_score_visual_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(mem_visual_bl_2_15, memory_visual_diff)
+```
+
+### Visual Motor {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+visual_motor_bl_1_15 <- age_15_b1 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_1) %>% 
+  na.omit()
+
+visual_motor_bl_2_15 <- age_15_b2 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_2, visual_motor_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(visual_motor_bl_1_15, user_visual_motor_composite_score_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(visual_motor_bl_2_15, user_visual_motor_composite_score_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(visual_motor_bl_2_15, visual_motor_diff)
+```
+
+### Impulse Control {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+impulse_control_bl_1_15 <- age_15_b1 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_1) %>% 
+  na.omit()
+
+impulse_control_bl_2_15 <- age_15_b2 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_2, impulse_control_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(impulse_control_bl_1_15, user_impulse_control_composite_score_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(impulse_control_bl_2_15, user_impulse_control_composite_score_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(impulse_control_bl_2_15, impulse_control_diff)
+```
+
+### Reaction Time {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+reaction_time_bl_1_15 <- age_15_b1 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_1) %>% 
+  na.omit()
+
+reaction_time_bl_2_15 <- age_15_b2 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_2, reaction_time_diff) %>% 
+  na.omit()
+```
+
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(reaction_time_bl_1_15, user_reaction_time_composite_score_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(reaction_time_bl_2_15, user_reaction_time_composite_score_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(reaction_time_bl_2_15, reaction_time_diff)
+```
+
+## Age 16 {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+age_16_b1 <- baseline_age %>% 
+  filter(user_age_1 == 16) 
+
+age_16_b2 <- baseline_age %>% 
+  filter(user_age_2 == 16) 
+```
+
+### Verbal Memory {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+mem_verbal_bl_1_16 <- age_16_b1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_1) %>% 
+  na.omit()
+
+mem_verbal_bl_2_16 <- age_16_b2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_2, memory_verbal_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(mem_verbal_bl_1_16, user_memory_composite_score_verbal_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(mem_verbal_bl_2_16, user_memory_composite_score_verbal_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(mem_verbal_bl_2_16, memory_verbal_diff)
+```
+
+### Visual Memory {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+mem_visual_bl_1_16 <- age_16_b1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_1) %>% 
+  na.omit()
+
+mem_visual_bl_2_16 <- age_16_b2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_2, memory_visual_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(mem_visual_bl_1_16, user_memory_composite_score_visual_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(mem_visual_bl_2_16, user_memory_composite_score_visual_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(mem_visual_bl_2_16, memory_visual_diff)
+```
+
+### Visual Motor {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+visual_motor_bl_1_16 <- age_16_b1 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_1) %>% 
+  na.omit()
+
+visual_motor_bl_2_16 <- age_16_b2 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_2, visual_motor_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(visual_motor_bl_1_16, user_visual_motor_composite_score_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(visual_motor_bl_2_16, user_visual_motor_composite_score_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(visual_motor_bl_2_16, visual_motor_diff)
+```
+
+### Impulse Control {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+impulse_control_bl_1_16 <- age_16_b1 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_1) %>% 
+  na.omit()
+
+impulse_control_bl_2_16 <- age_16_b2 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_2, impulse_control_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(impulse_control_bl_1_16, user_impulse_control_composite_score_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(impulse_control_bl_2_16, user_impulse_control_composite_score_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(impulse_control_bl_2_16, impulse_control_diff)
+```
+
+### Reaction Time {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+reaction_time_bl_1_16 <- age_16_b1 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_1) %>% 
+  na.omit()
+
+reaction_time_bl_2_16 <- age_16_b2 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_2, reaction_time_diff) %>% 
+  na.omit()
+```
+
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(reaction_time_bl_1_16, user_reaction_time_composite_score_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(reaction_time_bl_2_16, user_reaction_time_composite_score_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(reaction_time_bl_2_16, reaction_time_diff)
+```
+
+## Age 17 {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+age_17_b1 <- baseline_age %>% 
+  filter(user_age_1 == 17) 
+
+age_17_b2 <- baseline_age %>% 
+  filter(user_age_2 == 17) 
+```
+
+### Verbal Memory {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+mem_verbal_bl_1_17 <- age_17_b1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_1) %>% 
+  na.omit()
+
+mem_verbal_bl_2_17 <- age_17_b2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_2, memory_verbal_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(mem_verbal_bl_1_17, user_memory_composite_score_verbal_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(mem_verbal_bl_2_17, user_memory_composite_score_verbal_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(mem_verbal_bl_2_17, memory_verbal_diff)
+```
+
+### Visual Memory {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+mem_visual_bl_1_17 <- age_17_b1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_1) %>% 
+  na.omit()
+
+mem_visual_bl_2_17 <- age_17_b2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_2, memory_visual_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(mem_visual_bl_1_17, user_memory_composite_score_visual_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(mem_visual_bl_2_17, user_memory_composite_score_visual_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(mem_visual_bl_2_17, memory_visual_diff)
+```
+
+### Visual Motor {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+visual_motor_bl_1_17 <- age_11_b1 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_1) %>% 
+  na.omit()
+
+visual_motor_bl_2_17 <- age_11_b2 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_2, visual_motor_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(visual_motor_bl_1_17, user_visual_motor_composite_score_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(visual_motor_bl_2_17, user_visual_motor_composite_score_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(visual_motor_bl_2_17, visual_motor_diff)
+```
+
+### Impulse Control {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+impulse_control_bl_1_17 <- age_17_b1 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_1) %>% 
+  na.omit()
+
+impulse_control_bl_2_17 <- age_17_b2 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_2, impulse_control_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(impulse_control_bl_1_17, user_impulse_control_composite_score_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(impulse_control_bl_2_17, user_impulse_control_composite_score_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(impulse_control_bl_2_17, impulse_control_diff)
+```
+
+### Reaction Time {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+reaction_time_bl_1_17 <- age_17_b1 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_1) %>% 
+  na.omit()
+
+reaction_time_bl_2_17 <- age_17_b2 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_2, reaction_time_diff) %>% 
+  na.omit()
+```
+
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(reaction_time_bl_1_17, user_reaction_time_composite_score_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(reaction_time_bl_2_17, user_reaction_time_composite_score_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(reaction_time_bl_2_17, reaction_time_diff)
+```
+
+## Age 18 {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+age_18_b1 <- baseline_age %>% 
+  filter(user_age_1 == 18) 
+
+age_18_b2 <- baseline_age %>% 
+  filter(user_age_2 == 18) 
+```
+
+### Verbal Memory {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+mem_verbal_bl_1_18 <- age_18_b1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_1) %>% 
+  na.omit()
+
+mem_verbal_bl_2_18 <- age_18_b2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_2, memory_verbal_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(mem_verbal_bl_1_18, user_memory_composite_score_verbal_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(mem_verbal_bl_2_18, user_memory_composite_score_verbal_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(mem_verbal_bl_2_18, memory_verbal_diff)
+```
+
+### Visual Memory {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+mem_visual_bl_1_18 <- age_18_b1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_1) %>% 
+  na.omit()
+
+mem_visual_bl_2_18 <- age_18_b2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_2, memory_visual_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(mem_visual_bl_1_18, user_memory_composite_score_visual_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(mem_visual_bl_2_18, user_memory_composite_score_visual_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(mem_visual_bl_2_18, memory_visual_diff)
+```
+
+### Visual Motor {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+visual_motor_bl_1_18 <- age_18_b1 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_1) %>% 
+  na.omit()
+
+visual_motor_bl_2_18 <- age_18_b2 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_2, visual_motor_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(visual_motor_bl_1_18, user_visual_motor_composite_score_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(visual_motor_bl_2_18, user_visual_motor_composite_score_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(visual_motor_bl_2_18, visual_motor_diff)
+```
+
+### Impulse Control {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+impulse_control_bl_1_18 <- age_18_b1 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_1) %>% 
+  na.omit()
+
+impulse_control_bl_2_18 <- age_18_b2 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_2, impulse_control_diff) %>% 
+  na.omit()
+```
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(impulse_control_bl_1_18, user_impulse_control_composite_score_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(impulse_control_bl_2_18, user_impulse_control_composite_score_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(impulse_control_bl_2_18, impulse_control_diff)
+```
+
+### Reaction Time {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+reaction_time_bl_1_18 <- age_18_b1 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_1) %>% 
+  na.omit()
+
+reaction_time_bl_2_18 <- age_18_b2 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_2, reaction_time_diff) %>% 
+  na.omit()
+```
+
+
+#### Baseline 1 
+
+```{r, include=TRUE}
+create_react(reaction_time_bl_1_18, user_reaction_time_composite_score_1)
+```
+
+#### Baseline 2 
+
+```{r, include=TRUE}
+create_react(reaction_time_bl_2_18, user_reaction_time_composite_score_2)
+```
+
+#### Point Increase 
+
+```{r, include=TRUE}
+create_react(reaction_time_bl_2_18, reaction_time_diff)
+```
+
+# Baseline and Post-Injury Test Comparison 
+
+```{r, include=FALSE}
+head(baseline)
+head(baseline3)
+
+one_baseline <- baseline3 %>% 
+  dplyr::select(c(1:16))
+
+one_baseline <- one_baseline %>% 
+  na.omit()
+
+post_injury <- test_time_baseline %>% 
+  filter(test_type == "Post-Injury 1")
+
+multiple_baseline <- baseline %>% 
+  group_by(passport_id) %>% 
+  filter(n() > 1) %>% 
+  mutate(baseline_number = row_number()) %>% 
+  spread(baseline_number, test_type, sep = "_") %>% 
+  arrange(passport_id)
+
+#mem verbal organization
+multiple_mem_verbal <- multiple_baseline %>% 
+  group_by(passport_id) %>% 
+  mutate(number = row_number()) %>% 
+  ungroup() %>% 
+  pivot_wider(
+    id_cols = passport_id,
+    names_from = number,
+    values_from = c(test_date, user_memory_composite_score_verbal),
+    names_glue = "{.value}_{number}") 
+
+one_mem_verbal <- multiple_mem_verbal %>% 
+  dplyr::select(c(1, 2, 11)) %>% 
+  arrange(passport_id) %>% 
+  na.omit() 
+
+#mem visual organization
+multiple_mem_visual <- multiple_baseline %>% 
+  group_by(passport_id) %>% 
+  mutate(number = row_number()) %>% 
+  ungroup() %>% 
+  pivot_wider(
+    id_cols = passport_id,
+    names_from = number,
+    values_from = c(test_date, user_memory_composite_score_visual),
+    names_glue = "{.value}_{number}")  
+
+one_mem_visual <- multiple_mem_visual %>% 
+  dplyr::select(c(1, 2, 11)) %>% 
+  arrange(passport_id) %>% 
+  na.omit()
+
+#visual motor organization
+multiple_visual_motor <- multiple_baseline %>% 
+  group_by(passport_id) %>% 
+  mutate(number = row_number()) %>% 
+  ungroup() %>% 
+  pivot_wider(
+    id_cols = passport_id,
+    names_from = number,
+    values_from = c(test_date, user_visual_motor_composite_score),
+    names_glue = "{.value}_{number}")
+
+one_visual_motor <- multiple_visual_motor %>% 
+  dplyr::select(c(1, 2, 11)) %>% 
+  arrange(passport_id) %>% 
+  na.omit()
+
+#impulse control organization - total of 420 
+multiple_impulse_control <- multiple_baseline %>% 
+  group_by(passport_id) %>% 
+  mutate(number = row_number()) %>% 
+  ungroup() %>% 
+  pivot_wider(
+    id_cols = passport_id,
+    names_from = number,
+    values_from = c(test_date, user_impulse_control_composite_score),
+    names_glue = "{.value}_{number}")
+
+one_impulse_control <- multiple_impulse_control %>% 
+  dplyr::select(c(1, 2, 11)) %>% 
+  arrange(passport_id) %>% 
+  na.omit()
+
+#reaction time organization
+multiple_reaction_time <- multiple_baseline %>% 
+  group_by(passport_id) %>% 
+  mutate(number = row_number()) %>% 
+  ungroup() %>% 
+  pivot_wider(
+    id_cols = passport_id,
+    names_from = number,
+    values_from = c(test_date, user_reaction_time_composite_score),
+    names_glue = "{.value}_{number}")
+
+one_reaction_time <- multiple_reaction_time %>% 
+  dplyr::select(c(1, 2, 11)) %>% 
+  arrange(passport_id) %>% 
+  na.omit()
+
+#baseline joins 
+# one baseline join - total of 18,748
+one_a <- full_join(one_mem_verbal, one_mem_visual)
+one_b <- full_join(one_a, one_impulse_control)
+one_c <- full_join(one_b, one_reaction_time)
+one_baseline <- full_join(one_c, one_visual_motor)
+
+one_baseline <- one_baseline %>% 
+  na.omit()
+
+
+#post-injury wide data sets 
+#verbal memory 
+post_injury_mem_verbal <- post_injury %>% 
+  group_by(passport_id, test_type) %>% 
+  mutate(row = row_number()) %>% 
+  ungroup() %>% 
+  pivot_wider(
+    id_cols = c(row, passport_id),
+    names_from = test_type,
+    values_from = c(test_date, user_memory_composite_score_verbal),
+  ) %>% 
+  arrange(passport_id) %>% 
+  janitor::clean_names() 
+
+one_pi_mem_verbal <- post_injury_mem_verbal %>% 
+  arrange(passport_id) %>% 
+  na.omit()
+
+#visual memory 
+post_injury_mem_visual <- post_injury %>% 
+  group_by(passport_id, test_type) %>% 
+  mutate(row = row_number()) %>% 
+  ungroup() %>% 
+  pivot_wider(
+    id_cols = c(row, passport_id),
+    names_from = test_type,
+    values_from = c(test_date, user_memory_composite_score_visual),
+  ) %>% 
+  arrange(passport_id) %>% 
+  janitor::clean_names() 
+
+one_pi_mem_visual <- post_injury_mem_visual %>% 
+  arrange(passport_id) %>% 
+  na.omit()
+
+# visual motor
+post_injury_visual_motor <- post_injury %>% 
+  group_by(passport_id, test_type) %>% 
+  mutate(row = row_number()) %>% 
+  ungroup() %>% 
+  pivot_wider(
+    id_cols = c(row, passport_id),
+    names_from = test_type,
+    values_from = c(test_date, user_visual_motor_composite_score),
+  ) %>% 
+  arrange(passport_id) %>% 
+  janitor::clean_names() 
+
+one_pi_visual_motor <- post_injury_visual_motor %>% 
+  arrange(passport_id) %>% 
+  na.omit()
+
+#impulse control
+post_injury_impulse_control <- post_injury %>% 
+  group_by(passport_id, test_type) %>% 
+  mutate(row = row_number()) %>% 
+  ungroup() %>% 
+  pivot_wider(
+    id_cols = c(row, passport_id),
+    names_from = test_type,
+    values_from = c(test_date, user_impulse_control_composite_score),
+  ) %>% 
+  arrange(passport_id) %>% 
+  janitor::clean_names() 
+
+one_pi_impulse_control <- post_injury_impulse_control %>% 
+  arrange(passport_id) %>% 
+  na.omit()
+
+# reaction time
+post_injury_reaction_time <- post_injury %>% 
+  group_by(passport_id, test_type) %>% 
+  mutate(row = row_number()) %>% 
+  ungroup() %>% 
+  pivot_wider(
+    id_cols = c(row, passport_id),
+    names_from = test_type,
+    values_from = c(test_date, user_reaction_time_composite_score),
+  ) %>% 
+  arrange(passport_id) %>% 
+  janitor::clean_names() 
+
+one_pi_reaction_time <- post_injury_reaction_time %>% 
+  arrange(passport_id) %>% 
+  na.omit()
+
+# one post injury join - total of 10,042
+pi_one_a <- full_join(one_pi_mem_verbal, one_pi_mem_visual)
+pi_one_b <- full_join(pi_one_a, one_pi_impulse_control)
+pi_one_c <- full_join(pi_one_b, one_pi_reaction_time)
+one_pi <- full_join(pi_one_c, one_pi_visual_motor)
+
+one_pi <- one_pi %>% 
+  na.omit()
+
+# baseline and post-injury joins 
+one_bl_pi <- right_join(one_baseline, one_pi) %>% 
+  na.omit()
+
+one_bl_pi <- one_bl_pi %>% 
+  dplyr::select(-(test_date_1))
+
+```
+
+```{r, include=FALSE}
+# adding other descriptor variables 
+head(baseline)
+
+head(post_injury)
+
+#baseline 1 age
+
+age_bl_1 <- baseline3 %>% 
+  group_by(passport_id) %>% 
+  mutate(number = row_number()) %>% 
+  ungroup() %>% 
+  pivot_wider(
+    id_cols = passport_id,
+    names_from = number,
+    values_from = c(test_date, user_age),
+    names_glue = "{.value}_{number}"
+  ) 
+
+age_bl_1 <- age_bl_1 %>% 
+  dplyr::select(passport_id,
+         test_date_1,
+         user_age_1) %>% 
+  rename(baseline_1_age = user_age_1)
+
+# post-injury 1 age
+
+age_pi_1 <- post_injury %>% 
+  group_by(passport_id) %>% 
+  mutate(number = row_number()) %>% 
+  ungroup() %>% 
+  pivot_wider(
+    id_cols = passport_id,
+    names_from = number,
+    values_from = c(test_date, user_age),
+    names_glue = "{.value}_{number}"
+  ) 
+
+age_pi_1 <- age_pi_1 %>% 
+  dplyr::select(passport_id,
+         test_date_1,
+         user_age_1) %>% 
+  rename(post_injury_1_age = user_age_1)
+
+# school baseline 1
+school_bl_1 <- baseline3 %>% 
+  group_by(passport_id) %>% 
+  mutate(number = row_number()) %>% 
+  ungroup() %>% 
+  pivot_wider(
+    id_cols = passport_id,
+    names_from = number,
+    values_from = c(test_date, org_name),
+    names_glue = "{.value}_{number}"
+  ) 
+
+school_bl_1 <- school_bl_1 %>% 
+  dplyr::select(passport_id,
+         test_date_1,
+         org_name_1) %>% 
+  rename(baseline_1_school = org_name_1)
+
+
+# school post_injury 1
+school_pi_1 <- post_injury %>% 
+  group_by(passport_id) %>% 
+  mutate(number = row_number()) %>% 
+  ungroup() %>% 
+  pivot_wider(
+    id_cols = passport_id,
+    names_from = number,
+    values_from = c(test_date, org_name),
+    names_glue = "{.value}_{number}"
+  ) 
+
+school_pi_1 <- school_pi_1 %>% 
+  dplyr::select(passport_id,
+         test_date_1,
+         org_name_1) %>% 
+  rename(post_injury_1_school = org_name_1)
+
+# sport baseline 1
+sport_bl_1 <- baseline3 %>% 
+  group_by(passport_id) %>% 
+  mutate(number = row_number()) %>% 
+  ungroup() %>% 
+  pivot_wider(
+    id_cols = passport_id,
+    names_from = number,
+    values_from = c(test_date, user_current_sport),
+    names_glue = "{.value}_{number}") 
+
+sport_bl_1 <- sport_bl_1 %>% 
+  dplyr::select(passport_id,
+         test_date_1,
+         user_current_sport_1) %>% 
+  rename(baseline_1_sport = user_current_sport_1)
+
+# sport post-injury 1
+sport_pi_1 <- post_injury %>% 
+  group_by(passport_id) %>% 
+  mutate(number = row_number()) %>% 
+  ungroup() %>% 
+  pivot_wider(
+    id_cols = passport_id,
+    names_from = number,
+    values_from = c(test_date, user_current_sport),
+    names_glue = "{.value}_{number}") 
+
+sport_pi_1 <- sport_pi_1 %>% 
+  dplyr::select(passport_id,
+         test_date_1,
+         user_current_sport_1) %>% 
+  rename(post_injury_1_sport = user_current_sport_1)
+
+
+```
+
+```{r, include=FALSE}
+# join baseline descriptors 
+
+baseline_join_1 <- full_join(age_bl_1, school_bl_1)
+baseline_desc <- full_join(baseline_join_1, sport_bl_1)
+
+baseline_desc <- baseline_desc %>% 
+  dplyr::select(-(test_date_1))
+
+# join post injury descriptors 
+
+post_injury_join_1 <- full_join(age_pi_1, school_pi_1)
+post_injury_desc <- full_join(post_injury_join_1, sport_pi_1)
+
+post_injury_desc <- post_injury_desc %>% 
+  dplyr::select(-(test_date_1))
+
+```
+
+```{r, include=FALSE}
+# test dates 
+date_bl_1 <- baseline3 %>% 
+  group_by(passport_id) %>% 
+  mutate(number = row_number()) %>% 
+  ungroup() %>% 
+  pivot_wider(
+    id_cols = passport_id,
+    names_from = number,
+    values_from = c(test_date),
+    names_glue = "{.value}_{number}") 
+
+date_bl_1 <- date_bl_1 %>% 
+  dplyr::select(passport_id,
+         test_date_1) %>% 
+  rename(baseline_test_date = test_date_1)
+
+# sport post-injury 1
+date_pi_1 <- post_injury %>% 
+  group_by(passport_id) %>% 
+  mutate(number = row_number()) %>% 
+  ungroup() %>% 
+  pivot_wider(
+    id_cols = passport_id,
+    names_from = number,
+    values_from = c(test_date),
+    names_glue = "{.value}_{number}") 
+
+date_pi_1 <- date_pi_1 %>% 
+  dplyr::select(passport_id,
+         test_date_1) %>% 
+  rename(post_injury_test_date = test_date_1)
+
+baseline_desc <- left_join(baseline_desc, date_bl_1)
+
+post_injury_desc <- left_join(post_injury_desc, date_pi_1)
+
+# baseline and post-injury joins 
+bl_pi_desc <- right_join(baseline_desc, post_injury_desc) %>% 
+  na.omit()
+
+one_baseline_post_injury <- left_join(one_bl_pi, bl_pi_desc)
+
+one_baseline_post_injury <- one_baseline_post_injury %>% 
+  arrange(passport_id)
+
+missing_info_one_baseline_post_injury <- one_baseline_post_injury %>% 
+  na.omit()
+
+```
+
+## Background Information {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+total_one_bl_pi <- one_baseline_post_injury %>% 
+  summarize(length(passport_id))
+
+total_one_bl_pi_missing_removed <- missing_info_one_baseline_post_injury %>% 
+  summarize(length(passport_id))
+
+bl_pi_sum <- data.frame("Level" = c("One baseline and one post-injury test", "Missing data removed (e.g. age, sport, school)"), "Total" = c(4540, 3816))
+```
+
+### Sample Size 
+
+```{r, include=TRUE}
+bl_pi_sum %>% 
+  reactable(columns = list(
+    Level = colDef(name = "Level"),
+    Total = colDef(name = "Total", 
+                   format = colFormat(separators = TRUE, suffix = " individuals"))),
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE)
+```
+
+### Age Range Baseline 
+
+```{r, include=TRUE}
+create_react(missing_info_one_baseline_post_injury, baseline_1_age)
+```
+
+### Age Totals Baseline 
+
+```{r, include=FALSE}
+age_tbl_bl <- missing_info_one_baseline_post_injury %>% 
+  group_by(baseline_1_age) %>% 
+  summarize(total = n()) %>% 
+  na.omit() %>% 
+  reactable(
+    columns = list(
+      baseline_1_age = colDef(name = "Age"),
+      total = colDef(name = "Total",
+                     format = colFormat(separators = TRUE, suffix = " individuals"))),
+    pagination = TRUE,
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    searchable = TRUE
+  )
+
+age_tbl_bl
+```
+
+```{r, include=TRUE}
+age_tbl_bl
+```
+
+### Age Range Post-Injury
+
+```{r, include=TRUE}
+create_react(missing_info_one_baseline_post_injury, post_injury_1_age)
+```
+
+### Age Totals Post-Injury
+
+```{r, include=FALSE}
+age_tbl_pi <- missing_info_one_baseline_post_injury %>% 
+  group_by(post_injury_1_age) %>% 
+  summarize(total = n()) %>% 
+  na.omit() %>% 
+  reactable(
+    columns = list(
+      post_injury_1_age = colDef(name = "Age"),
+      total = colDef(name = "Total",
+                     format = colFormat(separators = TRUE, suffix = " individuals"))),
+    pagination = TRUE,
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    searchable = TRUE
+  )
+
+```
+
+```{r, include=TRUE}
+age_tbl_pi
+```
+
+### School Baseline 
+
+```{r, include=FALSE}
+school_tbl_bl <- missing_info_one_baseline_post_injury %>% 
+  group_by(baseline_1_school) %>% 
+  summarize(total = n()) %>% 
+  na.omit() %>% 
+  reactable(
+    columns = list(
+      baseline_1_school = colDef(name = "School"),
+      total = colDef(name = "Total",
+                     format = colFormat(separators = TRUE, suffix = " individuals"))),
+    pagination = TRUE,
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    searchable = TRUE
+  )
+```
+
+```{r, include=TRUE}
+school_tbl_bl
+```
+
+### School Post-Injury
+
+```{r, include=FALSE}
+school_tbl_pi <- missing_info_one_baseline_post_injury %>% 
+  group_by(post_injury_1_school) %>% 
+  summarize(total = n()) %>% 
+  na.omit() %>% 
+  reactable(
+    columns = list(
+      post_injury_1_school = colDef(name = "School"),
+      total = colDef(name = "Total",
+                     format = colFormat(separators = TRUE, suffix = " individuals"))),
+    pagination = TRUE,
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    searchable = TRUE
+  )
+```
+
+```{r, include=TRUE}
+school_tbl_pi
+```
+
+
+### Sport Baseline 
+
+```{r, include=FALSE}
+sport_tbl_bl <- missing_info_one_baseline_post_injury %>% 
+  group_by(baseline_1_sport) %>% 
+  summarize(total = n()) %>% 
+  na.omit() %>% 
+  reactable(
+    columns = list(
+      baseline_1_sport = colDef(name = "Sport"),
+      total = colDef(name = "Total",
+                     format = colFormat(separators = TRUE, suffix = " individuals"))),
+    pagination = TRUE,
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    searchable = TRUE
+  )
+```
+
+```{r, include=TRUE}
+sport_tbl_bl
+```
+
+### Sport Post-Injury
+
+```{r, include=FALSE}
+sport_tbl_pi <- missing_info_one_baseline_post_injury %>% 
+  group_by(post_injury_1_sport) %>% 
+  summarize(total = n()) %>% 
+  na.omit() %>% 
+  reactable(
+    columns = list(
+      post_injury_1_sport = colDef(name = "Sport"),
+      total = colDef(name = "Total",
+                     format = colFormat(separators = TRUE, suffix = " individuals"))),
+    pagination = TRUE,
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    searchable = TRUE
+  )
+```
+
+```{r, include=TRUE}
+sport_tbl_pi
+```
+
+# Percent Decrease from Baseline to Post-Injury 
+
