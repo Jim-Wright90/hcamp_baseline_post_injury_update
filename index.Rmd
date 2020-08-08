@@ -4612,3 +4612,305 @@ sport_tbl_pi
 
 # Percent Decrease from Baseline to Post-Injury 
 
+## Verbal Memory {.tabset .tabset-fade .tabset-pills}
+
+A paired *T*-test was used to compare the mean verbal memory composite scores of individuals who completed one baseline and one post-injury assessment (*n* = 4,540). Performance on the verbal memory composite between baseline 1 and post-injury 1 assessments was determined to not be significant, *t*(4,539) = 1.837, *p* = .066. The mean baseline 1 score (*M* = 82.56) was not significantly different than the mean post-injury 1 score (*M* = 82.19).
+
+```{r, include=FALSE}
+one_bl_pi
+
+one_bl_pi_mem_verbal <- one_bl_pi %>% 
+  dplyr::select(1, 2, 9)
+
+one_bl_pi_mem_verbal_long <- one_bl_pi_mem_verbal %>% 
+  pivot_longer(
+    cols = c(2:3),
+    names_to = "test",
+    names_prefix = "user_memory_composite_score_",
+    values_to = "score"
+  )
+
+bl_pi_mem_verbal_1 <- one_bl_pi_mem_verbal$user_memory_composite_score_verbal_1
+bl_pi_mem_verbal_2 <- one_bl_pi_mem_verbal$user_memory_composite_score_verbal_post_injury_1
+
+one_bl_pi_mem_verbal_res <- t.test(bl_pi_mem_verbal_1, bl_pi_mem_verbal_2, paired = TRUE)
+
+one_bl_pi_mem_verbal_res
+
+mean_2(one_bl_pi_mem_verbal$user_memory_composite_score_verbal_1)
+mean_2(one_bl_pi_mem_verbal$user_memory_composite_score_verbal_post_injury_1)
+```
+
+### Boxplot
+```{r, include=TRUE}
+box_p(one_bl_pi_mem_verbal_long, test, score) +
+  stat_compare_means(method = "t.test", paired = TRUE, hjust = -0.5)
+```
+
+### *T*-Test Results
+```{r, include=TRUE}
+one_bl_pi_mem_verbal_res
+```
+
+### Baseline Summary
+```{r, include=TRUE}
+create_react(one_bl_pi_mem_verbal, user_memory_composite_score_verbal_1)
+```
+
+### Baseline Histogram
+```{r, include=TRUE}
+score_hist(one_bl_pi_mem_verbal, user_memory_composite_score_verbal_1)
+```
+
+### Post-Injury Summary
+```{r, include=TRUE}
+create_react(one_bl_pi_mem_verbal, user_memory_composite_score_verbal_post_injury_1)
+```
+
+### Post-Injury Histogram
+```{r, include=TRUE}
+score_hist(one_bl_pi_mem_verbal, user_memory_composite_score_verbal_post_injury_1)
+```
+
+
+## Visual Memory {.tabset .tabset-fade .tabset-pills}
+
+A paired *T*-test was used to compare the mean visual memory composite scores of individuals who completed one baseline and one post-injury assessment (*n* = 4,540). Performance on the visual memory composite between baseline 1 and post-injury 1 assessments was determined to not be significant, *t*(4,539) = -0.497, *p* = .62. The mean baseline 1 score (*M* = 72.16) was not significantly different than the mean post-injury 1 score (*M* = 72.27).
+
+```{r, include=FALSE}
+one_bl_pi
+
+one_bl_pi_mem_visual <- one_bl_pi %>% 
+  dplyr::select(1, 3, 10)
+
+one_bl_pi_mem_visual_long <- one_bl_pi_mem_visual %>% 
+  pivot_longer(
+    cols = c(2:3),
+    names_to = "test",
+    names_prefix = "user_memory_composite_score_",
+    values_to = "score"
+  )
+
+bl_pi_mem_visual_1 <- one_bl_pi_mem_visual$user_memory_composite_score_visual_1
+bl_pi_mem_visual_2 <- one_bl_pi_mem_visual$user_memory_composite_score_visual_post_injury_1
+
+one_bl_pi_mem_visual_res <- t.test(bl_pi_mem_visual_1, bl_pi_mem_visual_2, paired = TRUE)
+one_bl_pi_mem_visual_res
+mean_2(one_bl_pi_mem_visual$user_memory_composite_score_visual_1)
+mean_2(one_bl_pi_mem_visual$user_memory_composite_score_visual_post_injury_1)
+```
+
+### Boxplot
+```{r, include=TRUE}
+box_p(one_bl_pi_mem_visual_long, test, score) +
+  stat_compare_means(method = "t.test", paired = TRUE, hjust = -0.5)
+```
+
+### *T*-Test Results
+```{r, include=TRUE}
+one_bl_pi_mem_visual_res
+```
+
+### Baseline Summary
+```{r, include=TRUE}
+create_react(one_bl_pi_mem_visual, user_memory_composite_score_visual_1)
+```
+
+### Baseline Histogram
+```{r, include=TRUE}
+score_hist(one_bl_pi_mem_verbal, user_memory_composite_score_verbal_1)
+```
+
+### Post-Injury Summary
+```{r, include=TRUE}
+create_react(one_bl_pi_mem_visual, user_memory_composite_score_visual_post_injury_1)
+```
+
+### Post-Injury Histogram
+```{r, include=TRUE}
+score_hist(one_bl_pi_mem_visual, user_memory_composite_score_visual_post_injury_1)
+```
+
+
+
+## Visual Motor {.tabset .tabset-fade .tabset-pills}
+
+A paired *T*-test was used to compare the mean visual motor composite scores of individuals who completed one baseline and one post-injury assessment (*n* = 4,540). Performance on the visual motor composite between baseline 1 and post-injury 1 assessments was determined to be significantly different with individuals achieving a better visual motor score on the post-injury assessment, *t*(4,539) = -19.244, *p* < .0001. The mean baseline 1 score (*M* = 34.11) was significantly different than the mean post-injury 1 score (*M* = 36.04).
+
+```{r, include=FALSE}
+one_bl_pi
+
+one_bl_pi_visual_motor <- one_bl_pi %>% 
+  dplyr::select(1, 6, 13)
+
+one_bl_pi_visual_motor_long <- one_bl_pi_visual_motor %>% 
+  pivot_longer(
+    cols = c(2:3),
+    names_to = "test",
+    names_prefix = "user_visual_motor_composite_score_",
+    values_to = "score"
+  )
+
+bl_pi_visual_motor_1 <- one_bl_pi_visual_motor$user_visual_motor_composite_score_1
+bl_pi_visual_motor_2 <- one_bl_pi_visual_motor$user_visual_motor_composite_score_post_injury_1
+one_bl_pi_visual_motor_res <- t.test(bl_pi_visual_motor_1,
+                                        bl_pi_visual_motor_2,
+                                        paired = TRUE)
+one_bl_pi_visual_motor_res
+mean_2(one_bl_pi_visual_motor$user_visual_motor_composite_score_1)
+mean_2(one_bl_pi_visual_motor$user_visual_motor_composite_score_post_injury_1)
+```
+
+### Boxplot
+```{r, include=TRUE}
+box_p(one_bl_pi_visual_motor_long, test, score) +
+  stat_compare_means(method = "t.test", paired = TRUE, hjust = -0.5)
+```
+
+### *T*-Test Results
+```{r, include=TRUE}
+one_bl_pi_visual_motor_res
+```
+
+### Baseline Summary
+```{r, include=TRUE}
+create_react(one_bl_pi_visual_motor, user_visual_motor_composite_score_1)
+```
+
+### Baseline Histogram
+```{r, include=TRUE}
+score_hist(one_bl_pi_visual_motor, user_visual_motor_composite_score_1)
+```
+
+### Post-Injury Summary
+```{r, include=TRUE}
+create_react(one_bl_pi_visual_motor, user_visual_motor_composite_score_post_injury_1)
+```
+
+### Post-Injury Histogram
+```{r, include=TRUE}
+score_hist(one_bl_pi_visual_motor, user_visual_motor_composite_score_post_injury_1)
+```
+
+
+## Impulse Control {.tabset .tabset-fade .tabset-pills}
+
+A paired *T*-test was used to compare the mean impulse control composite scores of individuals who completed one baseline and one post-injury assessment (*n* = 4,540). Performance on the impulse control composite between baseline 1 and post-injury 1 assessments was determined to not be significant, *t*(4,539) = -0.850, *p* = .395. The mean baseline 1 score (*M* = 7.73) was not significantly different than the mean post-injury 1 score (*M* = 7.82).
+
+```{r, include=FALSE}
+one_bl_pi
+
+one_bl_pi_impulse_control <- one_bl_pi %>% 
+  dplyr::select(1, 4, 11)
+
+one_bl_pi_impulse_control_long <- one_bl_pi_impulse_control %>% 
+  pivot_longer(
+    cols = c(2:3),
+    names_to = "test",
+    names_prefix = "user_impulse_control_composite_score_",
+    values_to = "score"
+  )
+
+bl_pi_impulse_control_1 <- one_bl_pi_impulse_control$user_impulse_control_composite_score_1
+bl_pi_impulse_control_2 <- one_bl_pi_impulse_control$user_impulse_control_composite_score_post_injury_1
+
+one_bl_pi_impulse_control_res <- t.test(bl_pi_impulse_control_1,
+                                        bl_pi_impulse_control_2,
+                                        paired = TRUE)
+one_bl_pi_impulse_control_res
+mean_2(one_bl_pi_impulse_control$user_impulse_control_composite_score_1)
+mean_2(one_bl_pi_impulse_control$user_impulse_control_composite_score_post_injury_1)
+```
+
+### Boxplot
+```{r, include=TRUE}
+box_p(one_bl_pi_impulse_control_long, test, score) +
+  stat_compare_means(method = "t.test", paired = TRUE, hjust = -0.5)
+```
+
+### *T*-Test Results
+```{r, include=TRUE}
+one_bl_pi_impulse_control_res
+```
+
+### Baseline Summary
+```{r, include=TRUE}
+create_react(one_bl_pi_impulse_control, user_impulse_control_composite_score_1)
+```
+
+### Baseline Histogram
+```{r, include=TRUE}
+score_hist(one_bl_pi_impulse_control, user_impulse_control_composite_score_1)
+```
+
+### Post-Injury Summary
+```{r, include=TRUE}
+create_react(one_bl_pi_impulse_control, user_impulse_control_composite_score_post_injury_1)
+```
+
+### Post-Injury Histogram
+```{r, include=TRUE}
+score_hist(one_bl_pi_impulse_control, user_impulse_control_composite_score_post_injury_1)
+```
+
+
+## Reaction Time {.tabset .tabset-fade .tabset-pills}
+
+A paired *T*-test was used to compare the mean reaction time composite scores of individuals who completed one baseline and one post-injury assessment (*n* = 4,540). Performance on the reaction time composite between baseline 1 and post-injury 1 assessments was determined to be significantly different with individuals achieving a better reaction time score on the baseline assessment, *t*(4,539) = -3.893, *p* = .0001. The mean baseline 1 score (*M* = 0.64) was significantly different than the mean post-injury 1 score (*M* = 0.65).
+
+```{r, include=FALSE}
+one_bl_pi
+
+one_bl_pi_reaction_time <- one_bl_pi %>% 
+  dplyr::select(1, 5, 12)
+
+one_bl_pi_reaction_time_long <- one_bl_pi_reaction_time %>% 
+  pivot_longer(
+    cols = c(2:3),
+    names_to = "test",
+    names_prefix = "user_reaction_time_composite_score_",
+    values_to = "score"
+  )
+
+bl_pi_reaction_time_1 <- one_bl_pi_reaction_time$user_reaction_time_composite_score_1
+bl_pi_reaction_time_2 <- one_bl_pi_reaction_time$user_reaction_time_composite_score_post_injury_1
+
+one_bl_pi_reaction_time_res <- t.test(bl_pi_reaction_time_1,
+                                        bl_pi_reaction_time_2,
+                                        paired = TRUE)
+one_bl_pi_reaction_time_res
+mean_2(one_bl_pi_reaction_time$user_reaction_time_composite_score_1)
+mean_2(one_bl_pi_reaction_time$user_reaction_time_composite_score_post_injury_1)
+```
+
+### Boxplot
+```{r, include=TRUE}
+box_p(one_bl_pi_reaction_time_long, test, score) +
+  stat_compare_means(method = "t.test", paired = TRUE, hjust = -0.5)
+```
+
+### *T*-Test Results
+```{r, include=TRUE}
+one_bl_pi_reaction_time_res
+```
+
+### Baseline Summary
+```{r, include=TRUE}
+create_react(one_bl_pi_reaction_time, user_reaction_time_composite_score_1)
+```
+
+### Baseline Histogram
+```{r, include=TRUE}
+score_hist(one_bl_pi_reaction_time, user_reaction_time_composite_score_1)
+```
+
+### Post-Injury Summary
+```{r, include=TRUE}
+create_react(one_bl_pi_reaction_time, user_reaction_time_composite_score_post_injury_1)
+```
+
+### Post-Injury Histogram
+```{r, include=TRUE}
+score_hist(one_bl_pi_reaction_time, user_reaction_time_composite_score_post_injury_1)
+```
+
