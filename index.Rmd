@@ -480,6 +480,26 @@ age <- age %>%
 
 str(age)
 
+# gender 
+
+gender <- baseline3 %>% 
+  group_by(passport_id) %>% 
+  mutate(number = row_number()) %>% 
+  ungroup() %>% 
+  pivot_wider(
+    id_cols = passport_id,
+    names_from = number,
+    values_from = c(test_date, user_gender),
+    names_glue = "{.value}_{number}"
+  ) 
+
+gender <- gender %>% 
+  dplyr::select(passport_id,
+         test_date_1,
+         test_date_2,
+         user_gender_1,
+         user_gender_2)
+
 # school 
 
 school <- baseline3 %>% 
@@ -523,7 +543,8 @@ sport <- sport %>%
 
 ```{r join baseline variables, include=FALSE}
 blj_1 <- full_join(age, school)
-blj_2 <- full_join(blj_1, sport)
+blj_1_2 <- full_join(blj_1, gender)
+blj_2 <- full_join(blj_1_2, sport)
 
 baseline_final <- left_join(baseline_final, blj_2)
 
@@ -641,6 +662,65 @@ age_tbl_2
 ```{r, include=TRUE}
 age_tbl_2
 ```
+
+## Gender Baseline 1
+
+```{r, include=FALSE}
+
+gender_tbl_1 <- all_double_baseline %>% 
+  group_by(user_gender_1) %>% 
+  summarize(total = n()) %>% 
+  na.omit() %>% 
+  reactable(
+    columns = list(
+      user_gender_1 = colDef(name = "Gender"),
+      total = colDef(name = "Total",
+                     format = colFormat(separators = TRUE, suffix = " individuals"))),
+    pagination = TRUE,
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    searchable = TRUE
+  )
+
+gender_tbl_1
+```
+
+```{r, include=TRUE}
+gender_tbl_1
+```
+
+## Gender Baseline 2
+
+```{r, include=FALSE}
+
+gender_tbl_2 <- all_double_baseline %>% 
+  group_by(user_gender_2) %>% 
+  summarize(total = n()) %>% 
+  na.omit() %>% 
+  reactable(
+    columns = list(
+      user_gender_2 = colDef(name = "School"),
+      total = colDef(name = "Total",
+                     format = colFormat(separators = TRUE, suffix = " individuals"))),
+    pagination = TRUE,
+    striped = TRUE,
+    outlined = TRUE,
+    compact = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    searchable = TRUE
+  )
+
+gender_tbl_2
+```
+
+```{r, include=TRUE}
+gender_tbl_2
+```
+
 
 ## School Baseline 1
 
@@ -2556,16 +2636,17 @@ summary(reaction_time_diff_baseline_mod_all)
 
 # Baseline Score Descriptive Statistics by Age {.tabset .tabset-fade .tabset-pills}
 
-Values obtained from sample of individuals who increased their score on at least one composite test on Baseline 2
+Values obtained from sample of individuals who completed two baseline tests 
 
 ## Age 10 {.tabset .tabset-fade .tabset-pills}
 
 ```{r, include=FALSE}
-age_10_b1 <- baseline_age %>% 
+age_10_b1 <- all_double_baseline %>% 
   filter(user_age_1 == 10) 
 
-age_10_b2 <- baseline_age %>% 
+age_10_b2 <- all_double_baseline %>% 
   filter(user_age_2 == 10) 
+
 ```
 
 ### Verbal Memory {.tabset .tabset-fade .tabset-pills}
@@ -2576,7 +2657,7 @@ mem_verbal_bl_1_10 <- age_10_b1 %>%
   na.omit()
 
 mem_verbal_bl_2_10 <- age_10_b2 %>% 
-  dplyr::select(passport_id, user_memory_composite_score_verbal_2, memory_verbal_diff) %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_2) %>% 
   na.omit()
 ```
 
@@ -2592,12 +2673,6 @@ create_react(mem_verbal_bl_1_10, user_memory_composite_score_verbal_1)
 create_react(mem_verbal_bl_2_10, user_memory_composite_score_verbal_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(mem_verbal_bl_2_10, memory_verbal_diff)
-```
-
 ### Visual Memory {.tabset .tabset-fade .tabset-pills}
 
 ```{r, include=FALSE}
@@ -2606,7 +2681,7 @@ mem_visual_bl_1_10 <- age_10_b1 %>%
   na.omit()
 
 mem_visual_bl_2_10 <- age_10_b2 %>% 
-  dplyr::select(passport_id, user_memory_composite_score_visual_2, memory_visual_diff) %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_2) %>% 
   na.omit()
 ```
 
@@ -2622,11 +2697,6 @@ create_react(mem_visual_bl_1_10, user_memory_composite_score_visual_1)
 create_react(mem_visual_bl_2_10, user_memory_composite_score_visual_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(mem_visual_bl_2_10, memory_visual_diff)
-```
 
 ### Visual Motor {.tabset .tabset-fade .tabset-pills}
 
@@ -2636,7 +2706,7 @@ visual_motor_bl_1_10 <- age_10_b1 %>%
   na.omit()
 
 visual_motor_bl_2_10 <- age_10_b2 %>% 
-  dplyr::select(passport_id, user_visual_motor_composite_score_2, visual_motor_diff) %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_2) %>% 
   na.omit()
 ```
 
@@ -2652,12 +2722,6 @@ create_react(visual_motor_bl_1_10, user_visual_motor_composite_score_1)
 create_react(visual_motor_bl_2_10, user_visual_motor_composite_score_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(visual_motor_bl_2_10, visual_motor_diff)
-```
-
 ### Impulse Control {.tabset .tabset-fade .tabset-pills}
 
 ```{r, include=FALSE}
@@ -2666,7 +2730,7 @@ impulse_control_bl_1_10 <- age_10_b1 %>%
   na.omit()
 
 impulse_control_bl_2_10 <- age_10_b2 %>% 
-  dplyr::select(passport_id, user_impulse_control_composite_score_2, impulse_control_diff) %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_2) %>% 
   na.omit()
 ```
 
@@ -2682,11 +2746,6 @@ create_react(impulse_control_bl_1_10, user_impulse_control_composite_score_1)
 create_react(impulse_control_bl_2_10, user_impulse_control_composite_score_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(impulse_control_bl_2_10, impulse_control_diff)
-```
 
 ### Reaction Time {.tabset .tabset-fade .tabset-pills}
 
@@ -2696,7 +2755,7 @@ reaction_time_bl_1_10 <- age_10_b1 %>%
   na.omit()
 
 reaction_time_bl_2_10 <- age_10_b2 %>% 
-  dplyr::select(passport_id, user_reaction_time_composite_score_2, reaction_time_diff) %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_2) %>% 
   na.omit()
 ```
 
@@ -2713,19 +2772,13 @@ create_react(reaction_time_bl_1_10, user_reaction_time_composite_score_1)
 create_react(reaction_time_bl_2_10, user_reaction_time_composite_score_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(reaction_time_bl_2_10, reaction_time_diff)
-```
-
 ## Age 11 {.tabset .tabset-fade .tabset-pills}
 
 ```{r, include=FALSE}
-age_11_b1 <- baseline_age %>% 
+age_11_b1 <- all_double_baseline %>% 
   filter(user_age_1 == 11) 
 
-age_11_b2 <- baseline_age %>% 
+age_11_b2 <- all_double_baseline %>% 
   filter(user_age_2 == 11) 
 ```
 
@@ -2737,7 +2790,7 @@ mem_verbal_bl_1_11 <- age_11_b1 %>%
   na.omit()
 
 mem_verbal_bl_2_11 <- age_11_b2 %>% 
-  dplyr::select(passport_id, user_memory_composite_score_verbal_2, memory_verbal_diff) %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_2) %>% 
   na.omit()
 ```
 
@@ -2753,12 +2806,6 @@ create_react(mem_verbal_bl_1_11, user_memory_composite_score_verbal_1)
 create_react(mem_verbal_bl_2_11, user_memory_composite_score_verbal_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(mem_verbal_bl_2_11, memory_verbal_diff)
-```
-
 ### Visual Memory {.tabset .tabset-fade .tabset-pills}
 
 ```{r, include=FALSE}
@@ -2767,7 +2814,7 @@ mem_visual_bl_1_11 <- age_11_b1 %>%
   na.omit()
 
 mem_visual_bl_2_11 <- age_11_b2 %>% 
-  dplyr::select(passport_id, user_memory_composite_score_visual_2, memory_visual_diff) %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_2) %>% 
   na.omit()
 ```
 
@@ -2783,12 +2830,6 @@ create_react(mem_visual_bl_1_11, user_memory_composite_score_visual_1)
 create_react(mem_visual_bl_2_11, user_memory_composite_score_visual_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(mem_visual_bl_2_11, memory_visual_diff)
-```
-
 ### Visual Motor {.tabset .tabset-fade .tabset-pills}
 
 ```{r, include=FALSE}
@@ -2797,7 +2838,7 @@ visual_motor_bl_1_11 <- age_11_b1 %>%
   na.omit()
 
 visual_motor_bl_2_11 <- age_11_b2 %>% 
-  dplyr::select(passport_id, user_visual_motor_composite_score_2, visual_motor_diff) %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_2) %>% 
   na.omit()
 ```
 
@@ -2813,12 +2854,6 @@ create_react(visual_motor_bl_1_11, user_visual_motor_composite_score_1)
 create_react(visual_motor_bl_2_11, user_visual_motor_composite_score_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(visual_motor_bl_2_11, visual_motor_diff)
-```
-
 ### Impulse Control {.tabset .tabset-fade .tabset-pills}
 
 ```{r, include=FALSE}
@@ -2827,7 +2862,7 @@ impulse_control_bl_1_11 <- age_11_b1 %>%
   na.omit()
 
 impulse_control_bl_2_11 <- age_11_b2 %>% 
-  dplyr::select(passport_id, user_impulse_control_composite_score_2, impulse_control_diff) %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_2) %>% 
   na.omit()
 ```
 
@@ -2843,11 +2878,6 @@ create_react(impulse_control_bl_1_11, user_impulse_control_composite_score_1)
 create_react(impulse_control_bl_2_11, user_impulse_control_composite_score_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(impulse_control_bl_2_11, impulse_control_diff)
-```
 
 ### Reaction Time {.tabset .tabset-fade .tabset-pills}
 
@@ -2857,7 +2887,7 @@ reaction_time_bl_1_11 <- age_11_b1 %>%
   na.omit()
 
 reaction_time_bl_2_11 <- age_11_b2 %>% 
-  dplyr::select(passport_id, user_reaction_time_composite_score_2, reaction_time_diff) %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_2) %>% 
   na.omit()
 ```
 
@@ -2874,19 +2904,14 @@ create_react(reaction_time_bl_1_11, user_reaction_time_composite_score_1)
 create_react(reaction_time_bl_2_11, user_reaction_time_composite_score_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(reaction_time_bl_2_11, reaction_time_diff)
-```
 
 ## Age 12 {.tabset .tabset-fade .tabset-pills}
 
 ```{r, include=FALSE}
-age_12_b1 <- baseline_age %>% 
+age_12_b1 <- all_double_baseline %>% 
   filter(user_age_1 == 12) 
 
-age_12_b2 <- baseline_age %>% 
+age_12_b2 <- all_double_baseline %>% 
   filter(user_age_2 == 12) 
 ```
 
@@ -2898,7 +2923,7 @@ mem_verbal_bl_1_12 <- age_12_b1 %>%
   na.omit()
 
 mem_verbal_bl_2_12 <- age_12_b2 %>% 
-  dplyr::select(passport_id, user_memory_composite_score_verbal_2, memory_verbal_diff) %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_2) %>% 
   na.omit()
 ```
 
@@ -2914,12 +2939,6 @@ create_react(mem_verbal_bl_1_12, user_memory_composite_score_verbal_1)
 create_react(mem_verbal_bl_2_12, user_memory_composite_score_verbal_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(mem_verbal_bl_2_12, memory_verbal_diff)
-```
-
 ### Visual Memory {.tabset .tabset-fade .tabset-pills}
 
 ```{r, include=FALSE}
@@ -2928,7 +2947,7 @@ mem_visual_bl_1_12 <- age_12_b1 %>%
   na.omit()
 
 mem_visual_bl_2_12 <- age_12_b2 %>% 
-  dplyr::select(passport_id, user_memory_composite_score_visual_2, memory_visual_diff) %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_2) %>% 
   na.omit()
 ```
 
@@ -2944,11 +2963,6 @@ create_react(mem_visual_bl_1_12, user_memory_composite_score_visual_1)
 create_react(mem_visual_bl_2_12, user_memory_composite_score_visual_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(mem_visual_bl_2_12, memory_visual_diff)
-```
 
 ### Visual Motor {.tabset .tabset-fade .tabset-pills}
 
@@ -2958,7 +2972,7 @@ visual_motor_bl_1_12 <- age_12_b1 %>%
   na.omit()
 
 visual_motor_bl_2_12 <- age_12_b2 %>% 
-  dplyr::select(passport_id, user_visual_motor_composite_score_2, visual_motor_diff) %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_2) %>% 
   na.omit()
 ```
 
@@ -2974,11 +2988,6 @@ create_react(visual_motor_bl_1_12, user_visual_motor_composite_score_1)
 create_react(visual_motor_bl_2_12, user_visual_motor_composite_score_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(visual_motor_bl_2_12, visual_motor_diff)
-```
 
 ### Impulse Control {.tabset .tabset-fade .tabset-pills}
 
@@ -2988,7 +2997,7 @@ impulse_control_bl_1_12 <- age_12_b1 %>%
   na.omit()
 
 impulse_control_bl_2_12 <- age_12_b2 %>% 
-  dplyr::select(passport_id, user_impulse_control_composite_score_2, impulse_control_diff) %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_2) %>% 
   na.omit()
 ```
 
@@ -3004,11 +3013,6 @@ create_react(impulse_control_bl_1_12, user_impulse_control_composite_score_1)
 create_react(impulse_control_bl_2_12, user_impulse_control_composite_score_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(impulse_control_bl_2_12, impulse_control_diff)
-```
 
 ### Reaction Time {.tabset .tabset-fade .tabset-pills}
 
@@ -3018,7 +3022,7 @@ reaction_time_bl_1_12 <- age_12_b1 %>%
   na.omit()
 
 reaction_time_bl_2_12 <- age_12_b2 %>% 
-  dplyr::select(passport_id, user_reaction_time_composite_score_2, reaction_time_diff) %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_2) %>% 
   na.omit()
 ```
 
@@ -3035,19 +3039,14 @@ create_react(reaction_time_bl_1_12, user_reaction_time_composite_score_1)
 create_react(reaction_time_bl_2_12, user_reaction_time_composite_score_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(reaction_time_bl_2_12, reaction_time_diff)
-```
 
 ## Age 13 {.tabset .tabset-fade .tabset-pills}
 
 ```{r, include=FALSE}
-age_13_b1 <- baseline_age %>% 
+age_13_b1 <- all_double_baseline %>% 
   filter(user_age_1 == 13) 
 
-age_13_b2 <- baseline_age %>% 
+age_13_b2 <- all_double_baseline %>% 
   filter(user_age_2 == 13) 
 ```
 
@@ -3059,7 +3058,7 @@ mem_verbal_bl_1_13 <- age_13_b1 %>%
   na.omit()
 
 mem_verbal_bl_2_13 <- age_13_b2 %>% 
-  dplyr::select(passport_id, user_memory_composite_score_verbal_2, memory_verbal_diff) %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_2) %>% 
   na.omit()
 ```
 
@@ -3075,11 +3074,6 @@ create_react(mem_verbal_bl_1_13, user_memory_composite_score_verbal_1)
 create_react(mem_verbal_bl_2_13, user_memory_composite_score_verbal_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(mem_verbal_bl_2_13, memory_verbal_diff)
-```
 
 ### Visual Memory {.tabset .tabset-fade .tabset-pills}
 
@@ -3089,7 +3083,7 @@ mem_visual_bl_1_13 <- age_13_b1 %>%
   na.omit()
 
 mem_visual_bl_2_13 <- age_13_b2 %>% 
-  dplyr::select(passport_id, user_memory_composite_score_visual_2, memory_visual_diff) %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_2) %>% 
   na.omit()
 ```
 
@@ -3105,12 +3099,6 @@ create_react(mem_visual_bl_1_13, user_memory_composite_score_visual_1)
 create_react(mem_visual_bl_2_13, user_memory_composite_score_visual_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(mem_visual_bl_2_13, memory_visual_diff)
-```
-
 ### Visual Motor {.tabset .tabset-fade .tabset-pills}
 
 ```{r, include=FALSE}
@@ -3119,7 +3107,7 @@ visual_motor_bl_1_13 <- age_13_b1 %>%
   na.omit()
 
 visual_motor_bl_2_13 <- age_13_b2 %>% 
-  dplyr::select(passport_id, user_visual_motor_composite_score_2, visual_motor_diff) %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_2) %>% 
   na.omit()
 ```
 
@@ -3135,12 +3123,6 @@ create_react(visual_motor_bl_1_13, user_visual_motor_composite_score_1)
 create_react(visual_motor_bl_2_13, user_visual_motor_composite_score_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(visual_motor_bl_2_13, visual_motor_diff)
-```
-
 ### Impulse Control {.tabset .tabset-fade .tabset-pills}
 
 ```{r, include=FALSE}
@@ -3149,7 +3131,7 @@ impulse_control_bl_1_13 <- age_13_b1 %>%
   na.omit()
 
 impulse_control_bl_2_13 <- age_13_b2 %>% 
-  dplyr::select(passport_id, user_impulse_control_composite_score_2, impulse_control_diff) %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_2) %>% 
   na.omit()
 ```
 
@@ -3165,11 +3147,6 @@ create_react(impulse_control_bl_1_13, user_impulse_control_composite_score_1)
 create_react(impulse_control_bl_2_13, user_impulse_control_composite_score_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(impulse_control_bl_2_13, impulse_control_diff)
-```
 
 ### Reaction Time {.tabset .tabset-fade .tabset-pills}
 
@@ -3179,7 +3156,7 @@ reaction_time_bl_1_13 <- age_13_b1 %>%
   na.omit()
 
 reaction_time_bl_2_13 <- age_13_b2 %>% 
-  dplyr::select(passport_id, user_reaction_time_composite_score_2, reaction_time_diff) %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_2) %>% 
   na.omit()
 ```
 
@@ -3195,19 +3172,14 @@ create_react(reaction_time_bl_1_13, user_reaction_time_composite_score_1)
 create_react(reaction_time_bl_2_13, user_reaction_time_composite_score_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(reaction_time_bl_2_13, reaction_time_diff)
-```
 
 ## Age 14 {.tabset .tabset-fade .tabset-pills}
 
 ```{r, include=FALSE}
-age_14_b1 <- baseline_age %>% 
+age_14_b1 <- all_double_baseline %>% 
   filter(user_age_1 == 14) 
 
-age_14_b2 <- baseline_age %>% 
+age_14_b2 <- all_double_baseline %>% 
   filter(user_age_2 == 14) 
 ```
 
@@ -3219,7 +3191,7 @@ mem_verbal_bl_1_14 <- age_14_b1 %>%
   na.omit()
 
 mem_verbal_bl_2_14 <- age_14_b2 %>% 
-  dplyr::select(passport_id, user_memory_composite_score_verbal_2, memory_verbal_diff) %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_2) %>% 
   na.omit()
 ```
 
@@ -3235,12 +3207,6 @@ create_react(mem_verbal_bl_1_14, user_memory_composite_score_verbal_1)
 create_react(mem_verbal_bl_2_14, user_memory_composite_score_verbal_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(mem_verbal_bl_2_14, memory_verbal_diff)
-```
-
 ### Visual Memory {.tabset .tabset-fade .tabset-pills}
 
 ```{r, include=FALSE}
@@ -3249,7 +3215,7 @@ mem_visual_bl_1_14 <- age_14_b1 %>%
   na.omit()
 
 mem_visual_bl_2_14 <- age_14_b2 %>% 
-  dplyr::select(passport_id, user_memory_composite_score_visual_2, memory_visual_diff) %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_2) %>% 
   na.omit()
 ```
 
@@ -3265,11 +3231,6 @@ create_react(mem_visual_bl_1_14, user_memory_composite_score_visual_1)
 create_react(mem_visual_bl_2_14, user_memory_composite_score_visual_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(mem_visual_bl_2_14, memory_visual_diff)
-```
 
 ### Visual Motor {.tabset .tabset-fade .tabset-pills}
 
@@ -3279,7 +3240,7 @@ visual_motor_bl_1_14 <- age_14_b1 %>%
   na.omit()
 
 visual_motor_bl_2_14 <- age_14_b2 %>% 
-  dplyr::select(passport_id, user_visual_motor_composite_score_2, visual_motor_diff) %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_2) %>% 
   na.omit()
 ```
 
@@ -3295,12 +3256,6 @@ create_react(visual_motor_bl_1_14, user_visual_motor_composite_score_1)
 create_react(visual_motor_bl_2_14, user_visual_motor_composite_score_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(visual_motor_bl_2_14, visual_motor_diff)
-```
-
 ### Impulse Control {.tabset .tabset-fade .tabset-pills}
 
 ```{r, include=FALSE}
@@ -3309,7 +3264,7 @@ impulse_control_bl_1_14 <- age_14_b1 %>%
   na.omit()
 
 impulse_control_bl_2_14 <- age_14_b2 %>% 
-  dplyr::select(passport_id, user_impulse_control_composite_score_2, impulse_control_diff) %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_2) %>% 
   na.omit()
 ```
 
@@ -3325,12 +3280,6 @@ create_react(impulse_control_bl_1_14, user_impulse_control_composite_score_1)
 create_react(impulse_control_bl_2_14, user_impulse_control_composite_score_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(impulse_control_bl_2_14, impulse_control_diff)
-```
-
 ### Reaction Time {.tabset .tabset-fade .tabset-pills}
 
 ```{r, include=FALSE}
@@ -3339,7 +3288,7 @@ reaction_time_bl_1_14 <- age_14_b1 %>%
   na.omit()
 
 reaction_time_bl_2_14 <- age_14_b2 %>% 
-  dplyr::select(passport_id, user_reaction_time_composite_score_2, reaction_time_diff) %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_2) %>% 
   na.omit()
 ```
 
@@ -3356,19 +3305,14 @@ create_react(reaction_time_bl_1_14, user_reaction_time_composite_score_1)
 create_react(reaction_time_bl_2_14, user_reaction_time_composite_score_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(reaction_time_bl_2_14, reaction_time_diff)
-```
 
 ## Age 15 {.tabset .tabset-fade .tabset-pills}
 
 ```{r, include=FALSE}
-age_15_b1 <- baseline_age %>% 
+age_15_b1 <- all_double_baseline %>% 
   filter(user_age_1 == 15) 
 
-age_15_b2 <- baseline_age %>% 
+age_15_b2 <- all_double_baseline %>% 
   filter(user_age_2 == 15) 
 ```
 
@@ -3380,7 +3324,7 @@ mem_verbal_bl_1_15 <- age_15_b1 %>%
   na.omit()
 
 mem_verbal_bl_2_15 <- age_15_b2 %>% 
-  dplyr::select(passport_id, user_memory_composite_score_verbal_2, memory_verbal_diff) %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_2) %>% 
   na.omit()
 ```
 
@@ -3396,11 +3340,6 @@ create_react(mem_verbal_bl_1_15, user_memory_composite_score_verbal_1)
 create_react(mem_verbal_bl_2_15, user_memory_composite_score_verbal_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(mem_verbal_bl_2_15, memory_verbal_diff)
-```
 
 ### Visual Memory {.tabset .tabset-fade .tabset-pills}
 
@@ -3410,7 +3349,7 @@ mem_visual_bl_1_15 <- age_15_b1 %>%
   na.omit()
 
 mem_visual_bl_2_15 <- age_15_b2 %>% 
-  dplyr::select(passport_id, user_memory_composite_score_visual_2, memory_visual_diff) %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_2) %>% 
   na.omit()
 ```
 
@@ -3426,11 +3365,6 @@ create_react(mem_visual_bl_1_15, user_memory_composite_score_visual_1)
 create_react(mem_visual_bl_2_15, user_memory_composite_score_visual_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(mem_visual_bl_2_15, memory_visual_diff)
-```
 
 ### Visual Motor {.tabset .tabset-fade .tabset-pills}
 
@@ -3440,7 +3374,7 @@ visual_motor_bl_1_15 <- age_15_b1 %>%
   na.omit()
 
 visual_motor_bl_2_15 <- age_15_b2 %>% 
-  dplyr::select(passport_id, user_visual_motor_composite_score_2, visual_motor_diff) %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_2) %>% 
   na.omit()
 ```
 
@@ -3456,11 +3390,6 @@ create_react(visual_motor_bl_1_15, user_visual_motor_composite_score_1)
 create_react(visual_motor_bl_2_15, user_visual_motor_composite_score_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(visual_motor_bl_2_15, visual_motor_diff)
-```
 
 ### Impulse Control {.tabset .tabset-fade .tabset-pills}
 
@@ -3470,7 +3399,7 @@ impulse_control_bl_1_15 <- age_15_b1 %>%
   na.omit()
 
 impulse_control_bl_2_15 <- age_15_b2 %>% 
-  dplyr::select(passport_id, user_impulse_control_composite_score_2, impulse_control_diff) %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_2) %>% 
   na.omit()
 ```
 
@@ -3486,11 +3415,6 @@ create_react(impulse_control_bl_1_15, user_impulse_control_composite_score_1)
 create_react(impulse_control_bl_2_15, user_impulse_control_composite_score_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(impulse_control_bl_2_15, impulse_control_diff)
-```
 
 ### Reaction Time {.tabset .tabset-fade .tabset-pills}
 
@@ -3500,7 +3424,7 @@ reaction_time_bl_1_15 <- age_15_b1 %>%
   na.omit()
 
 reaction_time_bl_2_15 <- age_15_b2 %>% 
-  dplyr::select(passport_id, user_reaction_time_composite_score_2, reaction_time_diff) %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_2) %>% 
   na.omit()
 ```
 
@@ -3517,19 +3441,14 @@ create_react(reaction_time_bl_1_15, user_reaction_time_composite_score_1)
 create_react(reaction_time_bl_2_15, user_reaction_time_composite_score_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(reaction_time_bl_2_15, reaction_time_diff)
-```
 
 ## Age 16 {.tabset .tabset-fade .tabset-pills}
 
 ```{r, include=FALSE}
-age_16_b1 <- baseline_age %>% 
+age_16_b1 <- all_double_baseline %>% 
   filter(user_age_1 == 16) 
 
-age_16_b2 <- baseline_age %>% 
+age_16_b2 <- all_double_baseline %>% 
   filter(user_age_2 == 16) 
 ```
 
@@ -3541,7 +3460,7 @@ mem_verbal_bl_1_16 <- age_16_b1 %>%
   na.omit()
 
 mem_verbal_bl_2_16 <- age_16_b2 %>% 
-  dplyr::select(passport_id, user_memory_composite_score_verbal_2, memory_verbal_diff) %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_2) %>% 
   na.omit()
 ```
 
@@ -3557,12 +3476,6 @@ create_react(mem_verbal_bl_1_16, user_memory_composite_score_verbal_1)
 create_react(mem_verbal_bl_2_16, user_memory_composite_score_verbal_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(mem_verbal_bl_2_16, memory_verbal_diff)
-```
-
 ### Visual Memory {.tabset .tabset-fade .tabset-pills}
 
 ```{r, include=FALSE}
@@ -3571,7 +3484,7 @@ mem_visual_bl_1_16 <- age_16_b1 %>%
   na.omit()
 
 mem_visual_bl_2_16 <- age_16_b2 %>% 
-  dplyr::select(passport_id, user_memory_composite_score_visual_2, memory_visual_diff) %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_2) %>% 
   na.omit()
 ```
 
@@ -3587,12 +3500,6 @@ create_react(mem_visual_bl_1_16, user_memory_composite_score_visual_1)
 create_react(mem_visual_bl_2_16, user_memory_composite_score_visual_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(mem_visual_bl_2_16, memory_visual_diff)
-```
-
 ### Visual Motor {.tabset .tabset-fade .tabset-pills}
 
 ```{r, include=FALSE}
@@ -3601,7 +3508,7 @@ visual_motor_bl_1_16 <- age_16_b1 %>%
   na.omit()
 
 visual_motor_bl_2_16 <- age_16_b2 %>% 
-  dplyr::select(passport_id, user_visual_motor_composite_score_2, visual_motor_diff) %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_2) %>% 
   na.omit()
 ```
 
@@ -3617,12 +3524,6 @@ create_react(visual_motor_bl_1_16, user_visual_motor_composite_score_1)
 create_react(visual_motor_bl_2_16, user_visual_motor_composite_score_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(visual_motor_bl_2_16, visual_motor_diff)
-```
-
 ### Impulse Control {.tabset .tabset-fade .tabset-pills}
 
 ```{r, include=FALSE}
@@ -3631,7 +3532,7 @@ impulse_control_bl_1_16 <- age_16_b1 %>%
   na.omit()
 
 impulse_control_bl_2_16 <- age_16_b2 %>% 
-  dplyr::select(passport_id, user_impulse_control_composite_score_2, impulse_control_diff) %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_2) %>% 
   na.omit()
 ```
 
@@ -3647,12 +3548,6 @@ create_react(impulse_control_bl_1_16, user_impulse_control_composite_score_1)
 create_react(impulse_control_bl_2_16, user_impulse_control_composite_score_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(impulse_control_bl_2_16, impulse_control_diff)
-```
-
 ### Reaction Time {.tabset .tabset-fade .tabset-pills}
 
 ```{r, include=FALSE}
@@ -3661,7 +3556,7 @@ reaction_time_bl_1_16 <- age_16_b1 %>%
   na.omit()
 
 reaction_time_bl_2_16 <- age_16_b2 %>% 
-  dplyr::select(passport_id, user_reaction_time_composite_score_2, reaction_time_diff) %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_2) %>% 
   na.omit()
 ```
 
@@ -3678,19 +3573,13 @@ create_react(reaction_time_bl_1_16, user_reaction_time_composite_score_1)
 create_react(reaction_time_bl_2_16, user_reaction_time_composite_score_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(reaction_time_bl_2_16, reaction_time_diff)
-```
-
 ## Age 17 {.tabset .tabset-fade .tabset-pills}
 
 ```{r, include=FALSE}
-age_17_b1 <- baseline_age %>% 
+age_17_b1 <- all_double_baseline %>% 
   filter(user_age_1 == 17) 
 
-age_17_b2 <- baseline_age %>% 
+age_17_b2 <- all_double_baseline %>% 
   filter(user_age_2 == 17) 
 ```
 
@@ -3702,7 +3591,7 @@ mem_verbal_bl_1_17 <- age_17_b1 %>%
   na.omit()
 
 mem_verbal_bl_2_17 <- age_17_b2 %>% 
-  dplyr::select(passport_id, user_memory_composite_score_verbal_2, memory_verbal_diff) %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_2) %>% 
   na.omit()
 ```
 
@@ -3718,11 +3607,6 @@ create_react(mem_verbal_bl_1_17, user_memory_composite_score_verbal_1)
 create_react(mem_verbal_bl_2_17, user_memory_composite_score_verbal_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(mem_verbal_bl_2_17, memory_verbal_diff)
-```
 
 ### Visual Memory {.tabset .tabset-fade .tabset-pills}
 
@@ -3732,7 +3616,7 @@ mem_visual_bl_1_17 <- age_17_b1 %>%
   na.omit()
 
 mem_visual_bl_2_17 <- age_17_b2 %>% 
-  dplyr::select(passport_id, user_memory_composite_score_visual_2, memory_visual_diff) %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_2) %>% 
   na.omit()
 ```
 
@@ -3748,11 +3632,6 @@ create_react(mem_visual_bl_1_17, user_memory_composite_score_visual_1)
 create_react(mem_visual_bl_2_17, user_memory_composite_score_visual_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(mem_visual_bl_2_17, memory_visual_diff)
-```
 
 ### Visual Motor {.tabset .tabset-fade .tabset-pills}
 
@@ -3762,7 +3641,7 @@ visual_motor_bl_1_17 <- age_11_b1 %>%
   na.omit()
 
 visual_motor_bl_2_17 <- age_11_b2 %>% 
-  dplyr::select(passport_id, user_visual_motor_composite_score_2, visual_motor_diff) %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_2) %>% 
   na.omit()
 ```
 
@@ -3778,11 +3657,6 @@ create_react(visual_motor_bl_1_17, user_visual_motor_composite_score_1)
 create_react(visual_motor_bl_2_17, user_visual_motor_composite_score_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(visual_motor_bl_2_17, visual_motor_diff)
-```
 
 ### Impulse Control {.tabset .tabset-fade .tabset-pills}
 
@@ -3792,7 +3666,7 @@ impulse_control_bl_1_17 <- age_17_b1 %>%
   na.omit()
 
 impulse_control_bl_2_17 <- age_17_b2 %>% 
-  dplyr::select(passport_id, user_impulse_control_composite_score_2, impulse_control_diff) %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_2) %>% 
   na.omit()
 ```
 
@@ -3808,11 +3682,6 @@ create_react(impulse_control_bl_1_17, user_impulse_control_composite_score_1)
 create_react(impulse_control_bl_2_17, user_impulse_control_composite_score_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(impulse_control_bl_2_17, impulse_control_diff)
-```
 
 ### Reaction Time {.tabset .tabset-fade .tabset-pills}
 
@@ -3822,7 +3691,7 @@ reaction_time_bl_1_17 <- age_17_b1 %>%
   na.omit()
 
 reaction_time_bl_2_17 <- age_17_b2 %>% 
-  dplyr::select(passport_id, user_reaction_time_composite_score_2, reaction_time_diff) %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_2) %>% 
   na.omit()
 ```
 
@@ -3839,19 +3708,14 @@ create_react(reaction_time_bl_1_17, user_reaction_time_composite_score_1)
 create_react(reaction_time_bl_2_17, user_reaction_time_composite_score_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(reaction_time_bl_2_17, reaction_time_diff)
-```
 
 ## Age 18 {.tabset .tabset-fade .tabset-pills}
 
 ```{r, include=FALSE}
-age_18_b1 <- baseline_age %>% 
+age_18_b1 <- all_double_baseline %>% 
   filter(user_age_1 == 18) 
 
-age_18_b2 <- baseline_age %>% 
+age_18_b2 <- all_double_baseline %>% 
   filter(user_age_2 == 18) 
 ```
 
@@ -3863,7 +3727,7 @@ mem_verbal_bl_1_18 <- age_18_b1 %>%
   na.omit()
 
 mem_verbal_bl_2_18 <- age_18_b2 %>% 
-  dplyr::select(passport_id, user_memory_composite_score_verbal_2, memory_verbal_diff) %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_2) %>% 
   na.omit()
 ```
 
@@ -3877,12 +3741,6 @@ create_react(mem_verbal_bl_1_18, user_memory_composite_score_verbal_1)
 
 ```{r, include=TRUE}
 create_react(mem_verbal_bl_2_18, user_memory_composite_score_verbal_2)
-```
-
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(mem_verbal_bl_2_18, memory_verbal_diff)
 ```
 
 ### Visual Memory {.tabset .tabset-fade .tabset-pills}
@@ -3909,11 +3767,6 @@ create_react(mem_visual_bl_1_18, user_memory_composite_score_visual_1)
 create_react(mem_visual_bl_2_18, user_memory_composite_score_visual_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(mem_visual_bl_2_18, memory_visual_diff)
-```
 
 ### Visual Motor {.tabset .tabset-fade .tabset-pills}
 
@@ -3923,7 +3776,7 @@ visual_motor_bl_1_18 <- age_18_b1 %>%
   na.omit()
 
 visual_motor_bl_2_18 <- age_18_b2 %>% 
-  dplyr::select(passport_id, user_visual_motor_composite_score_2, visual_motor_diff) %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_2) %>% 
   na.omit()
 ```
 
@@ -3939,12 +3792,6 @@ create_react(visual_motor_bl_1_18, user_visual_motor_composite_score_1)
 create_react(visual_motor_bl_2_18, user_visual_motor_composite_score_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(visual_motor_bl_2_18, visual_motor_diff)
-```
-
 ### Impulse Control {.tabset .tabset-fade .tabset-pills}
 
 ```{r, include=FALSE}
@@ -3953,7 +3800,7 @@ impulse_control_bl_1_18 <- age_18_b1 %>%
   na.omit()
 
 impulse_control_bl_2_18 <- age_18_b2 %>% 
-  dplyr::select(passport_id, user_impulse_control_composite_score_2, impulse_control_diff) %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_2) %>% 
   na.omit()
 ```
 
@@ -3969,12 +3816,6 @@ create_react(impulse_control_bl_1_18, user_impulse_control_composite_score_1)
 create_react(impulse_control_bl_2_18, user_impulse_control_composite_score_2)
 ```
 
-#### Point Increase 
-
-```{r, include=TRUE}
-create_react(impulse_control_bl_2_18, impulse_control_diff)
-```
-
 ### Reaction Time {.tabset .tabset-fade .tabset-pills}
 
 ```{r, include=FALSE}
@@ -3983,7 +3824,7 @@ reaction_time_bl_1_18 <- age_18_b1 %>%
   na.omit()
 
 reaction_time_bl_2_18 <- age_18_b2 %>% 
-  dplyr::select(passport_id, user_reaction_time_composite_score_2, reaction_time_diff) %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_2) %>% 
   na.omit()
 ```
 
@@ -4000,11 +3841,1374 @@ create_react(reaction_time_bl_1_18, user_reaction_time_composite_score_1)
 create_react(reaction_time_bl_2_18, user_reaction_time_composite_score_2)
 ```
 
-#### Point Increase 
+# Baseline Score Descriptive Statistics by Gender {.tabset .tabset-fade .tabset-pills}
+
+Values obtained from sample of individuals who completed two baseline tests.
+
+```{r, include=FALSE}
+female_b1 <- all_double_baseline %>% 
+  filter(user_gender_1 == "Female") 
+
+female_b2 <- all_double_baseline %>% 
+  filter(user_gender_2 == "Female") 
+
+male_b1 <- all_double_baseline %>% 
+  filter(user_gender_1 == "Male") 
+
+male_b2 <- all_double_baseline %>% 
+  filter(user_gender_2 == "Male") 
+
+```
+
+## Verbal Memory {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+mem_verbal_bl_1_female <- female_b1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_1) %>% 
+  na.omit()
+
+mem_verbal_bl_2_female <- female_b2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_2) %>% 
+  na.omit()
+
+mem_verbal_bl_1_male <- male_b1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_1) %>% 
+  na.omit()
+
+mem_verbal_bl_2_male <- male_b2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_2) %>% 
+  na.omit()
+```
+
+### Baseline 1 Female 
 
 ```{r, include=TRUE}
-create_react(reaction_time_bl_2_18, reaction_time_diff)
+create_react(mem_verbal_bl_1_female, user_memory_composite_score_verbal_1)
 ```
+
+### Baseline 2 Female 
+
+```{r, include=TRUE}
+create_react(mem_verbal_bl_2_female, user_memory_composite_score_verbal_2)
+```
+
+### Baseline 1 Male 
+
+```{r, include=TRUE}
+create_react(mem_verbal_bl_1_male, user_memory_composite_score_verbal_1)
+```
+
+### Baseline 2 Male 
+
+```{r, include=TRUE}
+create_react(mem_verbal_bl_2_male, user_memory_composite_score_verbal_2)
+```
+
+## Visual Memory {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+mem_visual_bl_1_female <- female_b1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_1) %>% 
+  na.omit()
+
+mem_visual_bl_2_female <- female_b2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_2) %>% 
+  na.omit()
+
+mem_visual_bl_1_male <- male_b1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_1) %>% 
+  na.omit()
+
+mem_visual_bl_2_male <- male_b2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_2) %>% 
+  na.omit()
+```
+
+### Baseline 1 Female
+
+```{r, include=TRUE}
+create_react(mem_visual_bl_1_female, user_memory_composite_score_visual_1)
+```
+
+### Baseline 2 Female
+
+```{r, include=TRUE}
+create_react(mem_visual_bl_2_female, user_memory_composite_score_visual_2)
+```
+
+### Baseline 1 Male
+
+```{r, include=TRUE}
+create_react(mem_visual_bl_1_male, user_memory_composite_score_visual_1)
+```
+
+### Baseline 2 Male
+
+```{r, include=TRUE}
+create_react(mem_visual_bl_2_male, user_memory_composite_score_visual_2)
+```
+
+
+## Visual Motor {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+visual_motor_bl_1_female <- female_b1 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_1) %>% 
+  na.omit()
+
+visual_motor_bl_2_female <- female_b2 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_2) %>% 
+  na.omit()
+
+visual_motor_bl_1_male <- male_b1 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_1) %>% 
+  na.omit()
+
+visual_motor_bl_2_male <- male_b2 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_2) %>% 
+  na.omit()
+```
+
+### Baseline 1 Female
+
+```{r, include=TRUE}
+create_react(visual_motor_bl_1_female, user_visual_motor_composite_score_1)
+```
+
+### Baseline 2 Female
+
+```{r, include=TRUE}
+create_react(visual_motor_bl_2_female, user_visual_motor_composite_score_2)
+```
+
+### Baseline 1 Male
+
+```{r, include=TRUE}
+create_react(visual_motor_bl_1_male, user_visual_motor_composite_score_1)
+```
+
+### Baseline 2 Male
+
+```{r, include=TRUE}
+create_react(visual_motor_bl_2_male, user_visual_motor_composite_score_2)
+```
+
+## Impulse Control {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+impulse_control_bl_1_female <- female_b1 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_1) %>% 
+  na.omit()
+
+impulse_control_bl_2_female <- female_b2 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_2) %>% 
+  na.omit()
+
+impulse_control_bl_1_male <- male_b1 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_1) %>% 
+  na.omit()
+
+impulse_control_bl_2_male <- male_b2 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_2) %>% 
+  na.omit()
+```
+
+### Baseline 1 Female
+
+```{r, include=TRUE}
+create_react(impulse_control_bl_1_female, user_impulse_control_composite_score_1)
+```
+
+### Baseline 2 Female
+
+```{r, include=TRUE}
+create_react(impulse_control_bl_2_female, user_impulse_control_composite_score_2)
+```
+
+### Baseline 1 Male
+
+```{r, include=TRUE}
+create_react(impulse_control_bl_1_male, user_impulse_control_composite_score_1)
+```
+
+### Baseline 2 Male
+
+```{r, include=TRUE}
+create_react(impulse_control_bl_2_male, user_impulse_control_composite_score_2)
+```
+
+## Reaction Time {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+reaction_time_bl_1_female <- female_b1 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_1) %>% 
+  na.omit()
+
+reaction_time_bl_2_female <- female_b2 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_2) %>% 
+  na.omit()
+
+reaction_time_bl_1_male <- male_b1 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_1) %>% 
+  na.omit()
+
+reaction_time_bl_2_male <- male_b2 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_2) %>% 
+  na.omit()
+```
+
+
+### Baseline 1 Female
+
+```{r, include=TRUE}
+create_react(reaction_time_bl_1_female, user_reaction_time_composite_score_1)
+```
+
+### Baseline 2 Female
+
+```{r, include=TRUE}
+create_react(reaction_time_bl_2_female, user_reaction_time_composite_score_2)
+```
+
+### Baseline 1 Male
+
+```{r, include=TRUE}
+create_react(reaction_time_bl_1_male, user_reaction_time_composite_score_1)
+```
+
+### Baseline 2 Male
+
+```{r, include=TRUE}
+create_react(reaction_time_bl_2_male, user_reaction_time_composite_score_2)
+```
+
+# Baseline 1 Score Descriptive Statistics by Sport {.tabset .tabset-fade .tabset-pills}
+
+Values obtained from sample of individuals who completed two baseline tests. The ten most played sports at time of baseline 1 testing are included (all have *N* > 500)
+
+```{r, include=FALSE}
+football_1 <- all_double_baseline %>% 
+  filter(user_current_sport_1 == "Football") 
+
+soccer_1 <- all_double_baseline %>% 
+  filter(user_current_sport_1 == "Soccer") 
+
+volleyball_1 <- all_double_baseline %>% 
+  filter(user_current_sport_1 == "Volleyball") 
+
+basketball_1 <- all_double_baseline %>% 
+  filter(user_current_sport_1 == "Basketball") 
+
+football_jv_1 <- all_double_baseline %>% 
+  filter(user_current_sport_1 == "Football Junior Varsity") 
+
+baseball_1 <- all_double_baseline %>% 
+  filter(user_current_sport_1 == "Baseball") 
+
+wrestling_1 <- all_double_baseline %>% 
+  filter(user_current_sport_1 == "Wrestling") 
+
+cheerleading_1 <- all_double_baseline %>% 
+  filter(user_current_sport_1 == "Cheerleading") 
+
+softball_1 <- all_double_baseline %>% 
+  filter(user_current_sport_1 == "Softball") 
+
+football_freshman_1 <- all_double_baseline %>% 
+  filter(user_current_sport_1 == "Football Freshman") 
+
+```
+
+## Verbal Memory {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+mem_verbal_soccer_1 <- soccer_1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_1) %>% 
+  na.omit()
+
+mem_verbal_volleyball_1 <- volleyball_1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_1) %>% 
+  na.omit()
+
+mem_verbal_basketball_1 <- basketball_1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_1) %>% 
+  na.omit()
+
+mem_verbal_football_1 <- football_1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_1) %>% 
+  na.omit()
+
+mem_verbal_football_jv_1 <- football_jv_1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_1) %>% 
+  na.omit()
+
+mem_verbal_baseball_1 <- baseball_1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_1) %>% 
+  na.omit()
+
+mem_verbal_wrestling_1 <- wrestling_1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_1) %>% 
+  na.omit()
+
+mem_verbal_cheerleading_1 <- cheerleading_1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_1) %>% 
+  na.omit()
+
+mem_verbal_softball_1 <- softball_1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_1) %>% 
+  na.omit()
+
+mem_verbal_football_freshman_1 <- football_freshman_1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_1) %>% 
+  na.omit()
+
+```
+
+### Soccer 
+
+```{r, include=TRUE}
+create_react(mem_verbal_soccer_1, user_memory_composite_score_verbal_1)
+```
+
+### Volleyball 
+
+```{r, include=TRUE}
+create_react(mem_verbal_volleyball_1, user_memory_composite_score_verbal_1)
+```
+
+### Basketball
+
+```{r, include=TRUE}
+create_react(mem_verbal_basketball_1, user_memory_composite_score_verbal_1)
+```
+
+### Football 
+
+```{r, include=TRUE}
+create_react(mem_verbal_football_1, user_memory_composite_score_verbal_1)
+```
+
+### Football Junior Varsity 
+
+```{r, include=TRUE}
+create_react(mem_verbal_football_jv_1, user_memory_composite_score_verbal_1)
+```
+
+### Baseball
+
+```{r, include=TRUE}
+create_react(mem_verbal_baseball_1, user_memory_composite_score_verbal_1)
+```
+
+### Wrestling
+
+```{r, include=TRUE}
+create_react(mem_verbal_wrestling_1, user_memory_composite_score_verbal_1)
+```
+
+### Cheerleading
+
+```{r, include=TRUE}
+create_react(mem_verbal_cheerleading_1, user_memory_composite_score_verbal_1)
+```
+
+### Softball 
+
+```{r, include=TRUE}
+create_react(mem_verbal_softball_1, user_memory_composite_score_verbal_1)
+```
+
+### Football Freshman
+
+```{r, include=TRUE}
+create_react(mem_verbal_football_freshman_1, user_memory_composite_score_verbal_1)
+```
+
+## Visual Memory {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+mem_visual_soccer_1 <- soccer_1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_1) %>% 
+  na.omit()
+
+mem_visual_volleyball_1 <- volleyball_1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_1) %>% 
+  na.omit()
+
+mem_visual_basketball_1 <- basketball_1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_1) %>% 
+  na.omit()
+
+mem_visual_football_1 <- football_1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_1) %>% 
+  na.omit()
+
+mem_visual_football_jv_1 <- football_jv_1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_1) %>% 
+  na.omit()
+
+mem_visual_baseball_1 <- baseball_1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_1) %>% 
+  na.omit()
+
+mem_visual_wrestling_1 <- wrestling_1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_1) %>% 
+  na.omit()
+
+mem_visual_cheerleading_1 <- cheerleading_1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_1) %>% 
+  na.omit()
+
+mem_visual_softball_1 <- softball_1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_1) %>% 
+  na.omit()
+
+mem_visual_football_freshman_1 <- football_freshman_1 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_1) %>% 
+  na.omit()
+
+```
+
+### Soccer 
+
+```{r, include=TRUE}
+create_react(mem_visual_soccer_1, user_memory_composite_score_visual_1)
+```
+
+### Volleyball 
+
+```{r, include=TRUE}
+create_react(mem_visual_volleyball_1, user_memory_composite_score_visual_1)
+```
+
+### Basketball
+
+```{r, include=TRUE}
+create_react(mem_visual_basketball_1, user_memory_composite_score_visual_1)
+```
+
+### Football 
+
+```{r, include=TRUE}
+create_react(mem_visual_football_1, user_memory_composite_score_visual_1)
+```
+
+### Football Junior Varsity 
+
+```{r, include=TRUE}
+create_react(mem_visual_football_jv_1, user_memory_composite_score_visual_1)
+```
+
+### Baseball
+
+```{r, include=TRUE}
+create_react(mem_visual_baseball_1, user_memory_composite_score_visual_1)
+```
+
+### Wrestling
+
+```{r, include=TRUE}
+create_react(mem_visual_wrestling_1, user_memory_composite_score_visual_1)
+```
+
+### Cheerleading
+
+```{r, include=TRUE}
+create_react(mem_visual_cheerleading_1, user_memory_composite_score_visual_1)
+```
+
+### Softball 
+
+```{r, include=TRUE}
+create_react(mem_visual_softball_1, user_memory_composite_score_visual_1)
+```
+
+### Football Freshman
+
+```{r, include=TRUE}
+create_react(mem_visual_football_freshman_1, user_memory_composite_score_visual_1)
+```
+
+## Visual Motor {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+visual_motor_soccer_1 <- soccer_1 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_1) %>% 
+  na.omit()
+
+visual_motor_volleyball_1 <- volleyball_1 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_1) %>% 
+  na.omit()
+
+visual_motor_basketball_1 <- basketball_1 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_1) %>% 
+  na.omit()
+
+visual_motor_football_1 <- football_1 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_1) %>% 
+  na.omit()
+
+visual_motor_football_jv_1 <- football_jv_1 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_1) %>% 
+  na.omit()
+
+visual_motor_baseball_1 <- baseball_1 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_1) %>% 
+  na.omit()
+
+visual_motor_wrestling_1 <- wrestling_1 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_1) %>% 
+  na.omit()
+
+visual_motor_cheerleading_1 <- cheerleading_1 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_1) %>% 
+  na.omit()
+
+visual_motor_softball_1 <- softball_1 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_1) %>% 
+  na.omit()
+
+visual_motor_football_freshman_1 <- football_freshman_1 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_1) %>% 
+  na.omit()
+
+```
+
+### Soccer 
+
+```{r, include=TRUE}
+create_react(visual_motor_soccer_1, user_visual_motor_composite_score_1)
+```
+
+### Volleyball 
+
+```{r, include=TRUE}
+create_react(visual_motor_volleyball_1, user_visual_motor_composite_score_1)
+```
+
+### Basketball
+
+```{r, include=TRUE}
+create_react(visual_motor_basketball_1, user_visual_motor_composite_score_1)
+```
+
+### Football 
+
+```{r, include=TRUE}
+create_react(visual_motor_football_1, user_visual_motor_composite_score_1)
+```
+
+### Football Junior Varsity 
+
+```{r, include=TRUE}
+create_react(visual_motor_football_jv_1, user_visual_motor_composite_score_1)
+```
+
+### Baseball
+
+```{r, include=TRUE}
+create_react(visual_motor_baseball_1, user_visual_motor_composite_score_1)
+```
+
+### Wrestling
+
+```{r, include=TRUE}
+create_react(visual_motor_wrestling_1, user_visual_motor_composite_score_1)
+```
+
+### Cheerleading
+
+```{r, include=TRUE}
+create_react(visual_motor_cheerleading_1, user_visual_motor_composite_score_1)
+```
+
+### Softball 
+
+```{r, include=TRUE}
+create_react(visual_motor_softball_1, user_visual_motor_composite_score_1)
+```
+
+### Football Freshman
+
+```{r, include=TRUE}
+create_react(visual_motor_football_freshman_1, user_visual_motor_composite_score_1)
+```
+
+## Impulse Control {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+impulse_control_soccer_1 <- soccer_1 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_1) %>% 
+  na.omit()
+
+impulse_control_volleyball_1 <- volleyball_1 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_1) %>% 
+  na.omit()
+
+impulse_control_basketball_1 <- basketball_1 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_1) %>% 
+  na.omit()
+
+impulse_control_football_1 <- football_1 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_1) %>% 
+  na.omit()
+
+impulse_control_football_jv_1 <- football_jv_1 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_1) %>% 
+  na.omit()
+
+impulse_control_baseball_1 <- baseball_1 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_1) %>% 
+  na.omit()
+
+impulse_control_wrestling_1 <- wrestling_1 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_1) %>% 
+  na.omit()
+
+impulse_control_cheerleading_1 <- cheerleading_1 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_1) %>% 
+  na.omit()
+
+impulse_control_softball_1 <- softball_1 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_1) %>% 
+  na.omit()
+
+impulse_control_football_freshman_1 <- football_freshman_1 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_1) %>% 
+  na.omit()
+
+```
+
+### Soccer 
+
+```{r, include=TRUE}
+create_react(impulse_control_soccer_1, user_impulse_control_composite_score_1)
+```
+
+### Volleyball 
+
+```{r, include=TRUE}
+create_react(impulse_control_volleyball_1, user_impulse_control_composite_score_1)
+```
+
+### Basketball
+
+```{r, include=TRUE}
+create_react(impulse_control_basketball_1, user_impulse_control_composite_score_1)
+```
+
+### Football 
+
+```{r, include=TRUE}
+create_react(impulse_control_football_1, user_impulse_control_composite_score_1)
+```
+
+### Football Junior Varsity 
+
+```{r, include=TRUE}
+create_react(impulse_control_football_jv_1, user_impulse_control_composite_score_1)
+```
+
+### Baseball
+
+```{r, include=TRUE}
+create_react(impulse_control_baseball_1, user_impulse_control_composite_score_1)
+```
+
+### Wrestling
+
+```{r, include=TRUE}
+create_react(impulse_control_wrestling_1, user_impulse_control_composite_score_1)
+```
+
+### Cheerleading
+
+```{r, include=TRUE}
+create_react(impulse_control_cheerleading_1, user_impulse_control_composite_score_1)
+```
+
+### Softball 
+
+```{r, include=TRUE}
+create_react(impulse_control_softball_1, user_impulse_control_composite_score_1)
+```
+
+### Football Freshman
+
+```{r, include=TRUE}
+create_react(impulse_control_football_freshman_1, user_impulse_control_composite_score_1)
+```
+
+## Reaction Time {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+reaction_time_soccer_1 <- soccer_1 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_1) %>% 
+  na.omit()
+
+reaction_time_volleyball_1 <- volleyball_1 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_1) %>% 
+  na.omit()
+
+reaction_time_basketball_1 <- basketball_1 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_1) %>% 
+  na.omit()
+
+reaction_time_football_1 <- football_1 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_1) %>% 
+  na.omit()
+
+reaction_time_football_jv_1 <- football_jv_1 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_1) %>% 
+  na.omit()
+
+reaction_time_baseball_1 <- baseball_1 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_1) %>% 
+  na.omit()
+
+reaction_time_wrestling_1 <- wrestling_1 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_1) %>% 
+  na.omit()
+
+reaction_time_cheerleading_1 <- cheerleading_1 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_1) %>% 
+  na.omit()
+
+reaction_time_softball_1 <- softball_1 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_1) %>% 
+  na.omit()
+
+reaction_time_football_freshman_1 <- football_freshman_1 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_1) %>% 
+  na.omit()
+
+```
+
+### Soccer 
+
+```{r, include=TRUE}
+create_react(reaction_time_soccer_1, user_reaction_time_composite_score_1)
+```
+
+### Volleyball 
+
+```{r, include=TRUE}
+create_react(reaction_time_volleyball_1, user_reaction_time_composite_score_1)
+```
+
+### Basketball
+
+```{r, include=TRUE}
+create_react(reaction_time_basketball_1, user_reaction_time_composite_score_1)
+```
+
+### Football 
+
+```{r, include=TRUE}
+create_react(reaction_time_football_1, user_reaction_time_composite_score_1)
+```
+
+### Football Junior Varsity 
+
+```{r, include=TRUE}
+create_react(reaction_time_football_jv_1, user_reaction_time_composite_score_1)
+```
+
+### Baseball
+
+```{r, include=TRUE}
+create_react(reaction_time_baseball_1, user_reaction_time_composite_score_1)
+```
+
+### Wrestling
+
+```{r, include=TRUE}
+create_react(reaction_time_wrestling_1, user_reaction_time_composite_score_1)
+```
+
+### Cheerleading
+
+```{r, include=TRUE}
+create_react(reaction_time_cheerleading_1, user_reaction_time_composite_score_1)
+```
+
+### Softball 
+
+```{r, include=TRUE}
+create_react(reaction_time_softball_1, user_reaction_time_composite_score_1)
+```
+
+### Football Freshman
+
+```{r, include=TRUE}
+create_react(reaction_time_football_freshman_1, user_reaction_time_composite_score_1)
+```
+
+
+# Baseline 2 Score Descriptive Statistics by Sport {.tabset .tabset-fade .tabset-pills}
+
+Values obtained from sample of individuals who completed two baseline tests. The ten most played sports at time of baseline 2 testing are included (all have *N* > 490)
+
+```{r, include=FALSE}
+football_2 <- all_double_baseline %>% 
+  filter(user_current_sport_2 == "Football") 
+
+soccer_2 <- all_double_baseline %>% 
+  filter(user_current_sport_2 == "Soccer") 
+
+volleyball_2 <- all_double_baseline %>% 
+  filter(user_current_sport_2 == "Volleyball") 
+
+basketball_2 <- all_double_baseline %>% 
+  filter(user_current_sport_2 == "Basketball") 
+
+football_varsity_2 <- all_double_baseline %>% 
+  filter(user_current_sport_2 == "Football Varsity") 
+
+baseball_2 <- all_double_baseline %>% 
+  filter(user_current_sport_2 == "Baseball") 
+
+wrestling_2 <- all_double_baseline %>% 
+  filter(user_current_sport_2 == "Wrestling") 
+
+cheerleading_2 <- all_double_baseline %>% 
+  filter(user_current_sport_2 == "Cheerleading") 
+
+softball_2 <- all_double_baseline %>% 
+  filter(user_current_sport_2 == "Softball") 
+
+martial_arts_2 <- all_double_baseline %>% 
+  filter(user_current_sport_2 == "Martial Arts") 
+
+```
+
+## Verbal Memory {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+mem_verbal_soccer_2 <- soccer_2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_2) %>% 
+  na.omit()
+
+mem_verbal_volleyball_2 <- volleyball_2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_2) %>% 
+  na.omit()
+
+mem_verbal_basketball_2 <- basketball_2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_2) %>% 
+  na.omit()
+
+mem_verbal_football_2 <- football_2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_2) %>% 
+  na.omit()
+
+mem_verbal_football_varsity_2 <- football_varsity_2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_2) %>% 
+  na.omit()
+
+mem_verbal_baseball_2 <- baseball_2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_2) %>% 
+  na.omit()
+
+mem_verbal_wrestling_2 <- wrestling_2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_2) %>% 
+  na.omit()
+
+mem_verbal_cheerleading_2 <- cheerleading_2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_2) %>% 
+  na.omit()
+
+mem_verbal_softball_2 <- softball_2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_2) %>% 
+  na.omit()
+
+mem_verbal_martial_arts_2 <- martial_arts_2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_verbal_2) %>% 
+  na.omit()
+
+```
+
+### Soccer 
+
+```{r, include=TRUE}
+create_react(mem_verbal_soccer_2, user_memory_composite_score_verbal_2)
+```
+
+### Volleyball 
+
+```{r, include=TRUE}
+create_react(mem_verbal_volleyball_2, user_memory_composite_score_verbal_2)
+```
+
+### Basketball
+
+```{r, include=TRUE}
+create_react(mem_verbal_basketball_2, user_memory_composite_score_verbal_2)
+```
+
+### Football 
+
+```{r, include=TRUE}
+create_react(mem_verbal_football_2, user_memory_composite_score_verbal_2)
+```
+
+### Football Varsity 
+
+```{r, include=TRUE}
+create_react(mem_verbal_football_varsity_2, user_memory_composite_score_verbal_2)
+```
+
+### Baseball
+
+```{r, include=TRUE}
+create_react(mem_verbal_baseball_2, user_memory_composite_score_verbal_2)
+```
+
+### Wrestling
+
+```{r, include=TRUE}
+create_react(mem_verbal_wrestling_2, user_memory_composite_score_verbal_2)
+```
+
+### Cheerleading
+
+```{r, include=TRUE}
+create_react(mem_verbal_cheerleading_2, user_memory_composite_score_verbal_2)
+```
+
+### Softball 
+
+```{r, include=TRUE}
+create_react(mem_verbal_softball_2, user_memory_composite_score_verbal_2)
+```
+
+### Martial Arts
+
+```{r, include=TRUE}
+create_react(mem_verbal_martial_arts_2, user_memory_composite_score_verbal_2)
+```
+
+## Visual Memory {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+mem_visual_soccer_2 <- soccer_2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_2) %>% 
+  na.omit()
+
+mem_visual_volleyball_2 <- volleyball_2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_2) %>% 
+  na.omit()
+
+mem_visual_basketball_2 <- basketball_2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_2) %>% 
+  na.omit()
+
+mem_visual_football_2 <- football_2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_2) %>% 
+  na.omit()
+
+mem_visual_football_varsity_2 <- football_varsity_2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_2) %>% 
+  na.omit()
+
+mem_visual_baseball_2 <- baseball_2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_2) %>% 
+  na.omit()
+
+mem_visual_wrestling_2 <- wrestling_2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_2) %>% 
+  na.omit()
+
+mem_visual_cheerleading_2 <- cheerleading_2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_2) %>% 
+  na.omit()
+
+mem_visual_softball_2 <- softball_2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_2) %>% 
+  na.omit()
+
+mem_visual_martial_arts_2 <- martial_arts_2 %>% 
+  dplyr::select(passport_id, user_memory_composite_score_visual_2) %>% 
+  na.omit()
+
+```
+
+### Soccer 
+
+```{r, include=TRUE}
+create_react(mem_visual_soccer_2, user_memory_composite_score_visual_2)
+```
+
+### Volleyball 
+
+```{r, include=TRUE}
+create_react(mem_visual_volleyball_2, user_memory_composite_score_visual_2)
+```
+
+### Basketball
+
+```{r, include=TRUE}
+create_react(mem_visual_basketball_2, user_memory_composite_score_visual_2)
+```
+
+### Football 
+
+```{r, include=TRUE}
+create_react(mem_visual_football_2, user_memory_composite_score_visual_2)
+```
+
+### Football Varsity 
+
+```{r, include=TRUE}
+create_react(mem_visual_football_varsity_2, user_memory_composite_score_visual_2)
+```
+
+### Baseball
+
+```{r, include=TRUE}
+create_react(mem_visual_baseball_2, user_memory_composite_score_visual_2)
+```
+
+### Wrestling
+
+```{r, include=TRUE}
+create_react(mem_visual_wrestling_2, user_memory_composite_score_visual_2)
+```
+
+### Cheerleading
+
+```{r, include=TRUE}
+create_react(mem_visual_cheerleading_2, user_memory_composite_score_visual_2)
+```
+
+### Softball 
+
+```{r, include=TRUE}
+create_react(mem_visual_softball_2, user_memory_composite_score_visual_2)
+```
+
+### Martial Arts
+
+```{r, include=TRUE}
+create_react(mem_visual_martial_arts_2, user_memory_composite_score_visual_2)
+```
+
+## Visual Motor {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+visual_motor_soccer_2 <- soccer_2 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_2) %>% 
+  na.omit()
+
+visual_motor_volleyball_2 <- volleyball_2 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_2) %>% 
+  na.omit()
+
+visual_motor_basketball_2 <- basketball_2 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_2) %>% 
+  na.omit()
+
+visual_motor_football_2 <- football_2 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_2) %>% 
+  na.omit()
+
+visual_motor_football_varsity_2 <- football_varsity_2 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_2) %>% 
+  na.omit()
+
+visual_motor_baseball_2 <- baseball_2 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_2) %>% 
+  na.omit()
+
+visual_motor_wrestling_2 <- wrestling_2 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_2) %>% 
+  na.omit()
+
+visual_motor_cheerleading_2 <- cheerleading_2 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_2) %>% 
+  na.omit()
+
+visual_motor_softball_2 <- softball_2 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_2) %>% 
+  na.omit()
+
+visual_motor_martial_arts_2 <- martial_arts_2 %>% 
+  dplyr::select(passport_id, user_visual_motor_composite_score_2) %>% 
+  na.omit()
+
+```
+
+### Soccer 
+
+```{r, include=TRUE}
+create_react(visual_motor_soccer_2, user_visual_motor_composite_score_2)
+```
+
+### Volleyball 
+
+```{r, include=TRUE}
+create_react(visual_motor_volleyball_2, user_visual_motor_composite_score_2)
+```
+
+### Basketball
+
+```{r, include=TRUE}
+create_react(visual_motor_basketball_2, user_visual_motor_composite_score_2)
+```
+
+### Football 
+
+```{r, include=TRUE}
+create_react(visual_motor_football_2, user_visual_motor_composite_score_2)
+```
+
+### Football Varsity 
+
+```{r, include=TRUE}
+create_react(visual_motor_football_varsity_2, user_visual_motor_composite_score_2)
+```
+
+### Baseball
+
+```{r, include=TRUE}
+create_react(visual_motor_baseball_2, user_visual_motor_composite_score_2)
+```
+
+### Wrestling
+
+```{r, include=TRUE}
+create_react(visual_motor_wrestling_2, user_visual_motor_composite_score_2)
+```
+
+### Cheerleading
+
+```{r, include=TRUE}
+create_react(visual_motor_cheerleading_2, user_visual_motor_composite_score_2)
+```
+
+### Softball 
+
+```{r, include=TRUE}
+create_react(visual_motor_softball_2, user_visual_motor_composite_score_2)
+```
+
+### Martial Arts
+
+```{r, include=TRUE}
+create_react(visual_motor_martial_arts_2, user_visual_motor_composite_score_2)
+```
+
+## Impulse Control {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+impulse_control_soccer_2 <- soccer_2 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_2) %>% 
+  na.omit()
+
+impulse_control_volleyball_2 <- volleyball_2 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_2) %>% 
+  na.omit()
+
+impulse_control_basketball_2 <- basketball_2 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_2) %>% 
+  na.omit()
+
+impulse_control_football_2 <- football_2 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_2) %>% 
+  na.omit()
+
+impulse_control_football_varsity_2 <- football_varsity_2 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_2) %>% 
+  na.omit()
+
+impulse_control_baseball_2 <- baseball_2 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_2) %>% 
+  na.omit()
+
+impulse_control_wrestling_2 <- wrestling_2 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_2) %>% 
+  na.omit()
+
+impulse_control_cheerleading_2 <- cheerleading_2 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_2) %>% 
+  na.omit()
+
+impulse_control_softball_2 <- softball_2 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_2) %>% 
+  na.omit()
+
+impulse_control_martial_arts_2 <- martial_arts_2 %>% 
+  dplyr::select(passport_id, user_impulse_control_composite_score_2) %>% 
+  na.omit()
+
+```
+
+### Soccer 
+
+```{r, include=TRUE}
+create_react(impulse_control_soccer_2, user_impulse_control_composite_score_2)
+```
+
+### Volleyball 
+
+```{r, include=TRUE}
+create_react(impulse_control_volleyball_2, user_impulse_control_composite_score_2)
+```
+
+### Basketball
+
+```{r, include=TRUE}
+create_react(impulse_control_basketball_2, user_impulse_control_composite_score_2)
+```
+
+### Football 
+
+```{r, include=TRUE}
+create_react(impulse_control_football_2, user_impulse_control_composite_score_2)
+```
+
+### Football Varsity 
+
+```{r, include=TRUE}
+create_react(impulse_control_football_varsity_2, user_impulse_control_composite_score_2)
+```
+
+### Baseball
+
+```{r, include=TRUE}
+create_react(impulse_control_baseball_2, user_impulse_control_composite_score_2)
+```
+
+### Wrestling
+
+```{r, include=TRUE}
+create_react(impulse_control_wrestling_2, user_impulse_control_composite_score_2)
+```
+
+### Cheerleading
+
+```{r, include=TRUE}
+create_react(impulse_control_cheerleading_2, user_impulse_control_composite_score_2)
+```
+
+### Softball 
+
+```{r, include=TRUE}
+create_react(impulse_control_softball_2, user_impulse_control_composite_score_2)
+```
+
+### Martial Arts
+
+```{r, include=TRUE}
+create_react(impulse_control_martial_arts_2, user_impulse_control_composite_score_2)
+```
+
+## Reaction Time {.tabset .tabset-fade .tabset-pills}
+
+```{r, include=FALSE}
+reaction_time_soccer_2 <- soccer_2 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_2) %>% 
+  na.omit()
+
+reaction_time_volleyball_2 <- volleyball_2 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_2) %>% 
+  na.omit()
+
+reaction_time_basketball_2 <- basketball_2 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_2) %>% 
+  na.omit()
+
+reaction_time_football_2 <- football_2 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_2) %>% 
+  na.omit()
+
+reaction_time_football_varsity_2 <- football_varsity_2 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_2) %>% 
+  na.omit()
+
+reaction_time_baseball_2 <- baseball_2 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_2) %>% 
+  na.omit()
+
+reaction_time_wrestling_2 <- wrestling_2 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_2) %>% 
+  na.omit()
+
+reaction_time_cheerleading_2 <- cheerleading_2 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_2) %>% 
+  na.omit()
+
+reaction_time_softball_2 <- softball_2 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_2) %>% 
+  na.omit()
+
+reaction_time_martial_arts_2 <- martial_arts_2 %>% 
+  dplyr::select(passport_id, user_reaction_time_composite_score_2) %>% 
+  na.omit()
+
+```
+
+### Soccer 
+
+```{r, include=TRUE}
+create_react(reaction_time_soccer_2, user_reaction_time_composite_score_2)
+```
+
+### Volleyball 
+
+```{r, include=TRUE}
+create_react(reaction_time_volleyball_2, user_reaction_time_composite_score_2)
+```
+
+### Basketball
+
+```{r, include=TRUE}
+create_react(reaction_time_basketball_2, user_reaction_time_composite_score_2)
+```
+
+### Football 
+
+```{r, include=TRUE}
+create_react(reaction_time_football_2, user_reaction_time_composite_score_2)
+```
+
+### Football Varsity 
+
+```{r, include=TRUE}
+create_react(reaction_time_football_varsity_2, user_reaction_time_composite_score_2)
+```
+
+### Baseball
+
+```{r, include=TRUE}
+create_react(reaction_time_baseball_2, user_reaction_time_composite_score_2)
+```
+
+### Wrestling
+
+```{r, include=TRUE}
+create_react(reaction_time_wrestling_2, user_reaction_time_composite_score_2)
+```
+
+### Cheerleading
+
+```{r, include=TRUE}
+create_react(reaction_time_cheerleading_2, user_reaction_time_composite_score_2)
+```
+
+### Softball 
+
+```{r, include=TRUE}
+create_react(reaction_time_softball_2, user_reaction_time_composite_score_2)
+```
+
+### Martial Arts
+
+```{r, include=TRUE}
+create_react(reaction_time_martial_arts_2, user_reaction_time_composite_score_2)
+```
+
+
+
 
 # Baseline and Post-Injury Test Comparison 
 
